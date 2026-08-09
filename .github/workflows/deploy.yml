@@ -1,0 +1,84 @@
+name: 수집 및 배포
+
+# 1) main 에 푸시할 때  2) 매일 새벽 5시(한국시간)  3) 수동 실행
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 20 * * *"      # UTC 20:00 = KST 05:00
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 의존성 설치
+        run: pip install -r requirements.txt
+
+      - name: 분류 로직 점검
+        run: python tests.py
+        working-directory: collector
+
+      # 이전 수집 이력(최초 등록일 등)을 이어받는다.
+      # 없으면 그냥 새로 시작하므로 실패하지 않는다.
+      - name: 수집 이력 불러오기
+        uses: actions/cache@v4
+        with:
+          path: collector/events.db
+          key: events-db-${{ github.run_id }}
+          restore-keys: events-db-
+
+      - name: 공고 수집
+        env:
+          DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
+        run: |
+          if [ -n "$DATA_GO_KR_KEY" ]; then
+            echo "실제 API로 수집합니다."
+            python run.py
+          else
+            echo "::warning::DATA_GO_KR_KEY 시크릿이 없어 예시 데이터로 배포합니다."
+            echo "저장소 Settings → Secrets and variables → Actions 에서 등록하세요."
+            python mockgen.py
+          fi
+        working-directory: collector
+
+      - name: 수집 결과 확인
+        run: |
+          python - <<'PY'
+          import json, sys
+          d = json.load(open("site/data/events.json", encoding="utf-8"))
+          n = len(d.get("items", []))
+          print(f"공고 {n}건" + (" (예시 데이터)" if d.get("mock") else ""))
+          if n == 0:
+              print("::error::수집된 공고가 없습니다. API 키와 키워드 설정을 확인하세요.")
+              sys.exit(1)
+          PY
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

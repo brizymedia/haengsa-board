@@ -1,0 +1,14 @@
+# 배치 산출물 — 매 수집마다 갱신되므로 저장소에 넣지 않는다
+site/data/events.json
+collector/events.db
+
+# 파이썬
+__pycache__/
+*.pyc
+.venv/
+
+# 로컬 미리보기 산출물 (build_single.py 로 언제든 재생성)
+미리보기.html
+
+# 원본 압축
+files.zip

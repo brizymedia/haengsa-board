@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>행사 고시 알림판 — 전국 지자체 행사 공고</title>
+<meta name="description" content="전국 지자체가 공개한 행사 관련 입찰공고, 축제 일정, 고시를 하루 한 번 모아 보여드립니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="board">
+
+<div class="masthead">
+  <div class="wrap">
+    <div class="masthead-in">
+      <a class="brand" href="index.html">
+        <span class="mark">행사 고시 알림판</span>
+        <span class="sub">전국 지자체 공고 수집</span>
+      </a>
+    </div>
+    <nav class="nav">
+      <a href="index.html" aria-current="page">알림판</a>
+      <a href="calendar.html">축제 달력</a>
+      <a href="about.html">이용안내</a>
+    </nav>
+  </div>
+</div>
+
+<!-- content:board -->
+<div class="pagehead">
+  <div class="wrap">
+    <div class="eyebrow">오늘 올라온 것부터</div>
+    <h1>행사 공고를 한자리에서<span class="thin"> 찾아보세요</span></h1>
+    <p class="lede">전국 17개 시·도와 주요 시·군·구가 공개한 행사 관련 입찰공고, 축제 일정, 고시를 하루 한 번 모읍니다. 제목을 누르면 발행 기관의 원문으로 이동합니다.</p>
+    <div class="statline">
+      <span>수집 시각 <b id="genAt">—</b></span>
+      <span>수록 <b id="total">0</b>건</span>
+      <span>출처 <b>나라장터 · TourAPI · 지자체 RSS</b></span>
+    </div>
+    <span class="mockflag" id="mockflag" hidden>예시 데이터로 표시 중 — API 키 연결 전</span>
+  </div>
+</div>
+<div class="filters">
+  <div class="wrap">
+    <div class="frow kindrow">
+      <span class="flabel">구분</span>
+      <button class="chip" data-kind="all" aria-pressed="true">전체</button>
+      <button class="chip" data-kind="bid" aria-pressed="false">입찰공고</button>
+      <button class="chip" data-kind="festival" aria-pressed="false">축제·행사</button>
+      <button class="chip" data-kind="notice" aria-pressed="false">고시·공고</button>
+      <input class="search" id="search" type="search"
+             placeholder="공고명이나 기관으로 검색" aria-label="공고 검색">
+    </div>
+    <div class="frow scrollx" id="regionRow">
+      <span class="flabel">지역</span>
+    </div>
+  </div>
+</div>
+<main class="wrap"><div class="resultbar">
+    <span id="resultCount"></span>
+    <div class="sortbtns" role="group" aria-label="정렬 기준">
+      <button data-sort="deadline" aria-pressed="true">마감 임박순</button>
+      <button data-sort="recent" aria-pressed="false">최신 등록순</button>
+      <button data-sort="budget" aria-pressed="false">사업비 높은순</button>
+    </div>
+  </div>
+
+  <div id="list"></div>
+  <div class="pager" id="pager"></div>
+
+  <footer class="sitefoot">
+    이 알림판은 각 기관이 공개한 공고를 <b>제목·기관·기간 중심으로 요약</b>해 안내하며, 원문을 대체하지 않습니다.
+    정확한 내용과 최종 마감은 반드시 <b>원문 공고</b>를 확인하시기 바랍니다.<br>
+    자료 출처: 조달청 나라장터, 한국관광공사 TourAPI, 각 지자체 홈페이지.
+    공공누리 이용조건은 항목별 원문을 따릅니다. · <a href="about.html">이용안내</a>
+  </footer></main>
+<!-- /content -->
+
+<script src="assets/app.js"></script>
+</body>
+</html>

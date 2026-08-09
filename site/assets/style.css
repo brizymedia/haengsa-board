@@ -1,0 +1,265 @@
+/* ─────────────────────────────────────────────
+   행사 고시 알림판 — 공통 스타일
+   관보(官報)의 인쇄 어휘: 감청 먹색, 인주 도장, 괘선
+   ───────────────────────────────────────────── */
+:root{
+  --ink:#16203A;
+  --ink-soft:#3D4A6B;
+  --seal:#B4342A;
+  --seal-tint:#F4E6E4;
+  --paper:#E6E8EE;
+  --sheet:#FCFCFD;
+  --rule:#C9CEDA;
+  --rule-soft:#DDE1E9;
+  --muted:#69718A;
+  --ok:#2F6B4F;
+  --ok-tint:#E4EFE9;
+  --shadow:0 1px 0 rgba(22,32,58,.04);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:15px; line-height:1.62;
+  padding-bottom:64px;
+  /* 한글은 어절 단위로 끊어야 '찾아보세/요' 같은 낱자 고아가 생기지 않는다 */
+  word-break:keep-all; overflow-wrap:break-word;
+}
+a{color:inherit}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+.myeongjo{font-family:'Nanum Myeongjo',serif}
+
+/* ── 상단 ─────────────────────────────────── */
+.masthead{
+  background:var(--ink); color:#fff;
+  background-image:repeating-linear-gradient(
+    90deg, rgba(255,255,255,.045) 0 1px, transparent 1px 34px);
+}
+.masthead-in{
+  display:flex;align-items:baseline;justify-content:space-between;
+  gap:20px;flex-wrap:wrap;padding:20px 0 0;
+}
+.brand{display:flex;align-items:baseline;gap:10px;text-decoration:none}
+.brand .mark{
+  font-family:'Nanum Myeongjo',serif;font-weight:800;
+  font-size:21px;letter-spacing:.02em;
+}
+.brand .sub{font-size:11px;letter-spacing:.22em;color:#8FA2CC}
+.nav{display:flex;gap:2px;margin-top:16px}
+.nav a{
+  font-size:13.5px;padding:9px 16px;text-decoration:none;
+  color:#B9C6E4;border-bottom:2px solid transparent;
+}
+.nav a:hover{color:#fff}
+.nav a[aria-current="page"]{color:#fff;border-bottom-color:var(--seal);font-weight:600}
+.nav a:focus-visible{outline:2px solid var(--seal);outline-offset:-2px}
+
+/* ── 페이지 머리 ──────────────────────────── */
+.pagehead{background:var(--ink);color:#fff;padding:26px 0 30px;
+  border-bottom:5px double rgba(255,255,255,.3)}
+.eyebrow{font-size:11px;letter-spacing:.26em;color:#8FA2CC;margin-bottom:9px}
+.pagehead h1{
+  font-family:'Nanum Myeongjo',serif;font-weight:800;
+  font-size:clamp(24px,4.6vw,36px);line-height:1.28;letter-spacing:-.01em;
+}
+.pagehead h1 .thin{font-weight:400;color:#B9C6E4}
+.lede{margin-top:11px;color:#B9C6E4;font-size:13.5px;max-width:46em}
+.statline{
+  margin-top:17px;padding-top:13px;border-top:1px solid rgba(255,255,255,.16);
+  display:flex;flex-wrap:wrap;gap:20px;font-size:12px;color:#8FA2CC;
+}
+.statline b{color:#fff;font-weight:600;font-variant-numeric:tabular-nums}
+.mockflag{
+  display:inline-block;margin-top:12px;padding:4px 10px;
+  background:var(--seal);color:#fff;font-size:11px;letter-spacing:.08em;
+}
+
+/* ── 거르개 ───────────────────────────────── */
+.filters{
+  position:sticky;top:0;z-index:30;
+  background:rgba(230,232,238,.95);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--rule);padding:11px 0;
+}
+.frow{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.frow+.frow{margin-top:7px}
+.flabel{font-size:11px;color:var(--muted);letter-spacing:.1em;
+  width:42px;flex-shrink:0}
+/* 지역은 17개라 줄바꿈하면 sticky 바가 화면을 덮는다. 한 줄 가로 스크롤로 둔다. */
+.frow.scrollx{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;padding-bottom:1px}
+.frow.scrollx::-webkit-scrollbar{display:none}
+.frow.scrollx .chip{flex-shrink:0}
+.frow.scrollx .flabel{position:sticky;left:0;background:inherit;z-index:1}
+.chip{
+  font:inherit;font-size:12.5px;padding:5px 12px;
+  border:1px solid var(--rule);background:transparent;color:var(--ink-soft);
+  border-radius:2px;cursor:pointer;
+  transition:background .12s,color .12s,border-color .12s;
+}
+.chip:hover{border-color:var(--ink-soft)}
+.chip[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.chip:focus-visible{outline:2px solid var(--seal);outline-offset:2px}
+.search{
+  flex:1;min-width:180px;font:inherit;font-size:13px;
+  padding:6px 11px;border:1px solid var(--rule);border-radius:2px;
+  background:var(--sheet);color:var(--ink);
+}
+.search::placeholder{color:var(--muted)}
+.search:focus{outline:none;border-color:var(--ink-soft);box-shadow:0 0 0 2px rgba(22,32,58,.08)}
+
+/* ── 목록 ─────────────────────────────────── */
+main{padding-top:24px}
+.resultbar{
+  display:flex;justify-content:space-between;align-items:baseline;
+  gap:12px;flex-wrap:wrap;margin-bottom:14px;
+  font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+}
+.sortbtns{display:flex;gap:2px}
+.sortbtns button{
+  font:inherit;font-size:12px;padding:3px 9px;border:0;background:none;
+  color:var(--muted);cursor:pointer;border-bottom:1.5px solid transparent;
+}
+.sortbtns button[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--seal);font-weight:600}
+.sortbtns button:focus-visible{outline:2px solid var(--seal);outline-offset:2px}
+
+.item{
+  display:grid;grid-template-columns:1fr 76px;gap:16px;align-items:center;
+  background:var(--sheet);border:1px solid var(--rule-soft);
+  border-left:3px solid var(--ink-soft);
+  padding:15px 15px 14px 17px;margin-bottom:7px;
+  text-decoration:none;color:inherit;box-shadow:var(--shadow);
+  transition:border-left-color .12s,transform .12s;
+}
+.item:hover{border-left-color:var(--seal);transform:translateX(2px)}
+.item:focus-visible{outline:2px solid var(--seal);outline-offset:2px}
+.item[data-kind="festival"]{border-left-color:var(--ok)}
+.item[data-kind="notice"]{border-left-color:var(--rule)}
+
+.meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+  font-size:11.5px;color:var(--muted);margin-bottom:5px}
+.tag{font-size:10.5px;letter-spacing:.06em;padding:2px 7px;
+  border:1px solid currentColor;border-radius:1px}
+.tag.bid{color:var(--ink-soft)}
+.tag.festival{color:var(--ok)}
+.tag.notice{color:var(--muted)}
+.item .title{font-family:'Nanum Myeongjo',serif;font-weight:700;
+  font-size:16.5px;line-height:1.45;letter-spacing:-.01em}
+.item mark{background:#FBE9A7;color:inherit;padding:0 1px}
+.sub{font-size:12.5px;color:var(--muted);margin-top:5px}
+.sub .amt{color:var(--ink-soft);font-variant-numeric:tabular-nums}
+
+/* 접수인 — 이 사이트의 서명 요소 */
+.seal{
+  justify-self:end;width:62px;height:62px;
+  border:2px solid var(--seal);border-radius:50%;
+  color:var(--seal);background:var(--seal-tint);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transform:rotate(-7deg);font-variant-numeric:tabular-nums;
+}
+.seal .n{font-size:20px;font-weight:800;line-height:1;letter-spacing:-.02em}
+.seal .u{font-size:9.5px;letter-spacing:.14em;margin-top:3px}
+.seal.soon{background:var(--seal);color:#fff}
+.seal.open{border-color:var(--ok);background:var(--ok-tint);color:var(--ok)}
+.seal.none{border-color:var(--rule);background:transparent;color:var(--muted);transform:none}
+.seal.none .n{font-size:11px;font-weight:500;letter-spacing:.1em}
+
+.pager{display:flex;justify-content:center;gap:5px;margin-top:22px;flex-wrap:wrap}
+.pager button{
+  font:inherit;font-size:13px;min-width:34px;padding:6px 9px;
+  border:1px solid var(--rule);background:var(--sheet);color:var(--ink-soft);
+  cursor:pointer;border-radius:2px;font-variant-numeric:tabular-nums;
+}
+.pager button[aria-current="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.pager button:disabled{opacity:.35;cursor:default}
+.pager button:focus-visible{outline:2px solid var(--seal);outline-offset:2px}
+
+.empty{border:1px dashed var(--rule);padding:46px 24px;text-align:center;
+  color:var(--muted);font-size:14px;background:var(--sheet)}
+.empty b{display:block;color:var(--ink);font-family:'Nanum Myeongjo',serif;
+  font-size:17px;margin-bottom:6px}
+
+/* ── 달력 ─────────────────────────────────── */
+.calbar{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:16px}
+.calbar h2{font-family:'Nanum Myeongjo',serif;font-size:22px;font-weight:800;
+  min-width:8em;text-align:center;font-variant-numeric:tabular-nums}
+.calbar button{font:inherit;font-size:16px;width:34px;height:34px;
+  border:1px solid var(--rule);background:var(--sheet);color:var(--ink-soft);
+  cursor:pointer;border-radius:2px}
+.calbar button:hover{border-color:var(--ink-soft)}
+.calbar button:focus-visible{outline:2px solid var(--seal);outline-offset:2px}
+
+.cal{display:grid;grid-template-columns:repeat(7,1fr);
+  border-left:1px solid var(--rule);border-top:1px solid var(--rule);
+  background:var(--sheet)}
+.cal .dow{
+  padding:8px 0;text-align:center;font-size:11.5px;letter-spacing:.1em;
+  color:var(--muted);background:#DFE3EB;
+  border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);
+}
+.cal .dow:first-child{color:var(--seal)}
+.cal .dow:last-child{color:var(--ink-soft)}
+.cal .cell{
+  min-height:96px;padding:5px 5px 7px;
+  border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);
+}
+.cal .cell.out{background:#EFF1F5}
+.cal .cell.today{background:#FFF8E8}
+.cal .dnum{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+  display:block;margin-bottom:3px}
+.cal .cell.today .dnum{color:var(--seal);font-weight:700}
+.ev{
+  display:block;font-size:11px;line-height:1.35;padding:2px 4px;margin-bottom:2px;
+  background:var(--ok-tint);color:var(--ok);border-left:2px solid var(--ok);
+  text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.ev:hover{background:var(--ok);color:#fff}
+.ev.more{background:none;border:0;color:var(--muted);padding-left:6px}
+
+/* ── 본문 페이지 ──────────────────────────── */
+.prose{background:var(--sheet);border:1px solid var(--rule-soft);
+  padding:30px 32px;box-shadow:var(--shadow)}
+.prose h2{font-family:'Nanum Myeongjo',serif;font-size:19px;font-weight:800;
+  margin:30px 0 10px;padding-bottom:7px;border-bottom:1px solid var(--rule)}
+.prose h2:first-child{margin-top:0}
+.prose p{margin-bottom:11px;font-size:14.2px}
+.prose ul{margin:0 0 13px 18px;font-size:14.2px}
+.prose li{margin-bottom:5px}
+.prose table{width:100%;border-collapse:collapse;font-size:13.5px;margin-bottom:14px}
+.prose th,.prose td{border:1px solid var(--rule);padding:8px 11px;text-align:left;
+  vertical-align:top}
+.prose th{background:#EDEFF4;font-weight:600;white-space:nowrap}
+.prose code{background:#EDEFF4;padding:1px 5px;font-size:12.5px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.note{border-left:3px solid var(--seal);background:var(--seal-tint);
+  padding:13px 16px;font-size:13.5px;margin-bottom:14px}
+
+/* ── 꼬리말 ───────────────────────────────── */
+.sitefoot{margin-top:36px;padding-top:17px;border-top:1px solid var(--rule);
+  font-size:11.5px;color:var(--muted);line-height:1.78}
+.sitefoot b{color:var(--ink-soft)}
+
+@media (max-width:600px){
+  .item{grid-template-columns:1fr 52px;gap:10px;padding:13px}
+  .seal{width:48px;height:48px}
+  .seal .n{font-size:15px} .seal .u{font-size:8px}
+  .pagehead h1{font-size:26px}
+  /* sticky 바가 화면을 덮지 않도록 두 줄로 압축한다 */
+  .filters{padding:8px 0}
+  .frow+.frow{margin-top:5px}
+  .kindrow{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .kindrow::-webkit-scrollbar{display:none}
+  .kindrow .chip{flex-shrink:0}
+  .kindrow .search{flex:0 0 132px;min-width:132px}
+  .chip{padding:5px 10px;font-size:12px}
+  .flabel{width:34px;font-size:10.5px;position:sticky;left:0;
+    background:rgba(230,232,238,.95);z-index:1}
+  .prose{padding:22px 18px}
+  .cal .cell{min-height:70px}
+  .ev{font-size:0;padding:0;height:5px;margin-bottom:2px}
+  .ev.more{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;scroll-behavior:auto}
+  .item:hover{transform:none}
+}

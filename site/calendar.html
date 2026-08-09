@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>축제 달력 — 행사 고시 알림판</title>
+<meta name="description" content="한국관광공사에 등록된 전국 축제·공연·행사를 월별 달력으로 봅니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="calendar">
+
+<div class="masthead">
+  <div class="wrap">
+    <div class="masthead-in">
+      <a class="brand" href="index.html">
+        <span class="mark">행사 고시 알림판</span>
+        <span class="sub">전국 지자체 공고 수집</span>
+      </a>
+    </div>
+    <nav class="nav">
+      <a href="index.html">알림판</a>
+      <a href="calendar.html" aria-current="page">축제 달력</a>
+      <a href="about.html">이용안내</a>
+    </nav>
+  </div>
+</div>
+
+<!-- content:calendar -->
+<div class="pagehead">
+  <div class="wrap">
+    <div class="eyebrow">언제 어디서 열리는지</div>
+    <h1>축제 달력<span class="thin"> — 날짜로 찾기</span></h1>
+    <p class="lede">한국관광공사에 등록된 전국 축제·공연·행사를 월별로 펼쳐 봅니다. 일정 이름을 누르면 주최 기관의 안내 페이지로 이동합니다.</p>
+    <div class="statline">
+      <span>수집 시각 <b id="genAt">—</b></span>
+      <span>수록 <b id="total">0</b>건</span>
+      <span>출처 <b>한국관광공사 TourAPI</b></span>
+    </div>
+    <span class="mockflag" id="mockflag" hidden>예시 데이터로 표시 중 — API 키 연결 전</span>
+  </div>
+</div>
+<main class="wrap"><div class="calbar">
+    <button id="prevM" aria-label="이전 달">‹</button>
+    <h2 id="calTitle">—</h2>
+    <button id="nextM" aria-label="다음 달">›</button>
+  </div>
+
+  <div class="cal" id="cal"></div>
+  <p class="resultbar" style="margin-top:12px"><span id="calNote"></span></p>
+
+  <footer class="sitefoot">
+    축제 일정은 주최 측 사정으로 변경되거나 취소될 수 있습니다. 방문 전 <b>주최 기관 공지</b>를 확인하시기 바랍니다.<br>
+    자료 출처: 한국관광공사 TourAPI. · <a href="about.html">이용안내</a>
+  </footer></main>
+<!-- /content -->
+
+<script src="assets/app.js"></script>
+</body>
+</html>

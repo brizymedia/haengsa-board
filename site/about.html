@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>이용안내 — 행사 고시 알림판</title>
+<meta name="description" content="행사 고시 알림판이 어떤 자료를 어디서 가져오는지, 저작권과 한계를 안내합니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="about">
+
+<div class="masthead">
+  <div class="wrap">
+    <div class="masthead-in">
+      <a class="brand" href="index.html">
+        <span class="mark">행사 고시 알림판</span>
+        <span class="sub">전국 지자체 공고 수집</span>
+      </a>
+    </div>
+    <nav class="nav">
+      <a href="index.html">알림판</a>
+      <a href="calendar.html">축제 달력</a>
+      <a href="about.html" aria-current="page">이용안내</a>
+    </nav>
+  </div>
+</div>
+
+<!-- content:about -->
+<div class="pagehead">
+  <div class="wrap">
+    <div class="eyebrow">무엇을, 어디서, 어떻게 모으는지</div>
+    <h1>이용안내</h1>
+    <p class="lede">이 알림판이 어떤 자료를 어디서 가져오는지, 어디까지 보여주고 어디부터는 원문을 봐야 하는지 정리했습니다.</p>
+  </div>
+</div>
+<main class="wrap"><div class="prose">
+
+  <h2>무엇을 모으나요</h2>
+  <p>전국 지방자치단체가 공개한 자료 가운데 <b>행사와 관련된 것</b>만 골라 세 갈래로 나눠 싣습니다.</p>
+  <table>
+    <tr><th>입찰공고</th>
+        <td>행사 대행, 무대·음향·조명 설치, 축제 총괄기획 등 지자체가 발주한 용역 공고입니다. 마감일과 추정 사업비를 함께 보여드립니다.</td></tr>
+    <tr><th>축제·행사</th>
+        <td>지역 축제, 문화제, 공연 등 일반에 공개된 행사 일정입니다. 달력에서 날짜별로도 볼 수 있습니다.</td></tr>
+    <tr><th>고시·공고</th>
+        <td>부대행사 운영자 모집, 안전관리계획 고시 등 지자체 홈페이지에 올라온 행사 관련 공고입니다.</td></tr>
+  </table>
+
+  <h2>어디서 가져오나요</h2>
+  <table>
+    <tr><th>조달청 나라장터</th>
+        <td>공공데이터포털의 나라장터 입찰공고정보서비스를 통해 용역 공고를 받아옵니다.</td></tr>
+    <tr><th>한국관광공사 TourAPI</th>
+        <td>국문 관광정보 서비스의 축제·공연·행사 정보를 시·도별로 받아옵니다.</td></tr>
+    <tr><th>지자체 RSS</th>
+        <td>앞의 두 곳에 등록되지 않는 자체 공고를 보완하기 위해, 각 지자체가 공식 제공하는 RSS만 읽습니다.</td></tr>
+  </table>
+  <p>수집은 하루 한 번, 이용자가 적은 새벽 시간에 이루어집니다. 각 기관 서버에 부담을 주지 않도록 요청 간격을 두고, <code>robots.txt</code>가 수집을 거부하는 곳은 읽지 않습니다.</p>
+
+  <h2>어디까지 보여드리나요</h2>
+  <div class="note">
+    이 알림판은 <b>제목·기관·기간·링크</b>만 안내합니다. 공고 본문과 첨부파일은 싣지 않습니다.
+    입찰 참가 자격, 제출 서류, 정확한 마감 시각은 반드시 <b>원문 공고</b>에서 확인하셔야 합니다.
+  </div>
+  <p>목록의 제목을 누르면 발행 기관의 원문 페이지가 새 창으로 열립니다. 이 알림판에 표시된 내용과 원문이 다를 경우 <b>원문이 우선</b>합니다.</p>
+
+  <h2>저작권과 이용조건</h2>
+  <p>수록된 공고 정보의 저작권은 각 발행 기관에 있습니다. 이용조건은 기관과 자료마다 다르므로, 재사용하실 때는 원문에 표시된 <b>공공누리 유형</b>을 직접 확인하시기 바랍니다.</p>
+  <ul>
+    <li><b>제1유형</b> — 출처를 표시하면 상업적 이용과 변형이 모두 가능합니다.</li>
+    <li><b>제2유형</b> — 상업적 이용이 금지됩니다.</li>
+    <li><b>제3유형</b> — 변형과 2차적 저작물 작성이 금지됩니다.</li>
+    <li><b>제4유형</b> — 상업적 이용과 변형이 모두 금지됩니다.</li>
+  </ul>
+
+  <h2>알려드릴 한계</h2>
+  <ul>
+    <li>나라장터를 거치지 않는 소액 수의계약 공고는 잡히지 않습니다.</li>
+    <li>한국관광공사에 등록하지 않은 소규모 행사는 달력에 나타나지 않습니다.</li>
+    <li>공고 제목만으로 행사 여부를 판정하므로, 드물게 관련 없는 공고가 섞이거나 관련 공고가 빠질 수 있습니다.</li>
+    <li>수집 이후 원문이 정정·취소되면 반영까지 최대 하루가 걸립니다.</li>
+  </ul>
+  <p>빠진 공고나 잘못 분류된 항목을 발견하시면 알려주세요. 수집 대상과 판정 기준에 반영하겠습니다.</p>
+
+  <h2>문의</h2>
+  <p>운영: (주)브리지미디어 큰길이벤트기획 · 전자우편 <code>your-email@example.com</code></p>
+
+</div>
+
+  <footer class="sitefoot">
+    자료 출처: 조달청 나라장터, 한국관광공사 TourAPI, 각 지자체 홈페이지.<br>
+    이 사이트는 공공기관이 운영하는 공식 사이트가 아닙니다.
+  </footer></main>
+<!-- /content -->
+
+<script src="assets/app.js"></script>
+</body>
+</html>
