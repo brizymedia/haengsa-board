@@ -69,5 +69,5 @@ _HERE = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(_HERE, "events.db")
 OUT_JSON = os.path.join(_HERE, "..", "site", "data", "events.json")
 
-# RSS 수집기 UA. 연락 가능한 주소를 남겨 수집 주체를 밝힌다. 배포 전 교체할 것.
-UA = "haengsa-board/1.0 (+contact: your-email@example.com)"
+# RSS 수집기 UA. 연락 가능한 주소를 남겨 수집 주체를 밝힌다.
+UA = "haengsa-board/1.0 (+contact: gilcaro@naver.com)"

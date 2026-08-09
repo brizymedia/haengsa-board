@@ -90,10 +90,11 @@ playwright가 없으면 `pip install playwright && python -m playwright install 
 1. **GitHub에 올리고 Pages 띄우기** — README 상단 5단계 참조.
    저장소 생성 → `git remote add` → `git push` → Pages Source를 GitHub Actions로
    → 시크릿 `DATA_GO_KR_KEY` 등록.
-2. **`about.html` 문의처 이메일 교체** (현재 `your-email@example.com`).
-3. **`collectors/rss.py` 의 `UA` 연락처 교체** (현재 예시 주소).
-4. **RSS 피드 확충** — `config.RSS_FEEDS` 에 광양·전남권부터 10~20곳.
-   추가 전 `python -m collectors.rss --check` 로 생사 확인할 것.
+2. ~~문의처 교체~~ — 완료. `about.html`·`config.UA` 에 gilcaro@naver.com / 1533-7295 반영.
+3. **RSS 피드 확충** — 2026-08 조사 결과 정책브리핑은 RSS 를 중단했고 광양시 등
+   다수 지자체도 RSS 를 제공하지 않는다. 피드는 각 지자체 RSS 안내 페이지에서
+   확인된 주소만 넣고 `python -m collectors.rss --check` 로 검증할 것.
+   RSS 가 없는 곳은 공공데이터포털의 지자체 고시공고 오픈API 활용을 검토.
 5. **키워드 튜닝** — 실데이터 수집 후 `run.py` 출력 상위 항목을 보며
    `EVENT_KEYWORDS` / `EXCLUDE_KEYWORDS` 조정. 서비스 품질의 대부분이 여기서 갈린다.
 
