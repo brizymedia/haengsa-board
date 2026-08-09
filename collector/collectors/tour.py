@@ -63,7 +63,7 @@ def fetch(log=print):
             "MobileOS": "ETC",
             "MobileApp": "haengsa-board",
             "_type": "json",
-            "listYN": "Y",
+            # KorService1 의 listYN 은 KorService2 에서 폐지됐다 (넣으면 INVALID_REQUEST_PARAMETER_ERROR)
             "arrange": "A",
             "eventStartDate": start,
         }
