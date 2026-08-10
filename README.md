@@ -16,8 +16,12 @@ TourAPI     ─┼→ 분류·지역판정·중복제거 → SQLite → events.j
 
 # GitHub에 올려 실제로 띄우기
 
-서버를 따로 두지 않아도 됩니다. GitHub Actions가 매일 새벽 5시에 공고를 수집하고
-GitHub Pages로 배포합니다. **무료입니다.**
+서버를 따로 두지 않아도 됩니다. **무료입니다.**
+
+> 공공데이터포털이 해외 IP를 차단하기 때문에 수집은 한국 PC에서
+> `수집후배포.ps1` 로 돌립니다. 푸시하면 GitHub Actions가 검증 후
+> Pages로 배포합니다. 매일 자동으로 돌리려면 스크립트 상단 주석대로
+> Windows 작업 스케줄러에 등록하세요.
 
 ## 1단계 — 저장소 만들기
 
@@ -43,14 +47,7 @@ git push -u origin main
 저장소 **Settings → Pages → Build and deployment → Source** 를
 **GitHub Actions** 로 바꿉니다. (기본값인 "Deploy from a branch" 아니면 동작하지 않습니다.)
 
-## 4단계 — API 키 등록
-
-저장소 **Settings → Secrets and variables → Actions → New repository secret**
-
-| 항목 | 값 |
-|---|---|
-| Name | `DATA_GO_KR_KEY` |
-| Secret | 공공데이터포털에서 발급받은 **Decoding 키** |
+## 4단계 — API 키 준비 (내 PC에)
 
 키가 아직 없다면 data.go.kr 에서 아래 둘을 **활용신청**하세요. 무료이고 즉시 승인됩니다.
 
@@ -59,10 +56,15 @@ git push -u origin main
 | 조달청_나라장터 입찰공고정보서비스 | 행사 대행 용역 발주 공고 |
 | 한국관광공사_국문 관광정보 서비스 | 전국 축제·행사 일정 |
 
-마이페이지에서 **Decoding 키**를 복사합니다. Encoding 키를 넣으면 동작하지 않습니다.
+마이페이지에서 **Decoding 키**를 복사해 내 PC에 한 번만 등록합니다
+(Encoding 키를 넣으면 동작하지 않습니다):
 
-키를 등록하지 않아도 배포는 됩니다. 다만 **예시 데이터**로 표시되고
-Actions 로그에 경고가 남습니다. 키를 넣은 뒤 다시 실행하면 실제 공고로 바뀝니다.
+```bash
+setx DATA_GO_KR_KEY "발급받은_디코딩_키"
+```
+
+수집이 안 된 상태로 푸시하면 **예시 데이터**로 배포되고 Actions 로그에
+경고가 남습니다. `수집후배포.ps1` 을 실행하면 실제 공고로 바뀝니다.
 
 ## 5단계 — 확인
 

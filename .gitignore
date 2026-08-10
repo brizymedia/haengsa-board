@@ -1,5 +1,6 @@
-# 배치 산출물 — 매 수집마다 갱신되므로 저장소에 넣지 않는다
-site/data/events.json
+# 수집 이력 DB는 로컬에만 둔다.
+# events.json 은 커밋한다 — 공공데이터포털이 해외 IP를 차단해
+# GitHub Actions 에서는 수집이 안 되므로, 로컬 수집 결과를 올려 배포한다.
 collector/events.db
 
 # 파이썬

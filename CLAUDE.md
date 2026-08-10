@@ -13,7 +13,9 @@ TourAPI     ─┼→ 분류·지역판정·중복제거 → SQLite → events.j
 지자체 RSS   ─┘
 ```
 
-백엔드 서버 없음. GitHub Actions가 매일 05시(KST) 수집하고 Pages로 배포한다.
+백엔드 서버 없음. **수집은 한국 PC에서** `수집후배포.ps1` 로 돌린다
+(공공데이터포털이 해외 IP를 차단해 GitHub Actions에서는 수집 불가).
+푸시된 events.json 을 GitHub Actions 가 검증해 Pages 로 배포한다.
 
 ## 구조
 
