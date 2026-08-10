@@ -33,6 +33,7 @@ if ($LASTEXITCODE -eq 0) {
     Write-Host "변경 없음 — 푸시할 것이 없습니다."
     exit 0
 }
-git commit -m "일일 수집 $(Get-Date -Format 'yyyy-MM-dd HH:mm')"
+# 작업 스케줄러 환경은 콘솔 코드페이지가 CP949 라 한글 커밋 메시지가 깨진다. 영문으로.
+git commit -m "daily collect $(Get-Date -Format 'yyyy-MM-dd HH:mm')"
 git push
 Write-Host "푸시 완료 — GitHub Actions 가 1~2분 안에 사이트를 갱신합니다."
