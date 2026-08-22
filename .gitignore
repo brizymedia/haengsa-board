@@ -13,3 +13,14 @@ __pycache__/
 
 # 원본 압축
 files.zip
+
+# 진지노 사이트는 별도 저장소로 관리한다 (haengsa-board 와 무관)
+zinzino-site/
+zinzino-review/
+zinzino-seminar/
+
+# 굿프랜드 사이트도 별도 저장소 (brizymedia/goodfriend-event)
+goodfriend-site/
+
+# 클로드 코드 로컬 설정 (이 컴퓨터 전용)
+.claude/
