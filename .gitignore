@@ -24,3 +24,6 @@ goodfriend-site/
 
 # 클로드 코드 로컬 설정 (이 컴퓨터 전용)
 .claude/
+
+# 인트로 영상 빌드 중간 파일
+_intro_build/

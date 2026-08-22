@@ -1,0 +1,97 @@
+{
+  "_설명": "순천승주JC청년회 인트로 영상 구성. 멘트·타이밍은 전부 여기서 고친다.",
+
+  "brand": {
+    "name_ko": "순천승주청년회의소",
+    "name_en": "SUNCHEON SEUNGJU JC",
+    "slogan": "청년이 움직이면, 순천이 달라진다",
+    "logo": null
+  },
+
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "crf": 18,
+    "preset": "medium",
+    "audio_bitrate": "256k",
+    "cinema_bars": false
+  },
+
+  "grade": {
+    "enabled": true,
+    "contrast": 1.07,
+    "saturation": 1.06,
+    "gamma": 0.97,
+    "vignette": true
+  },
+
+  "audio": {
+    "mode": "bed",
+    "start": null,
+    "fade_in": 2.0,
+    "fade_out": 4.5,
+    "loudnorm_i": -15,
+    "cues": true,
+    "cue_riser_at": 98.4,
+    "cue_impact_at": 100.0
+  },
+
+  "cuts": [
+    {"dur": 7.5,  "trans": null,        "tdur": 0.0, "move": "in"},
+    {"dur": 7.0,  "trans": "fade",      "tdur": 0.8, "move": "out"},
+    {"dur": 7.0,  "trans": "fade",      "tdur": 0.8, "move": "in"},
+    {"dur": 7.5,  "trans": "fadeblack", "tdur": 0.9, "move": "out"},
+
+    {"dur": 5.6,  "trans": "fade",      "tdur": 0.7, "move": "in"},
+    {"dur": 5.6,  "trans": "fade",      "tdur": 0.6, "move": "out"},
+    {"dur": 5.6,  "trans": "fade",      "tdur": 0.7, "move": "in"},
+    {"dur": 5.6,  "trans": "fade",      "tdur": 0.6, "move": "out"},
+    {"dur": 5.6,  "trans": "fade",      "tdur": 0.7, "move": "in"},
+    {"dur": 6.5,  "trans": "fadeblack", "tdur": 0.9, "move": "out"},
+
+    {"dur": 6.4,  "trans": "fade",      "tdur": 0.7, "move": "in"},
+    {"dur": 6.4,  "trans": "fade",      "tdur": 0.7, "move": "out"},
+    {"dur": 6.4,  "trans": "fade",      "tdur": 0.7, "move": "in"},
+    {"dur": 6.4,  "trans": "fade",      "tdur": 0.7, "move": "out"},
+    {"dur": 7.0,  "trans": "fadeblack", "tdur": 0.9, "move": "in"},
+
+    {"dur": 4.0,  "trans": "fade",      "tdur": 0.5, "move": "in"},
+    {"dur": 4.0,  "trans": "fade",      "tdur": 0.4, "move": "out"},
+    {"dur": 4.0,  "trans": "fade",      "tdur": 0.4, "move": "in"},
+    {"dur": 4.5,  "trans": "fade",      "tdur": 0.4, "move": "out"},
+    {"dur": 11.5, "trans": "fadewhite", "tdur": 0.5, "move": "in"},
+    {"dur": 9.3,  "trans": "fade",      "tdur": 0.8, "move": "none", "card": true}
+  ],
+
+  "ments": [
+    {"t": [2.8,  8.3],   "style": "ment",  "text": "이 도시의 내일은\n누가 만드는가"},
+    {"t": [9.6,  15.2],  "style": "ment",  "text": "세상은 저절로\n좋아지지 않는다"},
+    {"t": [16.4, 22.0],  "style": "ment",  "text": "누군가 먼저\n움직여야 한다"},
+    {"t": [26.4, 31.0],  "style": "ment",  "text": "우리는 그 '누군가'가\n되기로 했다"},
+
+    {"t": [31.9, 35.4],  "style": "value", "label": "훈 련  TRAINING",     "text": "배움을 멈추지 않는다"},
+    {"t": [36.6, 40.4],  "style": "value", "label": "봉 사  SERVICE",      "text": "대가를 바라지 않는다"},
+    {"t": [41.6, 45.3],  "style": "value", "label": "친 선  FRIENDSHIP",   "text": "손을 놓지 않는다"},
+    {"t": [46.5, 50.2],  "style": "value", "label": "리더십  LEADERSHIP",  "text": "뒤에 서지 않는다"},
+
+    {"t": [51.6, 55.6],  "style": "ment",  "text": "청년의 이름으로"},
+
+    {"t": [57.3, 62.3],  "style": "ment",  "text": "순천만의 물길이\n바다를 이루듯"},
+    {"t": [63.0, 68.0],  "style": "ment",  "text": "승주의 산줄기가\n하늘을 떠받치듯"},
+    {"t": [68.8, 73.8],  "style": "ment",  "text": "우리는 이 땅에\n깊이 뿌리내린다"},
+    {"t": [74.5, 79.4],  "style": "ment",  "text": "작은 손이 모여\n도시의 힘이 된다"},
+
+    {"t": [80.3, 84.6],  "style": "ment",  "text": "그래서 우리는"},
+    {"t": [85.9, 88.7],  "style": "key",   "text": "먼저 간다"},
+    {"t": [89.5, 92.3],  "style": "key",   "text": "함께 간다"},
+    {"t": [93.1, 95.9],  "style": "key",   "text": "끝까지 간다"},
+    {"t": [96.7, 99.7],  "style": "key",   "text": "그것이 청년이다"},
+
+    {"t": [101.0, 110.6], "style": "title",    "text": "@name_ko"},
+    {"t": [102.6, 110.6], "style": "title_en", "text": "@name_en"},
+
+    {"t": [112.2, 119.3], "style": "endname",  "text": "@name_ko"},
+    {"t": [113.5, 119.3], "style": "slogan",   "text": "@slogan"}
+  ]
+}
