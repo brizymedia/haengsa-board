@@ -72,8 +72,9 @@ cd homepages/j6media && python3 -m http.server 8901
 
 ## 오픈할 때 바꿀 것
 
-1. **검색 차단 해제** — 일곱 페이지 `<meta name="robots" content="noindex,nofollow">` 를 지우거나 `index,follow` 로.
-2. **주소(도메인)** — 지금 canonical · og:url · og:image · JSON-LD 는 임시로 `https://brizymedia.github.io/j6media/`. 도메인(j6media.com / co.kr)이 정해지면 일곱 페이지에서 한꺼번에 바꾼다.
-3. **문의 폼 접수 서버** — `assets/app.js` 맨 위 `FORM_ENDPOINT` 에 Apps Script 주소. 비어 있으면 폰은 문자 앱(010-4450-4212)이 열리고 PC 는 내용을 복사한 뒤 전화를 안내한다.
-4. 네이버 서치어드바이저 · 구글 서치콘솔 등록, sitemap.xml · robots.txt 추가(검색 허용 뒤).
-5. 로고 · 사진 원본 교체 후 og.jpg 다시 만들기.
+1. **시안 띠 제거** — 일곱 페이지 맨 위 `<div class="draft">큰길브리지 제안용 시안 …</div>` 한 줄과 `style.css` 의 `.draft` 두 규칙을 지운다(지우면 머리 띠가 맨 위로 붙는다).
+2. **검색 차단 해제** — 일곱 페이지 `<meta name="robots" content="noindex,nofollow">` 를 지우거나 `index,follow` 로.
+3. **주소(도메인)** — 지금 canonical · og:url · og:image · JSON-LD 는 임시로 `https://brizymedia.github.io/j6media/`. 도메인(j6media.com / co.kr)이 정해지면 일곱 페이지에서 한꺼번에 바꾼다.
+4. **문의 폼 접수 서버** — `assets/app.js` 맨 위 `FORM_ENDPOINT` 에 Apps Script 주소. 비어 있으면 폰은 문자 앱(010-4450-4212)이 열리고 PC 는 내용을 복사한 뒤 전화를 안내한다.
+5. 네이버 서치어드바이저 · 구글 서치콘솔 등록, sitemap.xml · robots.txt 추가(검색 허용 뒤).
+6. 로고 · 사진 원본 교체 후 og.jpg 다시 만들기.
