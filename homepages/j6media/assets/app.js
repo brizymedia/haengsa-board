@@ -207,7 +207,8 @@
         if (bar.id === 'btabs') history.replaceState(null, '', '#' + (b.getAttribute('data-id') || ''));
       });
     });
-    if (bar.id === 'btabs' && location.hash) { var t = bar.querySelector('[data-id="' + location.hash.slice(1) + '"]'); if (t) t.click(); }
+    var fromHash = function () { if (bar.id !== 'btabs' || !location.hash) return; var t = bar.querySelector('[data-id="' + location.hash.slice(1) + '"]'); if (t && !t.classList.contains('on')) t.click(); };
+    fromHash(); window.addEventListener('hashchange', fromHash);
   });
 
   /* ---------- 갤러리 · 라이트박스 ---------- */

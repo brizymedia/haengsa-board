@@ -154,7 +154,9 @@
   $$('video[data-src]').forEach(function (v) {
     if (reduce) { v.removeAttribute('autoplay'); return; }
     v.muted = true; v.setAttribute('muted', '');
-    v.src = window.innerWidth < 900 ? v.getAttribute('data-src-sm') : v.getAttribute('data-src');
+    var sm = window.innerWidth < 900, mp4 = v.canPlayType('video/mp4; codecs="avc1.42E01E"');
+    // H.264 를 못 트는 브라우저(일부 리눅스 · 크로미움)는 같은 영상의 WebM 으로
+    v.src = (sm ? v.getAttribute('data-src-sm') : v.getAttribute('data-src')).replace(/\.mp4$/, mp4 ? '.mp4' : '.webm');
     function tryPlay() { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
     tryPlay(); v.addEventListener('canplay', tryPlay, { once: true });
     document.addEventListener('pointerdown', function () { if (v.paused && !v.dataset.userPaused) tryPlay(); }, { once: true });
@@ -166,7 +168,7 @@
     var v = document.getElementById(b.getAttribute('data-toggle-video')); if (!v) return;
     function sync() { b.classList.toggle('paused', v.paused); b.setAttribute('aria-label', v.paused ? '영상 재생' : '영상 멈춤'); }
     v.addEventListener('play', sync); v.addEventListener('pause', sync); sync();
-    b.addEventListener('click', function () { if (v.paused) { v.dataset.userPaused = ''; v.play(); } else { v.dataset.userPaused = '1'; v.pause(); } });
+    b.addEventListener('click', function () { if (v.paused) { v.dataset.userPaused = ''; var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); } else { v.dataset.userPaused = '1'; v.pause(); } });
   });
 
   /* ---------- 등장 효과 ---------- */
@@ -187,7 +189,6 @@
     }
     lis.forEach(function (li, i) {
       $('button', li).addEventListener('click', function () { openSv(i); });
-      li.addEventListener('mouseenter', function () { if (window.innerWidth > 960) openSv(i); });
     });
     openSv(0);
   }
@@ -255,7 +256,8 @@
     $('[data-t="notice"] small', tabs).textContent = NOTICES.length;
     $('[data-t="blog"] small', tabs).textContent = BLOG.length;
     $('[data-t="files"] small', tabs).textContent = FILES.length;
-    var h = location.hash.slice(1); showTab(['notice', 'blog', 'files'].indexOf(h) >= 0 ? h : 'notice');
+    function fromHash() { var h = location.hash.slice(1); showTab(['notice', 'blog', 'files'].indexOf(h) >= 0 ? h : 'notice'); }
+    fromHash(); window.addEventListener('hashchange', fromHash);
 
     // 공지
     var nb = $('#noticeBoard');

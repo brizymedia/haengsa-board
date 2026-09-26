@@ -296,7 +296,7 @@
   if (form) {
     var fd = $('#formDone');
     var qs = location.hash.match(/^#s=(\w+)/); // 하는 일에서 넘어온 종류 미리 고르기
-    if (qs) { var pre = $('input[name="kind"][value^="' + { event: '운동회', class: '유아', rental: '렌탈', water: '물놀이' }[qs[1]] + '"]', form); if (pre) pre.checked = true; }
+    if (qs) { var pre = $('input[name="kind"][value^="' + { event: '운동회', class: '유아체육', rental: '놀이기구', water: '물놀이' }[qs[1]] + '"]', form); if (pre) pre.checked = true; }
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (form.elements.website && form.elements.website.value) return; // 스팸 봇 함정
