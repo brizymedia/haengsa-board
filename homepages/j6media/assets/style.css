@@ -490,6 +490,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   .twin { grid-template-columns: 1fr; }
   .trio3 { grid-template-columns: 1fr; }
   .form .row2 { grid-template-columns: 1fr; gap: 0; }
+  .btabs button { padding: 12px 12px; font-size: 15.5px; }
   .board .row { grid-template-columns: 44px 1fr; }
   .board .row small { grid-column: 2; text-align: left; margin-top: -8px; }
   .board .body { padding-left: 0; }
