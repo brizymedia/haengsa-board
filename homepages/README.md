@@ -41,3 +41,11 @@ HD기획(납품됨) · 이에스컴퍼니(납품됨) · GF이벤트(서명, 자�
 | `haengsaon/` | 7 (가격표 포함) | 블로그 22장 · 23초 | 네이비 + 켜짐 초록, ON 스위치 | `?edit=hsON-2638` |
 
 공통: 문의 폼 접수 서버(`assets/app.js` 의 `FORM_ENDPOINT`) 비어 있음 → 폰은 문자, PC 는 복사 대체. 도메인 미정이라 canonical 은 임시 주소. 로고는 전부 시안(원본 받으면 교체). 영상은 mp4 + (H.264 못 트는 브라우저용) webm.
+
+## 미리보기 링크 (claude.ai 페이지, 비공개 — 대표에게 보내려면 페이지의 「공유」에서 링크 공개)
+- 제이식스미디어: https://claude.ai/artifact/MHC9uA7j6sCtE1dZ7cP6Tw
+- 바로기획: https://claude.ai/artifact/AbaZWRPNTrRejgXrydJRjf
+- 힐링엔터테인먼트: https://claude.ai/artifact/CHRVWtRXjhtwYsKz1Fx78g
+- 한국체대 예그리나: https://claude.ai/artifact/B4Y4cRZuUapQZCEqJTqpHy
+- 행사ON: https://claude.ai/artifact/8dGrM8T1L8NfCMuD9c3G4N
+사이트를 고치면 같은 파일로 다시 게시해 주소를 유지한다.
