@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-사장님 수정 요청 반영기 — 이에스컴퍼니 홈페이지
+사장님 수정 요청 반영기 — 바로기획 홈페이지
 
 사장님이 사이트에서 ?edit=열쇠 로 고친 내용은 두 갈래로 온다.
-  1) 큰길브리지 문의 메일 「이에스컴퍼니 홈페이지 수정 요청」 — 본문 끝에 [JSON] 블록 (글 수정)
-  2) 수정 파일 이에스컴퍼니-수정요청-YYYYMMDDHHMM.json — 카톡 · 메일 첨부 (글 + 사진)
+  1) 큰길브리지 문의 메일 「바로기획 홈페이지 수정 요청」 — 본문 끝에 [JSON] 블록 (글 수정)
+  2) 수정 파일 바로기획-수정요청-YYYYMMDDHHMM.json — 카톡 · 메일 첨부 (글 + 사진)
 
 쓰는 법 (둘 다 같은 명령):
   python tools/apply_edits.py 수정파일.json
@@ -16,7 +16,7 @@
 import os, re, sys, json, base64, io, html
 
 SITE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PAGES = ('index.html', 'about.html', 'service.html', 'portfolio.html', 'contact.html')
+PAGES = ('index.html', 'about.html', 'service.html', 'portfolio.html', 'notice.html', 'contact.html')
 
 def load(path):
     raw = open(path, encoding='utf-8', errors='ignore').read()

@@ -241,6 +241,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .gal figure:hover figcaption, .gal figure:focus-within figcaption { opacity: 1; transform: none; }
 .gal.home figure:nth-child(1) { grid-column: span 2; grid-row: span 2; }
 .gal.home figure:nth-child(6) { grid-column: span 2; }
+.pf .gal { grid-auto-flow: dense; }
 .pf .gal figure:nth-child(7n+1) { grid-row: span 2; }
 .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
 .filters button { border: 1.5px solid var(--line); background: var(--paper); border-radius: 999px; padding: 9px 16px; font-weight: 700; font-size: 14.5px; cursor: pointer; }
@@ -285,7 +286,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .ctaband .btns { display: flex; gap: 10px; flex-wrap: wrap; }
 .ctaband .btn-ink { background: var(--night); }
 .ctaband .btn-w { background: #fff; color: var(--amb-d); }
-.ctaband .eq { position: absolute; right: 24px; top: 18px; opacity: .25; height: 70px; }
+.ctaband .eq { display: none; }
 .ctaband .eq span { background: #fff; }
 
 /* ---------- 서브: 회사소개 ---------- */
@@ -304,7 +305,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .info-t tr:last-child th, .info-t tr:last-child td { border-bottom: 0; }
 .map { display: grid; grid-template-columns: 1.3fr 1fr; gap: 18px; }
 .mapcard { position: relative; border-radius: var(--r); overflow: hidden; min-height: 340px; background: #EFE4D3; border: 1px solid var(--line); }
-.mapcard svg { width: 100%; height: 100%; position: absolute; inset: 0; }
+.mapcard > svg { width: 100%; height: 100%; position: absolute; inset: 0; }
 .mapcard .pin { position: absolute; left: 50%; top: 46%; transform: translate(-50%, -100%); display: flex; flex-direction: column; align-items: center; }
 .mapcard .pin b { background: var(--night); color: var(--cream); padding: 10px 14px; border-radius: 12px; font-size: 14px; white-space: nowrap; box-shadow: var(--shadow); }
 .mapcard .pin i { width: 18px; height: 18px; border-radius: 50%; background: var(--amb); border: 4px solid #fff; margin-top: 8px; box-shadow: 0 0 0 8px rgba(229, 138, 43, .25); animation: ping 2s infinite; }
@@ -342,7 +343,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .brands { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; }
 .brand { border-radius: 16px; border: 1px solid var(--line); background: var(--paper); padding: 22px 16px 18px; text-align: center; transition: .25s; }
 .brand:hover { border-color: var(--amb); transform: translateY(-3px); }
-.brand b { display: block; font: 800 22px/1.1 var(--en); letter-spacing: .04em; font-style: normal; }
+.brand b { display: block; font: 800 clamp(17px, 1.7vw, 21px)/1.1 var(--en); letter-spacing: .02em; font-style: normal; white-space: nowrap; }
 .brand small { display: inline-block; margin-top: 10px; font-size: 12.5px; color: var(--amb-d); background: var(--cream); padding: 3px 10px; border-radius: 999px; }
 .note-s { font-size: 13.5px; color: var(--mute); margin-top: 18px; }
 .eqphotos { display: grid; grid-template-columns: 1.4fr 1fr 1fr; grid-auto-rows: clamp(170px, 22vw, 280px); gap: 12px; margin-top: 34px; }
@@ -424,8 +425,8 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .ft .logo img { height: 42px; width: auto; }
 .ft .say { margin: 18px 0 18px; max-width: 26em; line-height: 1.7; }
 .ft h4 { font: italic 700 15px var(--en); color: var(--glow); margin-bottom: 14px; letter-spacing: .04em; }
-.ft li { margin-bottom: 7px; }
-.ft li b { display: inline-block; min-width: 92px; color: rgba(255, 244, 226, .5); font-weight: 500; }
+.ft li { margin-bottom: 7px; display: grid; grid-template-columns: 112px 1fr; gap: 10px; }
+.ft li b { color: rgba(255, 244, 226, .5); font-weight: 500; }
 .ft a:hover { color: var(--glow); }
 .ft .sns { display: flex; gap: 8px; }
 .ft .sns a { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; border: 1px solid var(--night-line); }
@@ -480,6 +481,11 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   .hero .in { padding: 96px 0 150px; justify-content: flex-end; }
   .hero .foot { padding-bottom: 92px; }
   .hero .cta .btn { flex: 1 1 140px; }
+  .hero h1 { font-size: clamp(29px, 8.4vw, 36px); }
+  .gal.home figure:nth-child(1) { grid-column: span 2; grid-row: span 1; }
+  .gal.home figure:last-child { grid-column: span 2; }
+  .ctaband .eq { display: none; }
+  .ft li { grid-template-columns: 100px 1fr; }
   .vctl .eq { display: none; }
   .twin { grid-template-columns: 1fr; }
   .trio3 { grid-template-columns: 1fr; }

@@ -191,6 +191,12 @@
   $$('.rv, .flow').forEach(function (el) { if (io && !reduce) io.observe(el); else el.classList.add('in'); });
   // 카드에 차례로 불이 들어오게 (하는 일 8칸)
   $$('.svc8 a').forEach(function (a, i) { a.style.transitionDelay = (i % 4) * 70 + 'ms'; });
+  // 하는 일 카드가 화면에 들어오면 스위치가 하나씩 켜진다
+  var s8 = $('.svc8');
+  if (s8) {
+    var turnOn = function () { $$('a', s8).forEach(function (a, i) { setTimeout(function () { a.classList.add('is-on'); }, reduce ? 0 : 250 + i * 180); }); };
+    if (io && !reduce) { var s8io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { s8io.disconnect(); turnOn(); } }, { threshold: .25 }); s8io.observe(s8); } else turnOn();
+  }
   var counters = $$('[data-count]');
   if (counters.length && io && !reduce) {
     var cio = new IntersectionObserver(function (es) {
@@ -319,7 +325,8 @@
     var fdone = $('#formDone');
     var qm = location.hash.match(/^#q=(.+)$/);
     if (qm && form.elements.msg) { try { form.elements.msg.value = decodeURIComponent(qm[1]); } catch (e) {} }
-    if (location.hash === '#apt' && form.elements.type) { form.elements.type.value = '아파트 행사 (플리마켓 · 입주민축제 · 물놀이)'; }
+    var aptSel = function () { if (location.hash === '#apt' && form.elements.type) { form.elements.type.value = '아파트 행사 (플리마켓 · 입주민축제 · 물놀이)'; form.scrollIntoView({ block: 'start' }); } };
+    aptSel(); window.addEventListener('hashchange', aptSel);
     if (qm || location.hash === '#apt') setTimeout(function () { form.scrollIntoView({ block: 'start' }); }, 200);
     form.addEventListener('submit', function (e) {
       e.preventDefault();

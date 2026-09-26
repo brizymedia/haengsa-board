@@ -119,7 +119,9 @@
   if (hv) {
     if (reduce) { hv.removeAttribute('autoplay'); hv.pause && hv.pause(); }
     else {
-      hv.src = hv.getAttribute(window.innerWidth <= 760 ? 'data-sm' : 'data-src');
+      var src = hv.getAttribute(window.innerWidth <= 760 ? 'data-sm' : 'data-src');
+      if (!hv.canPlayType('video/mp4; codecs="avc1.42E01E"') && hv.canPlayType('video/webm; codecs="vp9"')) src = src.replace(/\.mp4$/, '.webm'); // H.264 못 트는 브라우저는 webm
+      hv.src = src;
       var pr = hv.play && hv.play(); if (pr && pr.catch) pr.catch(function () {});
     }
   }
@@ -132,9 +134,12 @@
         Array.prototype.slice.call(node.childNodes).forEach(function (n) {
           if (n.nodeType === 3) {
             var f = document.createDocumentFragment();
-            n.textContent.split('').forEach(function (ch) {
-              if (ch === ' ') { f.appendChild(document.createTextNode(' ')); return; }
-              var s = document.createElement('span'); s.className = 'ch'; s.style.setProperty('--i', k++); s.textContent = ch; f.appendChild(s);
+            n.textContent.split(/(\s+)/).forEach(function (wd) { // 낱말은 한 덩어리로 (한글 낱자 줄바꿈 방지)
+              if (!wd) return;
+              if (/^\s+$/.test(wd)) { f.appendChild(document.createTextNode(' ')); return; }
+              var w = document.createElement('span'); w.className = 'wd';
+              wd.split('').forEach(function (ch) { var s = document.createElement('span'); s.className = 'ch'; s.style.setProperty('--i', k++); s.textContent = ch; w.appendChild(s); });
+              f.appendChild(w);
             });
             n.parentNode.replaceChild(f, n);
           } else if (n.nodeType === 1) walk(n);
