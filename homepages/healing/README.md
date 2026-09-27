@@ -72,7 +72,7 @@ cd homepages/healing && python3 -m http.server 8903
 ## 오픈할 때 바꿀 것
 
 1. **검색 차단 해제** — 일곱 페이지 `<meta name="robots" content="noindex,nofollow">` 제거, 상단 「제안용 시안」 띠(`.draft`) 제거.
-2. **주소(도메인).** 도메인 없음 — 새로 잡는다(이름 Healing). 지금 canonical · og:url · JSON-LD 는 임시로 `https://brizymedia.github.io/healing/` — 도메인이 정해지면 전부 바꾼다.
+2. **주소(도메인).** 도메인 없음 — 새로 잡는다(이름 Healing). 지금 canonical · og:url · JSON-LD 는 임시로 `https://brizymedia.github.io/healing-ent/` — 도메인이 정해지면 전부 바꾼다.
 3. `assets/app.js` 의 `FORM_ENDPOINT` 에 문의 서버(Apps Script) 주소 → 문의가 이메일(leehh2153@gmail.com)로 가게. 비어 있으면 폰은 문자 앱(010-5620-2153), PC 는 내용 복사 + 전화 안내.
 4. `KAKAO_URL` (카카오톡 채널 생기면).
 5. 네이버 서치어드바이저 · 구글 서치콘솔 등록, sitemap.
