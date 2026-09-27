@@ -155,9 +155,9 @@ input,select,textarea{font:inherit;color:inherit}
 
 /* ---------- 서비스 카드 ---------- */
 .cards{display:grid;grid-template-columns:repeat(6,1fr);gap:20px}
-.card{grid-column:span 2;border-radius:var(--r);overflow:hidden;background:#fff;border:1px solid var(--line);display:flex;flex-direction:column;transition:.25s}
+.card{grid-column:span 2;border-radius:var(--r);overflow:hidden;background:#fff;border:2px solid #7F9DD6;box-shadow:0 8px 22px rgba(19,47,107,.10);display:flex;flex-direction:column;transition:.25s}
 .card.wide{grid-column:span 3}
-.card:hover{transform:translateY(-4px);box-shadow:var(--sh)}
+.card:hover,.card:active{transform:translateY(-4px);border-color:var(--blue);box-shadow:var(--sh2)}
 .card .ph{aspect-ratio:16/10;background-size:cover;background-position:center;position:relative}
 .card .ph i{position:absolute;left:14px;top:14px;padding:5px 12px;border-radius:999px;background:#fff;font-style:normal;font-family:var(--en);font-weight:700;font-size:12px;letter-spacing:.1em;color:var(--blue)}
 .card .bd{padding:22px 24px 26px;display:flex;flex-direction:column;gap:8px;flex:1}
