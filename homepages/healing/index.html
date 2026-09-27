@@ -23,7 +23,7 @@
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=1">
+<link rel="stylesheet" href="assets/style.css?v=5">
 </head>
 <body>
 <a class="skip" href="#main">본문 바로가기</a>
@@ -44,26 +44,23 @@
 <main id="main">
 
 <section class="hero">
-  <div class="wrap grid">
-    <div class="copy">
-      <span class="tag rv"><b>20 YEARS</b>행사 전문 기업 · 대표 MC 이현호</span>
-      <h1 class="rv d1">행사는 끝나도<br><em>좋은 기억</em>은 오래 남도록.</h1>
-      <p class="lead rv d2">기업행사 · 체육대회 · 학교행사 · 지역축제 · 워크숍. 기획부터 전문 MC 진행, 음향 · 무대 운영까지 한 팀이 함께합니다.</p>
-      <ul class="big rv d3" aria-label="힐링엔터테인먼트 경력">
-        <li><b>20<small>년</small></b><span>행사 진행 경력</span></li>
-        <li><b>3,000<small>회</small><sup>+</sup></b><span>누적 현장 경험</span></li>
-      </ul>
-      <div class="cta rv d4"><a class="btn btn-or" href="contact.html#form">빠른 견적 문의<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn btn-line" href="tel:010-5620-2153"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>010-5620-2153</a></div>
+  <div class="stage">
+    <div class="screen">
+      <div class="poster" style="background-image:url(assets/video/hero_poster.webp)"></div>
+      <video id="heroVideo" autoplay muted loop playsinline preload="auto" poster="assets/video/hero_poster.webp" data-src="assets/video/hero.mp4" data-src-sm="assets/video/hero_sm.mp4" data-src-webm="assets/video/hero_sm.webm" aria-label="힐링엔터테인먼트 실제 행사 현장 영상"></video>
+      <span class="live"><i></i>REAL EVENT · 실제 행사 현장</span>
+      <button class="play playing" id="vbtn" aria-label="영상 재생 · 정지"><span class="off"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><span class="on"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></span></button>
     </div>
-    <div class="mediawrap rv d2">
-      <div class="screen">
-        <div class="poster" style="background-image:url(assets/video/hero_poster.webp)"></div>
-        <video id="heroVideo" autoplay muted loop playsinline preload="auto" poster="assets/video/hero_poster.webp" data-src="assets/video/hero.mp4" data-src-sm="assets/video/hero_sm.mp4" data-src-webm="assets/video/hero_sm.webm" aria-label="힐링엔터테인먼트 실제 행사 현장 영상"></video>
-        <span class="live"><i></i>REAL EVENT</span>
-        <button class="play playing" id="vbtn" aria-label="영상 재생 · 정지"><span class="off"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><span class="on"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></span></button>
-      </div>
-      <span class="deco d1" aria-hidden="true"></span><span class="deco d2" aria-hidden="true"></span>
-      <div class="badge"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M8 14c1 1.6 2.4 2.4 4 2.4s3-.8 4-2.4M9 9.5v.01M15 9.5v.01"/></svg></i><span><b>억지 웃음 · 비하 없는 진행</b><span>자연스럽게 참여를 끌어냅니다</span></span></div>
+    <div class="wrap copy">
+      <p class="kick hx">행사 전문 기업 · 대표 MC 이현호</p>
+      <h1 class="hx h1" aria-label="20년 경력의 행사 전문 기업, 힐링엔터테인먼트"><span class="yr"><b class="cnt" data-to="20">20</b><span>년</span></span><span class="ln">경력의 행사 전문 기업,</span><span class="ln nm">힐링엔터테인먼트</span></h1>
+      <p class="lead hx">재미 · 감동 · 추억이 남는 행사를 만듭니다.</p>
+      <ul class="stats hx" aria-label="힐링엔터테인먼트 경력">
+        <li><b><span class="cnt" data-to="3000">3,000</span><small>회+</small></b><span>누적 현장 경험</span></li>
+        <li><b>50<small>만 명</small></b><span>규모 행사 총괄</span></li>
+        <li class="org"><b>기업 · 학교</b><span>지자체 · 관공서</span></li>
+      </ul>
+      <div class="cta hx"><a class="btn btn-or" href="contact.html#form">빠른 견적 문의<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn btn-glass" href="tel:010-5620-2153"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>010-5620-2153</a></div>
     </div>
   </div>
   <div class="wrap"><nav class="svc5" aria-label="주요 서비스"><a href="service.html#corp" class="rv d0"><small>01</small><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 21V5l8-2v18M12 8h8v13M8 8v.01M8 12v.01M8 16v.01M16 12v.01M16 16v.01M2 21h20"/></svg></i><b>기업행사</b><span>체육대회 · 워크숍 · 팀빌딩</span></a><a href="service.html#school" class="rv d1"><small>02</small><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l10 5-10 5L2 8z"/><path d="M6 10.5V16c2 2 10 2 12 0v-5.5M22 8v6"/></svg></i><b>학교행사</b><span>운동회 · 체육대회 · 수학여행</span></a><a href="service.html#fest" class="rv d2"><small>03</small><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 21l4-14 10 10z"/><path d="M14 4l1-2M19 9l2-1M17 5l3-3M11 7c1-2 1-3 0-4M17 13c2-1 3-1 4 0"/></svg></i><b>지역축제</b><span>지자체 · 관공서 · 축제</span></a><a href="service.html#mic" class="rv d3"><small>04</small><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4M8 22h8"/></svg></i><b>전문 MC</b><span>레크리에이션 · 참여 프로그램</span></a><a href="service.html#sound" class="rv d4"><small>05</small><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="14" r="4"/><circle cx="12" cy="6.5" r="1.5"/></svg></i><b>음향 · 무대</b><span>조명 · DJ · 현장 운영</span></a></nav></div>
@@ -247,7 +244,7 @@
   <a class="q" href="contact.html#form"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h5"/></svg>빠른 견적</a>
 </nav>
 <button class="totop" id="totop" aria-label="맨 위로"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
-<script src="assets/app.js?v=1"></script>
+<script src="assets/app.js?v=3"></script>
 <script src="assets/edit.js?v=1"></script>
 </body>
 </html>

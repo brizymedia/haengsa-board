@@ -148,6 +148,18 @@
       });
     }
   }
+  /* ---------- 히어로 숫자 올라가기 (20 · 3,000) ---------- */
+  if (!reduce) $$('.hero .cnt').forEach(function (el) {
+    // rAF 가 멈춘 창(백그라운드 · 미리보기)에서도 끝값에 닿도록 타이머로 돌린다
+    var to = +el.getAttribute('data-to'), dur = to > 100 ? 1800 : 1300, t0 = Date.now() + 350;
+    el.textContent = '0';
+    var id = setInterval(function () {
+      var k = Math.max(0, Math.min(1, (Date.now() - t0) / dur)), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = Math.round(to * e).toLocaleString('ko-KR');
+      if (k >= 1) clearInterval(id);
+    }, 30);
+  });
+
   // 영상 페이지의 두 번째 영상도 같은 방식
   $$('video[data-src-sm]:not(#heroVideo)').forEach(function (v) {
     if (reduce) return;
