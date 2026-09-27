@@ -74,7 +74,7 @@ cd /home/user/haengsa-board/homepages/baro && python3 -m http.server 8902
 ## 오픈할 때 바꿀 것
 
 1. **검색 차단 해제** — 여섯 페이지 `<meta name="robots" content="noindex,nofollow">` 를 `index,follow` 로(브랜드 키트 `brand/` 는 그대로 두어도 됨).
-2. **주소(도메인)** — 고객이 「맡길게요」. 도메인이 정해지면 여섯 페이지의 canonical · og:url · og:image · JSON-LD 안 `https://baro-event.github.io/`(임시값)를 한 번에 바꾼다.
+2. **주소(도메인)** — 고객이 「맡길게요」. 도메인이 정해지면 여섯 페이지의 canonical · og:url · og:image · JSON-LD 안 `https://brizymedia.github.io/baro-event/`(임시값)를 한 번에 바꾼다.
 3. **문의 폼 → 이메일** — `assets/app.js` 맨 위 `FORM_ENDPOINT` 에 문의 서버(Apps Script) 주소를 넣고, 받는 메일을 mot2256@naver.com 으로. 비어 있는 지금은 폰 = 문자 앱(010-2758-0655, 내용 채워짐), PC = 내용 복사 + 전화 안내.
 4. 네이버 서치어드바이저 · 구글 서치콘솔 등록, sitemap.xml 추가.
 5. 로고 확정 뒤 og.jpg · favicon 재확인.
