@@ -14,9 +14,60 @@
   var FORM_ENDPOINT = '';
   var SMS_TO = '010-5620-2153';
   var COMPANY = '힐링엔터테인먼트';
-  /* 카카오톡 채널 주소 — 채널을 만들면 여기에 넣는다 (예: 'https://pf.kakao.com/_xxxxx/chat').
-     비어 있으면 카톡 단추가 문의 페이지의 안내로 간다. */
-  var KAKAO_URL = '';
+  /* 카카오톡 주소 — 지금은 리틀리(litt.ly/healingmc)에 걸린 오픈채팅 주소.
+     카카오톡 채널을 따로 만들면 바꾼다 (예: 'https://pf.kakao.com/_xxxxx/chat'). 비우면 카톡 단추가 문의 페이지 안내로 간다. */
+  var KAKAO_URL = 'https://open.kakao.com/me/vvipevent';
+
+  /* 유튜브 영상 — 리틀리(litt.ly/healingmc)의 영상 레퍼런스를 옮김.
+     id: 유튜브 영상 주소의 11자리, s: true = 쇼츠(세로), c: 분류(VCATS 의 키). 맨 앞에 넣으면 먼저 보인다. */
+  var PROMO_ID = 'bIoatdv9iYw';   // 힐링엔터 홍보영상 — 대문 · 영상 페이지 맨 위
+  var VCATS = { school: '학교행사 · 수학여행', sportsday: '명랑 운동회', sports: '체육대회', corp: '기업행사', gov: '지자체 · 관공서', abroad: '해외 워크숍', ceo: '최고경영자과정 · 골프', plan: '축제 · 행사 기획' };
+  var VIDEOS = [
+    { id: 'vX7UPCX1Yi8', t: '3,000명 대형 컨벤션 행사 기획 (TF팀 감독)', c: 'plan' },
+    { id: '0Li2oNlEELo', t: '창립 기념식 토탈 기획 · 연출 · 진행 (2018~2024)', c: 'plan' },
+    { id: 'JmzffC6j9CM', t: '체육대회 영상 모음', c: 'sports' },
+    { id: 'Ak_muW7V_4I', t: '대규모 체육대회 1,000명 — 서울지구 회원가족 체육대회 (오전)', c: 'sports' },
+    { id: 'W5jhNvQiMCc', t: '대규모 체육대회 1,000명 — 서울지구 회원가족 체육대회 (오후)', c: 'sports' },
+    { id: 'f_rJmpxNNw0', t: '대규모 체육대회 2,000명 — 서울시 공무원 한마음 대회', c: 'sports' },
+    { id: 'JIqo4EcOT9k', t: '총동문회 연합 체육대회 — 대한건축사협회 최고위과정', c: 'sports' },
+    { id: 'vH9JHKMx8XY', t: '가족과 함께하는 운동회', c: 'sports' },
+    { id: 'wHW-2wgG32E', t: '몸빼바지 달리기 계주 하이라이트', c: 'sports', s: true },
+    { id: '_Lo2yS8CG0c', t: '운동회 하이라이트 대동놀이 — 떼창', c: 'sportsday' },
+    { id: 'okgRprbXDwI', t: '운동회 하이라이트 대동놀이 — 랜덤플레이', c: 'sportsday' },
+    { id: '4KR4f01SZHs', t: '운동회 대동놀이 랜덤플레이', c: 'sportsday', s: true },
+    { id: 'VI1fjwWhiyw', t: '3일 동안 진행한 실내 운동회 (학년 청백 대항전)', c: 'sportsday' },
+    { id: 'LiU0HBBKnRg', t: '고등학교 운동회', c: 'sportsday' },
+    { id: 'Ywjebe5nY3Q', t: '다양한 게임 도구로 즐기는 운동회', c: 'sportsday', s: true },
+    { id: 'fJmBNfOrNa4', t: '명랑 운동회', c: 'sportsday', s: true },
+    { id: 'EftCT64aOAw', t: '수학여행 350명 떼창', c: 'school' },
+    { id: 'DMWRK0NsyvY', t: '수학여행 레크리에이션 — 음향 · 조명까지', c: 'school' },
+    { id: 'AIjqcuDzVK8', t: '노래 한 곡으로 남기는 학창 시절 추억', c: 'school' },
+    { id: 'Y9aFsYtwrqM', t: '청소년 행사 — 댄스 & 합창', c: 'school' },
+    { id: 'hyAWxp-HrcI', t: '랜덤플레이 댄스 레크리에이션', c: 'school' },
+    { id: 'YkgquM92_pk', t: '고등학교 축제 레크리에이션', c: 'school' },
+    { id: 'JoZbZNBtKjY', t: '청소년 행사 레크리에이션 — 대동놀이', c: 'school', s: true },
+    { id: 'HeRBY4SNQaQ', t: '청소년 축제 떼창', c: 'school', s: true },
+    { id: 'n_Q_zNMjNW8', t: '공무원 워크숍, 분위기가 바뀌는 순간', c: 'gov', s: true },
+    { id: 'Qxjkq8KKn8g', t: '국공립 어린이집 보육인 대회', c: 'gov', s: true },
+    { id: 'zJZkxKNJsGg', t: '서울지구 회원대회 전체 진행', c: 'gov' },
+    { id: 'NKChmjzaU-8', t: '소극적인 참가자도 적극적으로 — 참여형 진행', c: 'gov' },
+    { id: '5vd6DY4euCU', t: '남성 참가자들의 자발적인 댄스', c: 'gov' },
+    { id: 'jHJ-0PXOVUI', t: '10대부터 80대까지 함께 즐기는 캠프', c: 'gov' },
+    { id: '4gv95zFG4GU', t: '임원이 노래하면 생기는 일', c: 'corp' },
+    { id: 'sEcArfuz-XU', t: '보험회사 행사 — 하이라이트 댄스 신고식', c: 'corp', s: true },
+    { id: 'T8aOXlwAS2I', t: '보험회사 행사 — 단체 아파트 게임', c: 'corp', s: true },
+    { id: 'HPlsIC13qKQ', t: '보험회사 여성 조직 행사 — 마지막 하이라이트', c: 'corp', s: true },
+    { id: 'xMtX37708TA', t: '영업 조직 제주도 워크숍 — 노래방 레크리에이션', c: 'corp', s: true },
+    { id: 'hHGcPma4fCE', t: '영업 조직 대관 행사 진행', c: 'corp', s: true },
+    { id: 'qosb2fdEysU', t: '어린이집 선생님 해외 연수 레크리에이션', c: 'abroad' },
+    { id: '3SQJGKG5Ycc', t: '동남아 해외 초대 행사 — 단독 대관 파티', c: 'abroad' },
+    { id: 'WsNublJEim4', t: '크루즈 선상 파티 진행', c: 'abroad' },
+    { id: 'ITQsUAIYQUA', t: '해외 행사, 함께 즐기는 참여형 진행', c: 'abroad' },
+    { id: 'WR8B5auMXZ4', t: '한국프로골프연맹 스포츠 대회 총괄 진행', c: 'ceo' },
+    { id: 'hdaEng6joyA', t: '골프대회 시상식 레크리에이션', c: 'ceo' },
+    { id: '0nQdUndpGdQ', t: '최고경영자과정 워크숍 레크리에이션', c: 'ceo' },
+    { id: 'YmwLSZ9uOaA', t: '소규모 인원도 즐겁게', c: 'ceo' }
+  ];
 
   /* 공지사항 — 맨 앞에 한 줄 추가하면 대문 · 공지 페이지에 바로 뜬다. n: true = NEW 표시, pin: true = 상단 고정 */
   var NOTICES = [
@@ -98,6 +149,67 @@
   $$('[data-kakao]').forEach(function (a) {
     if (KAKAO_URL) { a.href = KAKAO_URL; a.target = '_blank'; a.rel = 'noopener'; }
     else { a.href = 'contact.html#ways'; a.removeAttribute('target'); var s = a.querySelector('.kstate'); if (s) s.textContent = '채널 준비 중 — 지금은 문자로 남겨 주세요'; }
+  });
+
+  /* ---------- 유튜브 영상 (썸네일만 먼저, 누르면 재생 — 페이지가 무거워지지 않게) ---------- */
+  var PLAY_SVG = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+  function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function thumb(id) { return 'https://i.ytimg.com/vi/' + id + '/hqdefault.jpg'; }
+  function embed(id) { return 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0&playsinline=1'; }
+  function watch(v) { return v.s ? 'https://www.youtube.com/shorts/' + v.id : 'https://www.youtube.com/watch?v=' + v.id; }
+  function vcard(v) {
+    return '<button type="button" class="vcard" data-yt="' + v.id + '"' + (v.s ? ' data-short' : '') + ' data-c="' + v.c + '">' +
+      '<span class="th" style="background-image:url(' + thumb(v.id) + ')"><i class="pl">' + PLAY_SVG + '</i>' + (v.s ? '<em>쇼츠</em>' : '') + '</span>' +
+      '<small>' + esc(VCATS[v.c] || '') + '</small><b>' + esc(v.t) + '</b></button>';
+  }
+  // 대표 영상(홍보영상): 그 자리에서 재생
+  $$('[data-promo]').forEach(function (el) {
+    el.innerHTML = '<span class="th" style="background-image:url(' + thumb(PROMO_ID) + ')"></span><i class="pl big">' + PLAY_SVG + '</i><span class="cap"><small>힐링엔터테인먼트</small><b>홍보영상 보기</b></span>';
+    el.addEventListener('click', function () {
+      el.innerHTML = '<iframe src="' + embed(PROMO_ID) + '" title="힐링엔터테인먼트 홍보영상" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
+      el.classList.add('on');
+    }, { once: true });
+  });
+  // 영상 카드 목록: data-vlist="all" 또는 "id,id,id"
+  $$('[data-vlist]').forEach(function (box) {
+    var want = box.getAttribute('data-vlist'), list = VIDEOS;
+    if (want !== 'all') list = want.split(',').map(function (id) { return VIDEOS.filter(function (v) { return v.id === id; })[0]; }).filter(Boolean);
+    box.innerHTML = list.map(vcard).join('');
+  });
+  // 분류 단추
+  var vf = $('#vfilters');
+  if (vf) {
+    vf.innerHTML = '<button class="act" data-f="all" aria-pressed="true">전체 <small>' + VIDEOS.length + '</small></button>' +
+      Object.keys(VCATS).map(function (k) { var n = VIDEOS.filter(function (v) { return v.c === k; }).length; return n ? '<button data-f="' + k + '" aria-pressed="false">' + VCATS[k] + ' <small>' + n + '</small></button>' : ''; }).join('');
+    vf.addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      $$('button', vf).forEach(function (x) { x.classList.toggle('act', x === b); x.setAttribute('aria-pressed', x === b); });
+      var f = b.getAttribute('data-f');
+      $$('#vgrid .vcard').forEach(function (c) { c.hidden = f !== 'all' && c.getAttribute('data-c') !== f; });
+    });
+  }
+  // 재생 창
+  var ym = null;
+  function openYT(id, isShort) {
+    var v = VIDEOS.filter(function (x) { return x.id === id; })[0] || { id: id, s: isShort, t: '' };
+    if (!ym) {
+      ym = document.createElement('div'); ym.className = 'ym'; ym.setAttribute('role', 'dialog'); ym.setAttribute('aria-modal', 'true');
+      ym.innerHTML = '<div class="ymb"><button type="button" class="x" aria-label="닫기">×</button><div class="fr"></div><p class="meta"><b></b><a target="_blank" rel="noopener">유튜브에서 보기 ↗</a></p></div>';
+      document.body.appendChild(ym);
+      ym.addEventListener('click', function (e) { if (e.target === ym || e.target.closest('.x')) closeYT(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && ym.classList.contains('on')) closeYT(); });
+    }
+    ym.classList.toggle('short', !!v.s);
+    $('.fr', ym).innerHTML = '<iframe src="' + embed(v.id) + '" title="' + esc(v.t || '영상') + '" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
+    $('.meta b', ym).textContent = v.t || '';
+    $('.meta a', ym).href = watch(v);
+    ym.classList.add('on'); document.documentElement.style.overflow = 'hidden';
+    $('.x', ym).focus();
+  }
+  function closeYT() { ym.classList.remove('on'); $('.fr', ym).innerHTML = ''; document.documentElement.style.overflow = ''; }
+  document.addEventListener('click', function (e) {
+    var c = e.target.closest('[data-yt]'); if (!c) return;
+    e.preventDefault(); openYT(c.getAttribute('data-yt'), c.hasAttribute('data-short'));
   });
 
   /* ---------- 머리 · 모바일 메뉴 · 맨 위로 ---------- */

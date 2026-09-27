@@ -649,3 +649,59 @@ input,select,textarea{font:inherit;color:inherit}
   .mc .pic{max-width:260px;justify-self:start}
   .mc .pic .name{right:-70px;bottom:-16px}
 }
+
+/* ---------- 유튜브 영상 (리틀리 영상 레퍼런스) ---------- */
+.ypromo{position:relative;display:block;width:100%;aspect-ratio:16/9;border-radius:22px;overflow:hidden;background:var(--navy);border:2px solid #7F9DD6;box-shadow:var(--sh);cursor:pointer;padding:0;color:#fff;text-align:left}
+.ypromo .th{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .5s}
+.ypromo::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(15,44,120,.75),rgba(15,44,120,0) 55%);pointer-events:none}
+.ypromo:hover .th{transform:scale(1.04)}
+.ypromo .cap{position:absolute;left:22px;bottom:18px;z-index:2}
+.ypromo .cap small{display:block;font-weight:700;font-size:13px;color:var(--ye)}
+.ypromo .cap b{font-size:22px}
+.ypromo.on{cursor:default}
+.ypromo.on::after{display:none}
+.ypromo iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.pl{position:absolute;left:50%;top:50%;z-index:2;width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:50%;background:rgba(255,0,51,.92);display:grid;place-items:center;color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.25);transition:.2s}
+.pl svg{width:24px;height:24px;margin-left:3px}
+.pl.big{width:78px;height:78px;margin:-39px 0 0 -39px}
+.pl.big svg{width:32px;height:32px}
+.ypromo:hover .pl,.vcard:hover .pl{transform:scale(1.1)}
+.vgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.vcard{display:flex;flex-direction:column;gap:6px;padding:0 0 14px;border-radius:var(--r);overflow:hidden;background:#fff;border:2px solid #7F9DD6;box-shadow:0 8px 22px rgba(19,47,107,.08);text-align:left;cursor:pointer;transition:.25s;font:inherit;color:inherit}
+.vcard[hidden]{display:none}
+.vcard:hover,.vcard:active{transform:translateY(-4px);border-color:var(--blue);box-shadow:var(--sh2)}
+.vcard .th{position:relative;display:block;aspect-ratio:16/9;background-size:cover;background-position:center;background-color:var(--sky)}
+.vcard .th em{position:absolute;right:10px;top:10px;font-style:normal;font-weight:800;font-size:12px;background:#FF0033;color:#fff;border-radius:999px;padding:2px 9px}
+.vcard small{padding:6px 14px 0;font-size:12.5px;font-weight:700;color:var(--or-d)}
+.vcard b{padding:0 14px;font-size:15.5px;line-height:1.45;color:var(--navy)}
+.vfilters{display:flex;flex-wrap:wrap;gap:8px;margin:34px 0 22px}
+.vfilters button{height:40px;padding:0 16px;border-radius:999px;background:#fff;border:1.5px solid #9FB6E2;font-weight:700;font-size:14.5px;color:var(--navy);cursor:pointer}
+.vfilters button small{color:var(--sub);font-weight:600;margin-left:2px}
+.vfilters button.act{background:var(--blue);border-color:var(--blue);color:#fff}
+.vfilters button.act small{color:#DCE7FF}
+.vmore{display:flex;justify-content:center;margin-top:26px}
+.ym{position:fixed;inset:0;z-index:120;background:rgba(19,47,107,.82);display:grid;place-items:center;padding:24px;opacity:0;visibility:hidden;transition:.2s}
+.ym.on{opacity:1;visibility:visible}
+.ym .ymb{position:relative;width:min(960px,100%)}
+.ym .fr{position:relative;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#000}
+.ym.short .ymb{width:min(400px,100%)}
+.ym.short .fr{aspect-ratio:9/16;max-height:78vh;margin:0 auto}
+.ym iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.ym .x{position:absolute;right:0;top:-50px;width:42px;height:42px;border-radius:50%;background:#fff;color:var(--navy);font-size:26px;line-height:1;cursor:pointer;border:0}
+.ym .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;margin-top:12px;color:#fff}
+.ym .meta b{font-size:16px}
+.ym .meta a{color:var(--ye);font-weight:700;font-size:14.5px}
+.profile-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+@media (max-width:1024px){ .vgrid{grid-template-columns:repeat(3,1fr)} }
+@media (max-width:760px){
+  .vgrid{grid-template-columns:1fr 1fr;gap:10px}
+  .vcard b{font-size:14px;padding:0 10px}
+  .vcard small{padding:4px 10px 0;font-size:12px}
+  .pl{width:44px;height:44px;margin:-22px 0 0 -22px}
+  .pl svg{width:18px;height:18px}
+  .ypromo{border-radius:16px}
+  .ypromo .cap b{font-size:18px}
+  .vfilters{flex-wrap:nowrap;overflow-x:auto;margin:26px -16px 18px;padding:0 16px 4px;scrollbar-width:none}
+  .vfilters button{flex:none}
+  .ym{padding:14px}
+}
