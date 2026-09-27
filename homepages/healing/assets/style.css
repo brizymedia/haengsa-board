@@ -635,3 +635,17 @@ input,select,textarea{font:inherit;color:inherit}
   .sg li::before{position:absolute;left:0;top:.62em;transform:none}
   .sg li em{display:inline-block;margin-left:6px;vertical-align:1px}
 }
+/* 프로필 사진 크기 줄임 (2026-09-27) */
+.mc .grid{grid-template-columns:minmax(0,.62fr) minmax(0,1.38fr);gap:56px}
+.mc .pic{width:100%;max-width:360px;justify-self:center}
+.mc .pic .main{border-radius:24px}
+.mc .pic .name{right:-28px;top:auto;bottom:-20px;padding:12px 18px}
+.mc .pic .name b{font-size:21px}
+@media (max-width:1024px){
+  .mc .grid{grid-template-columns:1fr}
+  .mc .pic{max-width:320px}
+}
+@media (max-width:760px){
+  .mc .pic{max-width:260px;justify-self:start}
+  .mc .pic .name{right:-70px;bottom:-16px}
+}
