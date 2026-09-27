@@ -131,7 +131,7 @@ input,select,textarea{font:inherit;color:inherit}
 /* 서비스 한눈에 (아이콘 5칸) */
 .svc5{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:64px}
 /* 폰엔 마우스 올림이 없으니 평소에도 테두리 · 그림자 · 윗줄 색 · 화살표가 보이게 */
-.svc5 a{position:relative;display:flex;flex-direction:column;gap:10px;padding:24px 20px 22px;border-radius:var(--r);background:#fff;border:1.5px solid #BCCDEC;box-shadow:0 8px 22px rgba(19,47,107,.10);overflow:hidden;transition:.25s}
+.svc5 a{position:relative;display:flex;flex-direction:column;gap:10px;padding:24px 20px 22px;border-radius:var(--r);background:#fff;border:2px solid #7F9DD6;box-shadow:0 8px 22px rgba(19,47,107,.10);overflow:hidden;transition:.25s}
 .svc5 a::before{content:'';position:absolute;left:0;right:0;top:0;height:4px;background:var(--blue)}
 .svc5 a:nth-child(2)::before,.svc5 a:nth-child(4)::before{background:var(--or)}
 .svc5 a::after{content:'';position:absolute;right:16px;bottom:18px;width:30px;height:30px;border-radius:50%;background:var(--sky) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231B5CF2' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E") center/15px no-repeat;transition:.25s}
