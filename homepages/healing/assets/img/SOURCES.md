@@ -36,3 +36,16 @@
 ## 로고 · og
 - logo-h.svg · logo-h-white.svg · logo-mark.svg · favicon.svg — 큰길브리지 제작 로고 시안(마이크 + 소리 물결, 화이트 · 블루 + 오렌지 · 옐로). 글자는 Outfit · Noto Sans KR(OFL) 을 패스로 바꿔 넣음.
 - og.jpg — 로고 + 문구 + works/w4.webp 로 만든 1200×630 공유 이미지.
+
+## 대표 MC 프로필 자료 (2026-09-27 카톡으로 받은 「260810- 이현호 MC 프로필& 자격증v0810-1.pdf」)
+
+- mc-lee.webp — 프로필 2쪽 인물 사진에서 얼굴 · 상반신만 잘라냄(서명 글씨 · 월계관 제외)
+- sig/fest.webp — 6쪽 청량리 종합시장 달빛 나들이
+- sig/gov.webp — 8쪽 전농동 골목 상권 활성화 축제
+- sig/sports.webp — 9쪽 롯데마트 한마음 운동회
+- sig/golf.webp — 11쪽 인일그린사랑 20주년 골프대회
+- sig/conf.webp — 12쪽 경기도 국공립 어린이집 보육인 대회
+- sig/workshop.webp — 13쪽 호치민 해외 연수
+- sig/ceremony.webp — 15쪽 제53차 서울지구JC 회원대회
+- sig/alumni.webp — 16쪽 대한건축사협회 · 동문회 체육대회
+- sig/zone.webp — 17쪽 은평구청 어린이날 행사(에어바운스)
