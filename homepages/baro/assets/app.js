@@ -89,6 +89,26 @@
      출처는 assets/img/SOURCES.md (전부 바로기획 네이버 블로그 사진) */
   var IMG_P = 'assets/img/p/', IMG_T = 'assets/img/t/';
   var WORKS = [
+    { f: 'n15', t: '해변 페스티벌 야간 메인 무대', o: '축제 · 무대 · LED · 조명', c: 'show festival gear' },
+    { f: 'n05', t: '경기도 성탄트리 점등식', o: '점등식 · 수원 · 경기도기독교총연합회', c: 'show festival' },
+    { f: 'n19', t: '캠프파이어 야간 레크리에이션', o: '캠프 · 야간 행사', c: 'show' },
+    { f: 'n07', t: '캠프파이어 손잡고 둥글게', o: '캠프 · 야간 행사', c: 'show' },
+    { f: 'n03', t: '와스타디움 하프타임 이벤트', o: '스포츠 이벤트 · 안산 와스타디움', c: 'sports show' },
+    { f: 'n06', t: '크리스마스 거리 공연 · 어린이 합창', o: '거리 축제 · 공연 섭외', c: 'show festival' },
+    { f: 'n00', t: '실내 무대 레크리에이션 진행', o: '기업 · 단체 행사 · 무대 진행', c: 'show' },
+    { f: 'n11', t: '벨리댄스 공연 섭외', o: '공연 섭외 · 실내 무대', c: 'show' },
+    { f: 'n13', t: '버블 공연 · 어린이 이벤트', o: '거리 공연 · 체험 이벤트', c: 'show festival' },
+    { f: 'n01', t: '공원 야외무대 주민 행사', o: '지역행사 · 야외무대 · 에어 아치', c: 'festival gear' },
+    { f: 'n08', t: '대규모 야외 행사 · 음향 운영', o: '지역행사 · 음향', c: 'festival gear' },
+    { f: 'n14', t: '어린이 레크리에이션 진행', o: '지역축제 · 레크리에이션', c: 'festival' },
+    { f: 'n18', t: '야외 축제 대형 이벤트 부스', o: '지역축제 · 체험 부스', c: 'festival' },
+    { f: 'n16', t: '운동장 체육대회 단체 게임', o: '체육대회 · 본부석 천막', c: 'sports gear' },
+    { f: 'n17', t: '대형 공 굴리기 경기', o: '체육대회 · 게임도구', c: 'sports' },
+    { f: 'n12', t: '실내 체육관 단체 줄다리기 게임', o: '체육대회 · 실내', c: 'sports' },
+    { f: 'n04', t: '어르신 한마음 체육대회 현장 진행', o: '체육대회 · MC 진행', c: 'sports' },
+    { f: 'n09', t: '매장 오픈 이벤트 · 풍선 아치', o: '오픈행사 · 풍선장식 · 공연', c: 'ceremony gear' },
+    { f: 'n10', t: '매장 오픈 풍선 아치 · 에어 인형', o: '오픈행사 · 풍선장식', c: 'ceremony gear' },
+    { f: 'n02', t: '매장 오픈 거리 공연 · 에어 인형', o: '오픈행사 · 거리 공연', c: 'ceremony show' },
     { f: 's03', t: '운동장 천막 · 입장 아치 · 축포', o: '체육대회 · 수원 교회 연합 · 2026', c: 'sports' },
     { f: 's06', t: '단체 이어달리기 게임', o: '체육대회 · 수원 교회 연합 · 2026', c: 'sports' },
     { f: 's02', t: '대형 공 굴리기 게임', o: '체육대회 · 수원 교회 연합 · 2026', c: 'sports' },
@@ -118,7 +138,8 @@
     { f: 'c03', t: '레드카펫 · 오색띠 커팅 세팅', o: '커팅식 · 안산 · 2026', c: 'ceremony' },
     { f: 'c11', t: '풍선 아치 장식', o: '커팅식 · 안산 · 2026', c: 'ceremony gear' }
   ];
-  var HOME_PICKS = ['s03', 'm21', 'c16', 'f06', 'a07', 'y01', 'k23', 'c11'];
+  var HOME_PICKS = ['n15', 'n05', 'n19', 'n03', 'm21', 'n09', 'n17', 'c16'];
+  var REEL = [['n15', 'n16', 'n05', 'n12', 'n09', 'n19', 'n03', 'n14', 'n11', 'n01'], ['n06', 'n17', 'n07', 'n00', 'n10', 'n13', 'n18', 'n08', 'n04', 'n02']];
 
   var $ = function (s, c) { return (c || document).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
@@ -178,6 +199,36 @@
     rvEls.forEach(function (el) { rio.observe(el); });
   } else rvEls.forEach(function (el) { el.classList.add('in'); });
 
+  /* ---------- 첫 화면 사진 넘김 (6초마다, 눌러서 이동) ---------- */
+  var hs = $('#heroSlides');
+  if (hs) {
+    var hf = $$('figure', hs), hb = $$('#heroNav button'), hk = 0, ht = null, still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function heroGo(k) {
+      hk = (k + hf.length) % hf.length;
+      hf.forEach(function (f, i) { f.classList.toggle('on', i === hk); });
+      hb.forEach(function (b, i) { b.classList.remove('on'); if (i === hk) { void b.offsetWidth; b.classList.add('on'); } });
+      var im = $('img', hf[hk]); if (im && im.loading === 'lazy') im.loading = 'eager';
+      clearTimeout(ht); if (!still) ht = setTimeout(function () { heroGo(hk + 1); }, 6000);
+    }
+    hb.forEach(function (b, i) { b.addEventListener('click', function () { heroGo(i); }); });
+    setTimeout(function () { hf.forEach(function (f) { var im = $('img', f); if (im) im.loading = 'eager'; }); }, 2500);
+    document.addEventListener('visibilitychange', function () { if (document.hidden) clearTimeout(ht); else heroGo(hk); });
+    heroGo(0);
+  }
+
+  /* ---------- 숫자 올라가기 ---------- */
+  var cnt = $$('[data-count]');
+  if (cnt.length && 'IntersectionObserver' in window) {
+    var cio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return; cio.unobserve(e.target);
+        var el = e.target, to = +el.getAttribute('data-count'), from = to > 1000 ? to - 40 : 0, t0 = performance.now();
+        (function tick(t) { var p = Math.min(1, (t - t0) / 1400), v = Math.round(from + (to - from) * (1 - Math.pow(1 - p, 3))); el.textContent = v; if (p < 1) requestAnimationFrame(tick); })(t0);
+      });
+    }, { threshold: .6 });
+    cnt.forEach(function (el) { cio.observe(el); });
+  }
+
   /* ---------- 하는 일 목록 (대문) — 누르면 펼치고 옆 사진 바꿈 ---------- */
   var svl = $('#svlist');
   if (svl) {
@@ -192,6 +243,13 @@
     });
     openSv(0);
   }
+
+  /* ---------- 현장 필름 (대문 사진 띠 두 줄) ---------- */
+  REEL.forEach(function (row, r) {
+    var el = $('#reel' + (r + 1)); if (!el) return;
+    var html = row.map(function (f) { var w = WORKS.filter(function (x) { return x.f === f; })[0]; return w ? '<a href="portfolio.html" class="rc"><img src="' + IMG_T + f + '.webp" alt="' + esc(w.t) + '" loading="lazy" width="800" height="600"><span>' + esc(w.t) + '</span></a>' : ''; }).join('');
+    el.innerHTML = '<div class="rt">' + html + html + '</div>';
+  });
 
   /* ---------- 현장 사진 (대문 8장 · 현장사진 페이지 전체) ---------- */
   function figHtml(w, k) {
