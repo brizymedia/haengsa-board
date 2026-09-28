@@ -55,5 +55,5 @@
 
 ## 로고 · og.jpg
 
-- `logo-*.svg` · `favicon.svg` — 큰길브리지 제작 **시안**(README 「로고 시안」 참고).
-- `og.jpg` — 2026-09-28 n05(성탄트리 점등식) 사진 + 로고 + 문구로 다시 합성(1200×630).
+- `logo-*.svg` · `favicon.svg` — 2026-09-28 C안 「빨리감기 B」로 교체(시안 비교: brand/logo-options.html). 글자는 Pretendard Black · Montserrat Black Italic 을 도형으로 바꿔 넣음 — `python tools/make_logo.py <Pretendard-Black.otf> <Montserrat-BlackItalic.ttf>` 로 다시 만든다.
+- `og.jpg` — 2026-09-28 n05(성탄트리 점등식) 사진 + 새 로고 + 문구로 다시 합성(1200×630).
