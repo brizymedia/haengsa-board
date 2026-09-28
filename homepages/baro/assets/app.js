@@ -229,6 +229,30 @@
     cnt.forEach(function (el) { cio.observe(el); });
   }
 
+  /* ---------- 운영 지역 지도: 선 그리기 + 목록과 함께 강조 ---------- */
+  var gm = $('#gmap');
+  if (gm) {
+    $$('.rt', gm).forEach(function (r, i) { r.style.setProperty('--i', i); });
+    if ('IntersectionObserver' in window) {
+      var gio = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { gm.classList.add('go'); $('#routes').classList.add('go'); gio.disconnect(); } }, { threshold: .35 });
+      gio.observe(gm);
+    } else { gm.classList.add('go'); $('#routes').classList.add('go'); }
+    var hlc = function (c) {
+      $$('[data-c]', gm).forEach(function (el) { el.classList.toggle('hl', el.getAttribute('data-c') === c); });
+      $$('#routes li').forEach(function (li) { li.classList.toggle('hl', li.getAttribute('data-c') === c); });
+      gm.classList.toggle('focus', !!c);
+    };
+    $$('#routes li').forEach(function (li) {
+      li.addEventListener('mouseenter', function () { hlc(li.getAttribute('data-c')); });
+      li.addEventListener('click', function () { hlc(li.getAttribute('data-c')); });
+    });
+    $('#routes').addEventListener('mouseleave', function () { hlc(null); });
+    $$('.pin, .land .on', gm).forEach(function (el) {
+      el.addEventListener('mouseenter', function () { hlc(el.getAttribute('data-c')); });
+      el.addEventListener('mouseleave', function () { hlc(null); });
+    });
+  }
+
   /* ---------- 하는 일 목록 (대문) — 누르면 펼치고 옆 사진 바꿈 ---------- */
   var svl = $('#svlist');
   if (svl) {

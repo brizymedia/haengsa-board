@@ -745,3 +745,70 @@ body{font-size:16.5px;letter-spacing:-.01em}
   .reel .rt,.marq .track{animation-duration:240s}
   .hnav .on i::after{animation:none;transform:scaleX(1)}
 }
+
+/* ---------- 운영 지역: 경기도 지도 + 이동 시간 (2026-09-28) ---------- */
+.area2{display:grid;grid-template-columns:1.02fr 1fr;gap:64px;align-items:center}
+.mapbox{position:relative;background:#E9EEF6;border-radius:24px;padding:18px;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(14,31,63,.06)}
+.gmap{display:block;width:100%;height:auto}
+.gmap .land path{stroke:#fff;stroke-width:1.2;stroke-linejoin:round;transition:fill .35s}
+.gmap .land .off{fill:#D5DDEA}
+.gmap .land .far{fill:#DEE4EE}
+.gmap .land .on{fill:#1D3A6B;cursor:pointer}
+.gmap .land .on.hl{fill:#2B5294}
+.gmap .land .hq{fill:var(--gold)}
+.mapbox.focus .land .on:not(.hl){fill:#5E7599}
+.gmap text{font-family:var(--sans);text-anchor:middle;pointer-events:none}
+.gmap .lf{font-size:12.5px;font-weight:700;fill:#8C98AE;letter-spacing:.02em}
+.gmap .sea{font-size:14px;font-weight:700;fill:#A9B7CD;letter-spacing:.6em}
+.gmap .rt{fill:none;stroke:var(--gold2);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;opacity:.95}
+.mapbox.go .rt{animation:gmDraw 1.1s calc(.25s + var(--i,0) * .14s) var(--ease) forwards}
+.gmap .rt.hl{stroke:#fff;stroke-width:3.2}
+@keyframes gmDraw{to{stroke-dashoffset:0}}
+.gmap .pin{cursor:pointer;opacity:0;transform-box:fill-box}
+.mapbox.go .pin{animation:gmPop .5s var(--ease) forwards}
+.mapbox.go .pin:nth-of-type(1){animation-delay:1.1s}.mapbox.go .pin:nth-of-type(2){animation-delay:1.24s}.mapbox.go .pin:nth-of-type(3){animation-delay:1.38s}.mapbox.go .pin:nth-of-type(4){animation-delay:1.52s}
+.mapbox.go .pin:nth-of-type(5){animation-delay:1.66s}.mapbox.go .pin:nth-of-type(6){animation-delay:1.8s}.mapbox.go .pin:nth-of-type(7){animation-delay:1.94s}.mapbox.go .pin:nth-of-type(8){animation-delay:2.08s}
+@keyframes gmPop{from{opacity:0}to{opacity:1}}
+.gmap .pin circle{fill:var(--gold2);stroke:var(--deep);stroke-width:2.5}
+.gmap .pin .halo{fill:rgba(227,197,126,.28);stroke:none;transition:r .3s}
+.gmap .pin.hl .halo{r:17}
+.gmap .pin text{font-size:15px;font-weight:800;fill:#fff;paint-order:stroke;stroke:rgba(8,20,39,.85);stroke-width:4px;stroke-linejoin:round}
+.gmap .hqpin .ring{fill:var(--navy);stroke:#fff;stroke-width:3}
+.gmap .hqpin text{font-size:15px;font-weight:900;fill:var(--navy);paint-order:stroke;stroke:#fff;stroke-width:5px;stroke-linejoin:round}
+.gmap .pulse{animation:gmPulse 2.4s ease-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes gmPulse{0%{transform:scale(.5);opacity:1}100%{transform:scale(1.25);opacity:0}}
+.mapbox .src{margin:8px 6px 0;font-size:11.5px;color:#8C98AE}
+.area2 .lead2{margin:18px 0 22px;color:var(--text);font-size:16.5px}
+.hqrow{display:grid;grid-template-columns:auto auto 1fr;align-items:center;gap:6px 12px;padding:14px 18px;border-radius:14px;background:var(--navy);color:#fff;margin-bottom:10px}
+.hqrow .dot{width:12px;height:12px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 5px rgba(201,162,75,.3)}
+.hqrow b{font-weight:800;font-size:16.5px}
+.hqrow small{font-size:13px;color:rgba(255,255,255,.7);line-height:1.5}
+.routes{display:grid}
+.routes li{display:grid;grid-template-columns:52px 1fr 104px;align-items:center;column-gap:14px;padding:11px 14px;border-radius:12px;cursor:default;transition:background .25s}
+.routes li:nth-child(odd){background:rgba(255,255,255,.55)}
+.routes li.hl{background:#fff;box-shadow:0 8px 24px rgba(14,31,63,.1)}
+.routes b{font-weight:800;color:var(--ink);font-size:16px}
+.routes .bar{height:8px;border-radius:99px;background:#DDE3EE;overflow:hidden}
+.routes .bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--navy3));transition:width 1.2s var(--ease)}
+.rv.in .routes .bar i,.routes.go .bar i{width:var(--w)}
+.routes li:nth-child(2) .bar i{transition-delay:.08s}.routes li:nth-child(3) .bar i{transition-delay:.16s}.routes li:nth-child(4) .bar i{transition-delay:.24s}
+.routes li:nth-child(5) .bar i{transition-delay:.32s}.routes li:nth-child(6) .bar i{transition-delay:.4s}.routes li:nth-child(7) .bar i{transition-delay:.48s}.routes li:nth-child(8) .bar i{transition-delay:.56s}
+.routes .tm{text-align:right;font-size:12.5px;color:var(--mute);white-space:nowrap}
+.routes .tm em{font-style:italic;font-family:var(--en);font-weight:800;font-size:16px;color:var(--navy);margin-right:6px}
+.routes small{grid-column:2/4;font-size:12.5px;color:var(--gold-t);font-weight:600;margin-top:4px;line-height:1.45}
+.area2 .note{font-size:13px;color:var(--mute);margin:14px 0 22px;line-height:1.6}
+@media (max-width:960px){
+  .area2{grid-template-columns:1fr;gap:0}
+  .area2 .txt{display:contents}
+  .area2 .txt .head{order:1}.area2 .lead2{order:2}.area2 .mapbox{order:3;margin-bottom:22px}.area2 .hqrow{order:4}.area2 .routes{order:5}.area2 .note{order:6}.area2 .btn{order:7;justify-self:start}
+}
+@media (max-width:760px){
+  .mapbox{padding:10px;border-radius:18px;margin:0 -8px}
+  .gmap .pin text{font-size:22px;stroke-width:5px}.gmap .pin circle{r:8}.gmap .pin .halo{r:15}
+  .gmap .hqpin text{font-size:21px}.gmap .lf{font-size:17px}.gmap .sea{font-size:18px}
+  .routes li{grid-template-columns:44px 1fr 92px;column-gap:10px;padding:10px 10px}
+  .hqrow{grid-template-columns:auto 1fr}.hqrow small{grid-column:1/3}
+}
+@media (prefers-reduced-motion:reduce){
+  .gmap .rt{stroke-dashoffset:0!important}.gmap .pin{opacity:1!important}.routes .bar i{width:var(--w)!important}
+}
