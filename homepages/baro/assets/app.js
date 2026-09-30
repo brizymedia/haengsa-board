@@ -6,7 +6,7 @@
   /* ---------- 문의 폼 전송처 ----------
      FORM_ENDPOINT 가 비어 있으면: 휴대폰은 문자 앱이 열리고(내용 채워짐), PC 는 내용을 복사해 준 뒤 전화 안내.
      문의 서버(Apps Script) 주소를 넣으면 그쪽으로 JSON 이 가고, 서버가 mot2256@naver.com 으로 메일을 보낸다. */
-  var FORM_ENDPOINT = '';
+  var FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwvQ4UJRZklRX7bZB6C0s1yZgSvBAMCVccT580L_1BtiVDyh0DIxShCAvN9McZIB0b7FA/exec';
   var SMS_TO = '010-2758-0655';
   var COMPANY = '바로기획';
 
@@ -234,9 +234,9 @@
   if (gm) {
     $$('.rt', gm).forEach(function (r, i) { r.style.setProperty('--i', i); });
     if ('IntersectionObserver' in window) {
-      var gio = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { gm.classList.add('go'); $('#routes').classList.add('go'); gio.disconnect(); } }, { threshold: .35 });
+      var gio = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { gm.classList.add('go'); if ($('#routes')) $('#routes').classList.add('go'); gio.disconnect(); } }, { threshold: .35 });
       gio.observe(gm);
-    } else { gm.classList.add('go'); $('#routes').classList.add('go'); }
+    } else { gm.classList.add('go'); if ($('#routes')) $('#routes').classList.add('go'); }
     var hlc = function (c) {
       $$('[data-c]', gm).forEach(function (el) { el.classList.toggle('hl', el.getAttribute('data-c') === c); });
       $$('#routes li').forEach(function (li) { li.classList.toggle('hl', li.getAttribute('data-c') === c); });
@@ -246,7 +246,7 @@
       li.addEventListener('mouseenter', function () { hlc(li.getAttribute('data-c')); });
       li.addEventListener('click', function () { hlc(li.getAttribute('data-c')); });
     });
-    $('#routes').addEventListener('mouseleave', function () { hlc(null); });
+    if ($('#routes')) $('#routes').addEventListener('mouseleave', function () { hlc(null); });
     $$('.pin, .land .on', gm).forEach(function (el) {
       el.addEventListener('mouseenter', function () { hlc(el.getAttribute('data-c')); });
       el.addEventListener('mouseleave', function () { hlc(null); });
@@ -275,26 +275,45 @@
     el.innerHTML = '<div class="rt">' + html + html + '</div>';
   });
 
-  /* ---------- 현장 사진 (대문 8장 · 현장사진 페이지 전체) ---------- */
+  /* ---------- 현장 사진 (대문 8장 · 현장사진 페이지 전체) ----------
+     현장사진 페이지는 WORKS(위 배열) + 대표님이 upload.html 로 올린 사진(photos 가지의 photos.json)을 합쳐 보여준다. */
+  var UP_LIST = 'https://raw.githubusercontent.com/brizymedia/baro-event/photos/photos/photos.json';
+  var UP_IMG = 'https://cdn.jsdelivr.net/gh/brizymedia/baro-event@photos/';
+  var UP_CAT = { sports: '체육대회', festival: '지역축제', show: '공연 · 점등식', water: '물놀이', ceremony: '커팅식 · 오픈', gear: '장비 · 장식' };
+  function srcT(w) { return w.u || IMG_T + w.f + '.webp'; }
+  function srcP(w) { return w.u || IMG_P + w.f + '.webp'; }
   function figHtml(w, k) {
     return '<figure data-k="' + k + '" data-c="' + w.c + '" tabindex="0">' +
-      '<img src="' + IMG_T + w.f + '.webp" alt="' + esc(w.t) + '" loading="lazy" width="800" height="600">' +
+      '<img src="' + srcT(w) + '" alt="' + esc(w.t) + '" loading="lazy" width="800" height="600">' +
       '<figcaption><small>' + esc(w.o) + '</small>' + esc(w.t) + '</figcaption></figure>';
   }
-  var gal = $('#gal'), pf = $('#pfGrid'), list = [];
-  if (gal) { list = HOME_PICKS.map(function (f) { return WORKS.filter(function (w) { return w.f === f; })[0]; }).filter(Boolean); gal.innerHTML = list.map(figHtml).join(''); }
-  if (pf) {
-    list = WORKS; pf.innerHTML = list.map(figHtml).join('');
+  var gal = $('#gal'), pf = $('#pfGrid'), list = [], figs = [];
+  function counts() {
     $$('#filters button').forEach(function (b) {
-      var f = b.getAttribute('data-f'), n = f === 'all' ? WORKS.length : WORKS.filter(function (w) { return w.c.split(' ').indexOf(f) >= 0; }).length;
-      b.insertAdjacentHTML('beforeend', '<span class="c">' + n + '</span>');
+      var f = b.getAttribute('data-f'), n = f === 'all' ? list.length : list.filter(function (w) { return w.c.split(' ').indexOf(f) >= 0; }).length;
+      var c = $('.c', b); if (c) c.textContent = n; else b.insertAdjacentHTML('beforeend', '<span class="c">' + n + '</span>');
     });
+  }
+  function applyFilter() {
+    var act = $('#filters .act'), f = act ? act.getAttribute('data-f') : 'all';
+    figs.forEach(function (fg) { fg.classList.toggle('hide', f !== 'all' && fg.getAttribute('data-c').split(' ').indexOf(f) < 0); });
+  }
+  if (gal) { list = HOME_PICKS.map(function (f) { return WORKS.filter(function (w) { return w.f === f; })[0]; }).filter(Boolean); gal.innerHTML = list.map(figHtml).join(''); figs = $$('figure', gal); }
+  if (pf) {
+    list = WORKS.slice(); pf.innerHTML = list.map(figHtml).join(''); figs = $$('figure', pf); counts();
+    fetch(UP_LIST + '?t=' + Math.floor(Date.now() / 300000), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+      if (!j || !j.photos || !j.photos.length) return;
+      var up = j.photos.filter(function (x) { return x && x.path; }).map(function (x) {
+        return { u: UP_IMG + x.path.split('/').map(encodeURIComponent).join('/'), t: x.event || '행사 현장', o: [UP_CAT[x.cat] || '현장', x.place, (x.date || '').replace(/-/g, '.')].filter(Boolean).join(' · '), c: x.cat || 'etc' };
+      });
+      list = up.concat(WORKS); pf.innerHTML = list.map(figHtml).join(''); figs = $$('figure', pf); counts(); applyFilter();
+    }).catch(function () {});
   }
   var grid = gal || pf, lb = $('#lb');
   if (grid && lb) {
-    var figs = $$('figure', grid), lbImg = $('#lbImg'), lbT = $('#lbTitle'), lbM = $('#lbMeta'), lbK = 0, lastFocus = null;
+    var lbImg = $('#lbImg'), lbT = $('#lbTitle'), lbM = $('#lbMeta'), lbK = 0, lastFocus = null;
     function visible() { return figs.filter(function (f) { return !f.classList.contains('hide'); }).map(function (f) { return +f.getAttribute('data-k'); }); }
-    function openLb(k) { var w = list[k]; lbK = k; lbImg.src = IMG_P + w.f + '.webp'; lbImg.alt = w.t; lbT.textContent = w.t; lbM.textContent = w.o; if (!lb.classList.contains('on')) lastFocus = document.activeElement; lb.classList.add('on'); document.body.style.overflow = 'hidden'; $('#lbX').focus(); }
+    function openLb(k) { var w = list[k]; lbK = k; lbImg.src = srcP(w); lbImg.alt = w.t; lbT.textContent = w.t; lbM.textContent = w.o; if (!lb.classList.contains('on')) lastFocus = document.activeElement; lb.classList.add('on'); document.body.style.overflow = 'hidden'; $('#lbX').focus(); }
     function closeLb() { lb.classList.remove('on'); document.body.style.overflow = ''; if (lastFocus) lastFocus.focus(); }
     function stepLb(d) { var v = visible(), i = v.indexOf(lbK); openLb(v[(i + d + v.length) % v.length]); }
     grid.addEventListener('click', function (e) { var f = e.target.closest('figure'); if (f) openLb(+f.getAttribute('data-k')); });
@@ -311,8 +330,7 @@
     if (filters) filters.addEventListener('click', function (e) {
       var b = e.target.closest('button'); if (!b) return;
       $$('button', filters).forEach(function (x) { x.classList.remove('act'); x.setAttribute('aria-pressed', 'false'); }); b.classList.add('act'); b.setAttribute('aria-pressed', 'true');
-      var f = b.getAttribute('data-f');
-      figs.forEach(function (fg) { fg.classList.toggle('hide', f !== 'all' && fg.getAttribute('data-c').split(' ').indexOf(f) < 0); });
+      applyFilter();
     });
   }
 
@@ -371,14 +389,20 @@
   /* ---------- 문의 보내기 ---------- */
   function isMobile() { return /iPhone|iPad|Android/i.test(navigator.userAgent); }
   function send(text, data, done) {
-    if (FORM_ENDPOINT) {
-      data.at = new Date().toISOString(); data.page = location.href; data.service = COMPANY + ' 행사 문의'; data.message = text;
-      fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(data) }).catch(function () {}).then(function () { done(true); });
-      return;
+    function local() {
+      if (isMobile()) { var ios = /iPhone|iPad/i.test(navigator.userAgent); location.href = 'sms:' + SMS_TO + (ios ? '&' : '?') + 'body=' + encodeURIComponent(text); done(true); return; }
+      if (navigator.clipboard) navigator.clipboard.writeText(text).catch(function () {});
+      done(false);
     }
-    if (isMobile()) { var ios = /iPhone|iPad/i.test(navigator.userAgent); location.href = 'sms:' + SMS_TO + (ios ? '&' : '?') + 'body=' + encodeURIComponent(text); done(true); return; }
-    if (navigator.clipboard) navigator.clipboard.writeText(text).catch(function () {});
-    done(false);
+    if (!FORM_ENDPOINT) { local(); return; }
+    /* 문의 서버(큰길브리지와 함께 쓰는 앱스 스크립트) → 대표님 메일 + 큰길브리지 메일. 서버가 「ok」라고 답할 때만 보낸 것으로 친다 */
+    data.at = new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }); data.page = location.href; data.service = '[' + COMPANY + '] ' + (data.type || '행사') + ' 문의';
+    data.message = text; data.phone = data.tel || ''; data.website = '';
+    if (data.org) data.name = data.name + ' (' + data.org + ')';
+    fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data) })
+      .then(function (r) { return r.json(); })
+      .then(function (j) { if (j && j.ok) done(true); else local(); })
+      .catch(local);
   }
   var form = $('#quoteForm');
   if (form) {

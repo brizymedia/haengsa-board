@@ -78,3 +78,13 @@ cd /home/user/haengsa-board/homepages/baro && python3 -m http.server 8902
 3. **문의 폼 → 이메일** — `assets/app.js` 맨 위 `FORM_ENDPOINT` 에 문의 서버(Apps Script) 주소를 넣고, 받는 메일을 mot2256@naver.com 으로. 비어 있는 지금은 폰 = 문자 앱(010-2758-0655, 내용 채워짐), PC = 내용 복사 + 전화 안내.
 4. 네이버 서치어드바이저 · 구글 서치콘솔 등록, sitemap.xml 추가.
 5. 로고 확정 뒤 og.jpg · favicon 재확인.
+
+## 업무 도구 10종 (2026-10-01) — 큰길이벤트기획에서 옮김
+견적서(손님용 · 관리자) · 견적서 저장함 · 전자계약서 · 거래명세서 · 사진 올리기(+블로그·인스타 글) · 행사 이야기 5편 · 지역 페이지 9곳 · 문의 알림 · 유입 현황 + llms.txt/sitemap/robots.
+옮기는 도구 `tools/port_docs.py`(서류 3종 + upload), 페이지 생성 `tools/make_pages.py`. 공개 레포 README 표 참고.
+
+**형님이 할 배포 3가지 (대기)**
+1. 문의 서버(ai-make `문의폼-AppsScript-코드.gs`, VERSION 2026-10-01a) 새 버전 배포 — 바로기획 문의를 대표 메일에도 보내고 제목 [바로기획 문의]. 배포 전에는 문의가 형님 메일로만 「[큰길브리지 문의]」 제목으로 온다.
+2. 갤러리 서버 새로 만들기(`apps-script/gallery`, 속성 UPLOAD_PW · GITHUB_TOKEN(baro-event Contents 쓰기) · GITHUB_REPO=brizymedia/baro-event) → 웹앱 주소를 upload.html 첫 화면 「처음 한 번만 설정」에 넣고, 대표님께 비밀번호와 함께 전달.
+3. 계약 서버 새로 만들기(`apps-script/contract`, 서명본은 mot2256 + gilauto325 로) → 주소를 `tools/port_docs.py` BARO_CONTRACT 에 넣고 다시 돌려 배포. 없을 때도 계약서 작성 · 인쇄 · 서명 통보 메일은 됨.
+- 대표님 인감 이미지(투명 PNG) 받으면 `assets/img/stamp-baro.png`.
