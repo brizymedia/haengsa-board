@@ -554,8 +554,6 @@ ul,ol{list-style:none}
   .rv{opacity:1;transform:none}
 }
 
-/* 제안용 시안 띠 (오픈할 때 .draft 줄과 함께 지운다) */
-.draft{position:relative;z-index:60;height:30px;line-height:30px;text-align:center;font-size:12.5px;font-weight:600;letter-spacing:.02em;background:#C9A24B;color:#0E1F3F;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 12px}
 .home .hd{top:30px;transition:top .25s,background .3s,border-color .3s,box-shadow .3s}
 .home .hd.solid{top:0}
 

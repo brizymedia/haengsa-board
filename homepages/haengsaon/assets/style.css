@@ -32,10 +32,6 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .sr { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .en { font-family: var(--en); letter-spacing: .02em; }
 
-/* ---------- 시안 띠 ---------- */
-.ribbon { background: var(--ink); color: #C9D3E0; font-size: 12.5px; text-align: center; padding: 6px 12px; line-height: 1.5; }
-.ribbon b { color: var(--on); font-weight: 600; }
-
 /* ---------- 버튼 ---------- */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; padding: 0 24px; border-radius: 999px; font-weight: 700; font-size: 15.5px; border: 2px solid transparent; cursor: pointer; transition: transform .2s, background .2s, box-shadow .2s, color .2s; white-space: nowrap; }
 .btn svg { width: 18px; height: 18px; flex: none; }
@@ -503,8 +499,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   .cart { bottom: 74px; }
 }
 @media (max-width: 640px) {
-  .wrap { width: calc(100% - 32px); }
-  .ribbon { font-size: 11.5px; }
+  .wrap { width: calc(100% - 32px); }
   .hero { min-height: calc(100svh - var(--hd) - 30px); }
   .hero .wrap { padding: 60px 0 110px; }
   .hero .power { padding: 6px 14px 6px 6px; font-size: 13px; gap: 10px; }

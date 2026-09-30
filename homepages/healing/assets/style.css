@@ -441,9 +441,6 @@ input,select,textarea{font:inherit;color:inherit}
 .totop.on{opacity:1;visibility:visible}
 .totop svg{width:20px;height:20px}
 
-/* 시안 띠 */
-.draft{background:var(--ye-l);color:#6B4A00;text-align:center;font-size:13px;padding:6px 12px;font-weight:600}
-
 /* ---------- 반응형 ---------- */
 @media (max-width:1180px){
   .hd .tel span{display:none}
@@ -570,8 +567,7 @@ input,select,textarea{font:inherit;color:inherit}
   .card .bd{padding:16px 16px 18px;gap:6px}
   .card b{font-size:17px}
   .card p{font-size:14px}
-  .card ul{display:none}
-  .draft{font-size:12px}
+  .card ul{display:none}
   .tphoto{display:none}
 }
 

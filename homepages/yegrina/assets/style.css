@@ -40,10 +40,6 @@ p { margin: 0; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 :focus-visible { outline: 3px solid var(--sun); outline-offset: 2px; border-radius: 6px; }
 
-/* ---------- 시안 띠 ---------- */
-.draft { background: var(--g9); color: #D9F99D; font-size: 12.5px; text-align: center; padding: 5px 12px; letter-spacing: .02em; }
-.draft b { color: #fff; }
-
 /* ---------- 상단 ---------- */
 .head { position: sticky; top: 0; z-index: 50; background: rgba(255, 252, 243, .94); backdrop-filter: saturate(1.4) blur(10px); -webkit-backdrop-filter: saturate(1.4) blur(10px); }
 .head .wrap { height: var(--head); display: flex; align-items: center; gap: 22px; }
