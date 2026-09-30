@@ -13,7 +13,9 @@ SRC = sys.argv[1] if len(sys.argv) > 1 else os.path.expanduser('~/Documents/클�
 SITE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # 바로기획 계약 서버(앱스 스크립트) — 배포하면 여기에 주소를 넣고 다시 돌린다. 비어 있으면 서버 없이 동작.
-BARO_CONTRACT = ''
+BARO_CONTRACT = 'https://script.google.com/macros/s/AKfycby2Eo9fIIHFNkwLs89IrsIAojhlDHlPuU151K9ohcHrAzAhmyGM57gnD94_Z-jWDy-8/exec'   # 2026-10-01 어대리 배포 (gilauto325)
+# 바로기획 사진 업로드 서버 — 비밀번호는 서버 속성에만(코드 · 저장소에 적지 않음)
+BARO_GALLERY = 'https://script.google.com/macros/s/AKfycbzYVe-C3O0Nu_3WysH4A7qmK7jp6fNQpzJoPmcGiHgPrJoIQ2wbd5L91VumgVG2OOS08A/exec'
 
 LOGO = '<img src="assets/img/logo-mark.svg" alt="" style="width:2.3rem;height:2.3rem;border-radius:.6rem;display:block">'
 LOGO_S = '<img src="assets/img/logo-mark.svg" alt="" style="width:2.1rem;height:2.1rem;border-radius:.55rem;display:block">'
@@ -156,6 +158,7 @@ def logo_fix(s):
     s = re.sub(r'<span style="display:grid;place-items:center;width:2\.3rem;height:2\.3rem;[^"]*">KG</span>', LOGO, s)
     s = re.sub(r'<span style="display:grid;place-items:center;width:2\.1rem;height:2\.1rem;[^"]*">KG</span>', LOGO_S, s)
     s = re.sub(r'<span style="display:inline-block;width:32px;height:32px;line-height:32px;text-align:center;\s*background:#C9A24B;[^"]*">KG</span>\s*<span style="[^"]*">바로기획</span>', MAIL_LOGO, s)
+    s = s.replace('<a class="brand" href="index.html"><i>KG</i> 바로기획</a>', '<a class="brand" href="/"><i>KG</i> 바로기획</a>')
     s = s.replace('<a class="brand" href="/"><i>KG</i> 바로기획</a>', '<a class="brand" href="index.html"><img src="assets/img/logo-mark.svg" alt="" style="width:26px;height:26px;border-radius:6px;vertical-align:-7px;margin-right:6px">바로기획</a>')
     return s
 
@@ -170,7 +173,8 @@ def no_stamp(s):
 
 
 def servers(s):
-    s = re.sub(r"'https://script\.google\.com/macros/s/AKfycbwgO5Ry[A-Za-z0-9_-]+/exec'", repr(BARO_CONTRACT) if BARO_CONTRACT else "''", s)
+    s = re.sub(r"'https://script\.google\.com/macros/s/AKfycbwgO5Ry[A-Za-z0-9_-]+/exec'", "'" + BARO_CONTRACT + "'", s)
+    s = s.replace("const 서버주소_기본 = '';", "const 서버주소_기본 = '" + BARO_GALLERY + "';")   # upload.html — 대표님이 주소를 따로 넣지 않아도 되게
     return s
 
 
