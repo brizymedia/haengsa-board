@@ -9,7 +9,7 @@
   /* ---------- 문의 폼 전송처 ----------
      FORM_ENDPOINT 가 비어 있으면 휴대폰에서는 문자 앱(대표 휴대폰)이 열리고, PC 에서는 내용을 복사해 준다.
      문의 서버(Apps Script) 주소를 넣으면 그쪽으로 JSON 이 가고, 서버가 knsuyegrina@naver.com 으로 메일을 보낸다. */
-  var FORM_ENDPOINT = '';
+  var FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwvQ4UJRZklRX7bZB6C0s1yZgSvBAMCVccT580L_1BtiVDyh0DIxShCAvN9McZIB0b7FA/exec';   // 큰길브리지와 함께 쓰는 문의 서버 → 대표님 메일 + 큰길브리지
   var SMS_TO = '010-9481-1934';
   var TEL = '02-482-1934';
   var COMPANY = '한국체대 예그리나';
@@ -300,15 +300,23 @@
   /* ---------- 문의 보내기 (문의 폼 · 채용 지원 공용) ---------- */
   function isMobile() { return /iPhone|iPad|Android/i.test(navigator.userAgent); }
   function send(text, data, done, service) {
-    if (FORM_ENDPOINT) {
-      data.at = new Date().toISOString(); data.page = location.href; data.service = service; data.message = text;
-      fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(data) }).catch(function () {}).then(function () { done(true); });
-      return;
+    function local() {
+      if (isMobile()) { var ios = /iPhone|iPad/i.test(navigator.userAgent); location.href = 'sms:' + SMS_TO + (ios ? '&' : '?') + 'body=' + encodeURIComponent(text); done(true); return; }
+      try { if (navigator.clipboard) navigator.clipboard.writeText(text).catch(function () {}); } catch (e) {}
+      done(false);
     }
-    if (isMobile()) { var ios = /iPhone|iPad/i.test(navigator.userAgent); location.href = 'sms:' + SMS_TO + (ios ? '&' : '?') + 'body=' + encodeURIComponent(text); done(true); return; }
-    if (navigator.clipboard) navigator.clipboard.writeText(text).catch(function () {});
-    done(false);
+    if (!FORM_ENDPOINT) { local(); return; }
+    /* 문의 서버가 「ok」라고 답할 때만 보낸 것으로 친다. 안 되면 예전처럼 문자 · 복사 */
+    data.at = new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }); data.page = location.href;
+    data.service = '[' + COMPANY + '] ' + (data.kind || service || '행사') + ' 문의';
+    data.message = text; data.phone = data.tel || ''; data.website = '';
+    if (data.org) data.name = data.name + ' (' + data.org + ')';
+    fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data) })
+      .then(function (r) { return r.json(); })
+      .then(function (j) { if (j && j.ok) done(true); else local(); })
+      .catch(local);
   }
+
   function val(form, k) { var el = form.elements[k]; if (!el) return ''; if (el.length && !el.tagName) return Array.prototype.slice.call(el).filter(function (x) { return x.checked; }).map(function (x) { return x.value; }).join(', '); return (el.value || '').trim(); }
 
   var form = $('#quoteForm');
