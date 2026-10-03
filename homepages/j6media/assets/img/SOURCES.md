@@ -48,3 +48,8 @@
 
 ## og.jpg
 w41(고객초청음악회) 사진 + 실제 로고로 만든 1200×630 공유 이미지 (2026-09-27 교체).
+
+## 취급 브랜드 로고 (brands/, 2026-10-04)
+각 회사 공식 사이트 또는 위키미디어 공용에서 받아 짙은 단색(#2B211B) 투명 PNG로 맞춤. KANALS 는 제조사 공식 로고를 찾지 못해 이름 글자로 둠.
+- 공식 사이트: lss.it(LSS) · nexo-sa.com(NEXO) · stageaccompany.com 배너에서 잘라 냄(SA) · qanonaudio.com(QANON) · galloacoustics.com(GALLO) · midasconsoles.com(MIDAS) · allen-heath.com(A&H) · neutrik.us(NEUTRIK)
+- 위키미디어 공용: Yamaha_logo.svg · Behringer_new_logo.svg · Belden.svg · Shure_Logo_2024.svg · Sennheiser_logo_(2019).svg
