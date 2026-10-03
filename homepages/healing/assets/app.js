@@ -9,9 +9,9 @@
      여기부터 사장님 · 큰길브리지가 고치는 곳
      ================================================================ */
 
-  /* 문의 폼 전송처 — 비어 있으면 폰은 문자 앱, PC 는 내용 복사 + 전화 안내.
-     Apps Script(문의 서버) 주소를 넣으면 그쪽으로 JSON 이 간다. */
-  var FORM_ENDPOINT = '';
+  /* 문의 폼 전송처 — 큰길브리지 공용 문의 서버(앱스 스크립트). 서버가 page 주소의 레포 이름(healing-ent)으로 회사를 알아보고
+     leehh2153@gmail.com 으로 메일을 보낸다. 비우거나 서버가 실패하면 폰은 문자 앱, PC 는 내용 복사 + 전화 안내. */
+  var FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwvQ4UJRZklRX7bZB6C0s1yZgSvBAMCVccT580L_1BtiVDyh0DIxShCAvN9McZIB0b7FA/exec';
   var SMS_TO = '010-5620-2153';
   var COMPANY = '힐링엔터테인먼트';
   /* 카카오톡 주소 — 지금은 리틀리(litt.ly/healingmc)에 걸린 오픈채팅 주소.
@@ -293,19 +293,45 @@
   else { window.addEventListener('scroll', checkRv, { passive: true }); window.addEventListener('resize', checkRv); window.addEventListener('load', checkRv); checkRv(); setTimeout(checkRv, 500); }
 
   /* ---------- 갤러리 (대문 일부 · 현장 갤러리 전체) ---------- */
+  /* 현장 갤러리 페이지는 WORKS(위 배열) + 대표님이 upload.html 로 올린 사진(photos 가지의 photos.json)을 합쳐 보여준다.
+     UP_CAT 키 = upload.html 의 사진 칸 slug = WORKS 의 c 값 · 갤러리 필터(data-f) */
+  var UP_LIST = 'https://raw.githubusercontent.com/brizymedia/healing-ent/photos/photos/photos.json';
+  var UP_IMG = 'https://cdn.jsdelivr.net/gh/brizymedia/healing-ent@photos/';
+  var UP_CAT = { school: '학교행사', corp: '기업 · 단체 워크숍', fest: '지역축제', stage: '무대 · 음향' };
+  function srcT(w) { return w.u || IMG + 'th/' + w.f; }
+  function srcP(w) { return w.u || IMG + w.f; }
   function workCard(w, k) {
-    return '<figure data-k="' + k + '" data-c="' + w.c + '" tabindex="0" role="button" aria-label="' + w.t + ' 크게 보기">' +
-      '<img src="' + IMG + 'th/' + w.f + '" alt="' + w.t + '" loading="lazy" width="800" height="600">' +
-      '<figcaption><em>' + w.o + '</em><b>' + w.t + '</b></figcaption></figure>';
+    return '<figure data-k="' + k + '" data-c="' + esc(w.c) + '" tabindex="0" role="button" aria-label="' + esc(w.t) + ' 크게 보기">' +
+      '<img src="' + srcT(w) + '" alt="' + esc(w.t) + '" loading="lazy" width="800" height="600">' +
+      '<figcaption><em>' + esc(w.o) + '</em><b>' + esc(w.t) + '</b></figcaption></figure>';
   }
-  var gal = $('#gal'), pf = $('#pfGrid'), list = [];
-  if (gal) { var pick = (gal.getAttribute('data-pick') || '').split(',').map(Number); list = pick.map(function (k) { return WORKS[k]; }).filter(Boolean); gal.innerHTML = list.map(workCard).join(''); }
-  if (pf) { list = WORKS; pf.innerHTML = list.map(workCard).join(''); }
+  var gal = $('#gal'), pf = $('#pfGrid'), list = [], figs = [];
+  function counts() {
+    $$('#filters button').forEach(function (b) {
+      var f = b.getAttribute('data-f'), n = f === 'all' ? list.length : list.filter(function (w) { return w.c.split(' ').indexOf(f) >= 0; }).length;
+      var c = $('small', b); if (c) c.textContent = n; else b.insertAdjacentHTML('beforeend', '<small>' + n + '</small>');
+    });
+  }
+  function applyFilter() {
+    var act = $('#filters .act'), f = act ? act.getAttribute('data-f') : 'all';
+    figs.forEach(function (fg) { fg.classList.toggle('hide', f !== 'all' && fg.getAttribute('data-c').split(' ').indexOf(f) < 0); });
+  }
+  if (gal) { var pick = (gal.getAttribute('data-pick') || '').split(',').map(Number); list = pick.map(function (k) { return WORKS[k]; }).filter(Boolean); gal.innerHTML = list.map(workCard).join(''); figs = $$('figure', gal); }
+  if (pf) {
+    list = WORKS.slice(); pf.innerHTML = list.map(workCard).join(''); figs = $$('figure', pf); counts();
+    fetch(UP_LIST + '?t=' + Math.floor(Date.now() / 300000), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+      if (!j || !j.photos || !j.photos.length) return;
+      var up = j.photos.filter(function (x) { return x && x.path; }).map(function (x) {
+        return { u: UP_IMG + x.path.split('/').map(encodeURIComponent).join('/'), t: x.event || '행사 현장', o: [UP_CAT[x.cat] || '현장', x.place, (x.date || '').replace(/-/g, '.')].filter(Boolean).join(' · '), c: x.cat || 'etc' };
+      });
+      list = up.concat(WORKS); pf.innerHTML = list.map(workCard).join(''); figs = $$('figure', pf); counts(); applyFilter();
+    }).catch(function () {});
+  }
   var grid = gal || pf, lb = $('#lb');
   if (grid && lb) {
-    var figs = $$('figure', grid), lbImg = $('#lbImg'), lbT = $('#lbTitle'), lbM = $('#lbMeta'), lbK = 0, lastFocus = null;
+    var lbImg = $('#lbImg'), lbT = $('#lbTitle'), lbM = $('#lbMeta'), lbK = 0, lastFocus = null;
     var visible = function () { return figs.filter(function (f) { return !f.classList.contains('hide'); }).map(function (f) { return +f.getAttribute('data-k'); }); };
-    var openLb = function (k) { var w = list[k]; lbK = k; lbImg.src = IMG + w.f; lbImg.alt = w.t; lbT.textContent = w.t; lbM.textContent = w.o; if (!lb.classList.contains('on')) lastFocus = document.activeElement; lb.classList.add('on'); document.body.style.overflow = 'hidden'; $('#lbX').focus(); };
+    var openLb = function (k) { var w = list[k]; lbK = k; lbImg.src = srcP(w); lbImg.alt = w.t; lbT.textContent = w.t; lbM.textContent = w.o; if (!lb.classList.contains('on')) lastFocus = document.activeElement; lb.classList.add('on'); document.body.style.overflow = 'hidden'; $('#lbX').focus(); };
     var closeLb = function () { lb.classList.remove('on'); document.body.style.overflow = ''; if (lastFocus) lastFocus.focus(); };
     var stepLb = function (d) { var v = visible(), i = v.indexOf(lbK); openLb(v[(i + d + v.length) % v.length]); };
     grid.addEventListener('click', function (e) { var f = e.target.closest('figure'); if (f) openLb(+f.getAttribute('data-k')); });
@@ -318,15 +344,10 @@
     lb.addEventListener('touchend', function (e) { var dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) stepLb(dx < 0 ? 1 : -1); }, { passive: true });
     var filters = $('#filters');
     if (filters) {
-      $$('button', filters).forEach(function (b) {
-        var f = b.getAttribute('data-f'), n = f === 'all' ? WORKS.length : WORKS.filter(function (w) { return w.c.split(' ').indexOf(f) >= 0; }).length;
-        b.insertAdjacentHTML('beforeend', '<small>' + n + '</small>');
-      });
       filters.addEventListener('click', function (e) {
         var b = e.target.closest('button'); if (!b) return;
         $$('button', filters).forEach(function (x) { x.classList.remove('act'); x.setAttribute('aria-pressed', 'false'); }); b.classList.add('act'); b.setAttribute('aria-pressed', 'true');
-        var f = b.getAttribute('data-f');
-        figs.forEach(function (fg) { fg.classList.toggle('hide', f !== 'all' && fg.getAttribute('data-c').split(' ').indexOf(f) < 0); });
+        applyFilter();
       });
     }
   }
@@ -361,14 +382,19 @@
   /* ---------- 문의 보내기 ---------- */
   function isMobile() { return /iPhone|iPad|Android/i.test(navigator.userAgent); }
   function send(text, data, done) {
-    if (FORM_ENDPOINT) {
-      data.at = new Date().toISOString(); data.page = location.href; data.service = COMPANY + ' 견적문의'; data.message = text;
-      fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(data) }).catch(function () {}).then(function () { done(true); });
-      return;
+    function local() {
+      if (isMobile()) { var ios = /iPhone|iPad/i.test(navigator.userAgent); location.href = 'sms:' + SMS_TO + (ios ? '&' : '?') + 'body=' + encodeURIComponent(text); done(true); return; }
+      try { if (navigator.clipboard) navigator.clipboard.writeText(text).catch(function () {}); } catch (e) {}
+      done(false);
     }
-    if (isMobile()) { var ios = /iPhone|iPad/i.test(navigator.userAgent); location.href = 'sms:' + SMS_TO + (ios ? '&' : '?') + 'body=' + encodeURIComponent(text); done(true); return; }
-    try { if (navigator.clipboard) navigator.clipboard.writeText(text).catch(function () {}); } catch (e) {}
-    done(false);
+    if (!FORM_ENDPOINT) { local(); return; }
+    /* 문의 서버(큰길브리지와 함께 쓰는 앱스 스크립트) → 대표님 메일 + 큰길브리지 메일. 서버가 「ok」라고 답할 때만 보낸 것으로 친다 */
+    data.at = new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }); data.page = location.href; data.service = '[' + COMPANY + '] ' + (data.type || '행사') + ' 문의';
+    data.message = text; data.phone = data.tel || ''; data.website = '';
+    fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data) })
+      .then(function (r) { return r.json(); })
+      .then(function (j) { if (j && j.ok) done(true); else local(); })
+      .catch(local);
   }
   $$('form.qform').forEach(function (form) {
     var done = $('.done', form);

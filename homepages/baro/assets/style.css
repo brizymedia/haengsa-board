@@ -553,7 +553,6 @@ ul,ol{list-style:none}
   *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
   .rv{opacity:1;transform:none}
 }
-
 .home .hd{top:30px;transition:top .25s,background .3s,border-color .3s,box-shadow .3s}
 .home .hd.solid{top:0}
 

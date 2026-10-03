@@ -5,5 +5,7 @@ Allow: /
 Disallow: /contract.html
 Disallow: /statement.html
 Disallow: /upload.html
+Disallow: /schedule.html
+Disallow: /office.html
 
 Sitemap: https://brizymedia.github.io/baro-event/sitemap.xml

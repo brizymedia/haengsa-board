@@ -62,6 +62,11 @@
     {f: "w29.webp", t: "발표회 단상 진행", o: "발표회 · 사회 · 2026", c: "stage", w: 450, h: 800}
   ];
   var IMG = 'assets/img/works/';
+  /* 현장사진 페이지는 WORKS(위 배열) + 대표님이 upload.html 로 올린 사진(이 레포 photos 가지의 photos.json)을 합쳐 보여준다.
+     UP_CAT 키 = upload.html 의 사진 칸 slug(= 현장사진 분류 단추 data-f) */
+  var UP_LIST = 'https://raw.githubusercontent.com/brizymedia/yegrina/photos/photos/photos.json';
+  var UP_IMG = 'https://cdn.jsdelivr.net/gh/brizymedia/yegrina@photos/';
+  var UP_CAT = { event: '운동회 · 체육대회', church: '교회 행사', water: '물놀이', rental: '놀이기구 · 렌탈', class: '예체능 수업', stage: '발표회 · 무대' };
 
   /* ---------- 블로그 글 (네이버 블로그 yegrinai — 「이벤트.행사」 · 「예체능 교육」 · 「렌탈」만) ---------- */
   var BLOG = [
@@ -208,18 +213,33 @@
   });
 
   /* ---------- 사진: 대문 줄 · 현장사진 격자 · 라이트박스 ---------- */
+  function srcS(w) { return w.u || IMG + 's/' + w.f; }
+  function srcP(w) { return w.u || IMG + w.f; }
   function fig(w, k, cls) {
-    return '<figure data-k="' + k + '" data-c="' + w.c + '"' + (cls ? ' class="' + cls + '"' : '') + '><img src="' + IMG + 's/' + w.f + '" alt="' + esc(w.t) + '" loading="lazy" width="' + (w.w || 800) + '" height="' + (w.h || 600) + '">' +
+    return '<figure data-k="' + k + '" data-c="' + w.c + '"' + (cls ? ' class="' + cls + '"' : '') + '><img src="' + srcS(w) + '" alt="' + esc(w.t) + '" loading="lazy" width="' + (w.w || 800) + '" height="' + (w.h || 600) + '">' +
       '<figcaption><small>' + esc(w.o) + '</small>' + esc(w.t) + '</figcaption></figure>';
   }
-  var strip = $('#strip'), grid = $('#pfGrid'), list = [];
-  if (strip) { list = WORKS.filter(function (w) { return w.home; }); strip.innerHTML = list.map(function (w, k) { return fig(w, k); }).join(''); }
-  if (grid) { list = WORKS; grid.innerHTML = list.map(function (w, k) { return fig(w, k); }).join(''); }
+  var strip = $('#strip'), grid = $('#pfGrid'), list = [], figs = [];
+  function applyFilter() {
+    var act = $('#filters .act'), f = act ? act.getAttribute('data-f') : 'all';
+    figs.forEach(function (fg) { fg.classList.toggle('hide', f !== 'all' && fg.getAttribute('data-c').split(' ').indexOf(f) < 0); });
+  }
+  if (strip) { list = WORKS.filter(function (w) { return w.home; }); strip.innerHTML = list.map(function (w, k) { return fig(w, k); }).join(''); figs = $$('figure', strip); }
+  if (grid) {
+    list = WORKS.slice(); grid.innerHTML = list.map(function (w, k) { return fig(w, k); }).join(''); figs = $$('figure', grid);
+    fetch(UP_LIST + '?t=' + Math.floor(Date.now() / 300000), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+      if (!j || !j.photos || !j.photos.length) return;
+      var up = j.photos.filter(function (x) { return x && x.path; }).map(function (x) {
+        return { u: UP_IMG + x.path.split('/').map(encodeURIComponent).join('/'), t: x.event || '행사 현장', o: [UP_CAT[x.cat] || '현장', x.place, (x.date || '').replace(/-/g, '.')].filter(Boolean).join(' · '), c: x.cat || 'etc' };
+      });
+      list = up.concat(WORKS); grid.innerHTML = list.map(function (w, k) { return fig(w, k); }).join(''); figs = $$('figure', grid); applyFilter();
+    }).catch(function () {});
+  }
   var host = strip || grid, lb = $('#lb');
   if (host && lb) {
-    var figs = $$('figure', host), lbImg = $('#lbImg'), lbT = $('#lbTitle'), lbM = $('#lbMeta'), cur = 0;
+    var lbImg = $('#lbImg'), lbT = $('#lbTitle'), lbM = $('#lbMeta'), cur = 0;
     var vis = function () { return figs.filter(function (f) { return !f.classList.contains('hide'); }).map(function (f) { return +f.getAttribute('data-k'); }); };
-    var openLb = function (k) { var w = list[k]; cur = k; lbImg.src = IMG + w.f; lbImg.alt = w.t; lbT.textContent = w.t; lbM.textContent = w.o; lb.classList.add('on'); document.body.style.overflow = 'hidden'; $('#lbX').focus(); };
+    var openLb = function (k) { var w = list[k]; cur = k; lbImg.src = srcP(w); lbImg.alt = w.t; lbT.textContent = w.t; lbM.textContent = w.o; lb.classList.add('on'); document.body.style.overflow = 'hidden'; $('#lbX').focus(); };
     var closeLb = function () { lb.classList.remove('on'); document.body.style.overflow = ''; };
     var stepLb = function (d) { var v = vis(), i = v.indexOf(cur); openLb(v[(i + d + v.length) % v.length]); };
     host.addEventListener('click', function (e) { var f = e.target.closest('figure'); if (f) openLb(+f.getAttribute('data-k')); });
@@ -233,8 +253,7 @@
       var b = e.target.closest('button'); if (!b) return;
       $$('button', filters).forEach(function (x) { x.classList.remove('act'); x.setAttribute('aria-pressed', 'false'); });
       b.classList.add('act'); b.setAttribute('aria-pressed', 'true');
-      var f = b.getAttribute('data-f');
-      figs.forEach(function (fg) { fg.classList.toggle('hide', f !== 'all' && fg.getAttribute('data-c').split(' ').indexOf(f) < 0); });
+      applyFilter();
     });
   }
   // 줄 넘김 단추

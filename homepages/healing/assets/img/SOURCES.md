@@ -49,3 +49,7 @@
 - sig/ceremony.webp — 15쪽 제53차 서울지구JC 회원대회
 - sig/alumni.webp — 16쪽 대한건축사협회 · 동문회 체육대회
 - sig/zone.webp — 17쪽 은평구청 어린이날 행사(에어바운스)
+
+## 행사 이야기용 추가 사진 (2026-10-03)
+- works/b1~b4.webp (+ th/) — 대동놀이와 함께한 500명, 국공립 어린이집 보육인들의 특별한 하이라이트 — https://blog.naver.com/leehh2153/223704847391
+  (블로그 원본 파일명 「힐링Ent-241106_제11회_전국_국공립_보육인대회_(이철호)」, 긴 변 966px. 행사 이야기 stories/childcare-conference.html 에만 씀 · 갤러리 WORKS 에는 안 넣음)

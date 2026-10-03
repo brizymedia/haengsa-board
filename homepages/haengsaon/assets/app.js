@@ -10,10 +10,10 @@
   'use strict';
 
   /* ---------- 문의 폼 전송처 · 연락처 ----------
-     FORM_ENDPOINT 가 비어 있으면: 휴대폰은 문자 앱이 열리고(받는 번호 SMS_TO),
-     PC 는 문의 내용을 복사해 주고 전화 · 문자를 안내한다.
-     문의 서버(Apps Script) 주소를 넣으면 그쪽으로 JSON 이 간다(서버가 이메일로 전달). */
-  var FORM_ENDPOINT = '';
+     FORM_ENDPOINT = 큰길브리지와 함께 쓰는 문의 서버(앱스 스크립트). 서버가 대표님 메일과 큰길브리지로 알림을 보낸다.
+     서버가 「ok」라고 답하지 않으면(비었거나 실패): 휴대폰은 문자 앱이 열리고(받는 번호 SMS_TO),
+     PC 는 문의 내용을 복사해 주고 전화 · 문자를 안내한다. */
+  var FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwvQ4UJRZklRX7bZB6C0s1yZgSvBAMCVccT580L_1BtiVDyh0DIxShCAvN9McZIB0b7FA/exec';
   var SMS_TO = '010-9441-5542';
   var TEL = '1800-7947';
   var COMPANY = '행사ON';
@@ -209,20 +209,45 @@
     counters.forEach(function (el) { cio.observe(el); });
   }
 
-  /* ---------- 갤러리 (대문 8장 · 행사 사진 전체) + 라이트박스 ---------- */
+  /* ---------- 갤러리 (대문 8장 · 행사 사진 전체) + 라이트박스 ----------
+     행사 사진 페이지는 WORKS(위 배열) + 대표님이 upload.html 로 올린 사진(photos 가지의 photos.json)을 합쳐 보여준다. */
+  var UP_LIST = 'https://raw.githubusercontent.com/brizymedia/haengsaon/photos/photos/photos.json';
+  var UP_IMG = 'https://cdn.jsdelivr.net/gh/brizymedia/haengsaon@photos/';
+  var UP_CAT = { school: '학교행사', sports: '체육대회', apt: '아파트', water: '물놀이 · 에어바운스', system: '무대 · 음향 · 조명', rental: '천막 · 렌탈', corp: '기업 · 기관' };
+  function srcT(w) { return w.img || T + w.f + '.webp'; }
+  function srcP(w) { return w.img || P + w.f + '.webp'; }
   function workCard(w, k) {
-    return '<figure tabindex="0" data-k="' + k + '" data-c="' + w.c + '"><img src="' + T + w.f + '.webp" alt="' + esc(w.t) + '" loading="lazy" width="800" height="600">' +
+    return '<figure tabindex="0" data-k="' + k + '" data-c="' + w.c + '"><img src="' + srcT(w) + '" alt="' + esc(w.t) + '" loading="lazy" width="800" height="600">' +
       '<figcaption><em>' + esc(w.o) + '</em>' + esc(w.t) + '</figcaption></figure>';
   }
-  var gal = $('#gal'), pf = $('#pfGrid'), list = [];
-  if (gal) { list = WORKS.slice(0, 8); gal.innerHTML = list.map(workCard).join(''); }
-  if (pf) { list = WORKS; pf.innerHTML = list.map(workCard).join(''); }
+  var gal = $('#gal'), pf = $('#pfGrid'), list = [], figs = [];
+  function counts() {
+    $$('#filters button').forEach(function (b) {
+      var f = b.getAttribute('data-f'), n = f === 'all' ? list.length : list.filter(function (w) { return w.c.split(' ').indexOf(f) >= 0; }).length;
+      var c = $('small', b); if (c) c.textContent = n; else b.insertAdjacentHTML('beforeend', ' <small style="opacity:.6">' + n + '</small>');
+    });
+  }
+  function applyFilter() {
+    var act = $('#filters .act'), f = act ? act.getAttribute('data-f') : 'all';
+    figs.forEach(function (fg) { fg.classList.toggle('hide', f !== 'all' && fg.getAttribute('data-c').split(' ').indexOf(f) < 0); });
+  }
+  if (gal) { list = WORKS.slice(0, 8); gal.innerHTML = list.map(workCard).join(''); figs = $$('figure', gal); }
+  if (pf) {
+    list = WORKS.slice(); pf.innerHTML = list.map(workCard).join(''); figs = $$('figure', pf); counts();
+    fetch(UP_LIST + '?t=' + Math.floor(Date.now() / 300000), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+      if (!j || !j.photos || !j.photos.length) return;
+      var up = j.photos.filter(function (x) { return x && x.path; }).map(function (x) {
+        return { img: UP_IMG + x.path.split('/').map(encodeURIComponent).join('/'), t: x.event || '행사 현장', o: [UP_CAT[x.cat] || '현장', x.place, (x.date || '').replace(/-/g, '.')].filter(Boolean).join(' · '), c: x.cat || 'etc' };
+      });
+      list = up.concat(WORKS); pf.innerHTML = list.map(workCard).join(''); figs = $$('figure', pf); counts(); applyFilter();
+    }).catch(function () {});
+  }
   var grid = gal || pf, lb = $('#lb');
   if (grid && lb) {
-    var figs = $$('figure', grid), lbImg = $('#lbImg'), lbT = $('#lbTitle'), lbM = $('#lbMeta'), lbK = 0, lastFocus = null;
+    var lbImg = $('#lbImg'), lbT = $('#lbTitle'), lbM = $('#lbMeta'), lbK = 0, lastFocus = null;
     var visible = function () { return figs.filter(function (f) { return !f.classList.contains('hide'); }).map(function (f) { return +f.getAttribute('data-k'); }); };
     var openLb = function (k) {
-      var w = list[k]; lbK = k; lbImg.src = P + w.f + '.webp'; lbImg.alt = w.t; lbT.textContent = w.t;
+      var w = list[k]; lbK = k; lbImg.src = srcP(w); lbImg.alt = w.t; lbT.textContent = w.t;
       lbM.innerHTML = esc(w.o) + (w.u ? ' · <a href="' + w.u + '" target="_blank" rel="noopener" style="color:#19D27A">블로그 글 보기</a>' : '');
       if (!lb.classList.contains('on')) lastFocus = document.activeElement;
       lb.classList.add('on'); document.body.style.overflow = 'hidden'; $('#lbX').focus();
@@ -245,13 +270,7 @@
         var b = e.target.closest('button'); if (!b) return;
         $$('button', filters).forEach(function (x) { x.classList.remove('act'); x.setAttribute('aria-pressed', 'false'); });
         b.classList.add('act'); b.setAttribute('aria-pressed', 'true');
-        var f = b.getAttribute('data-f');
-        figs.forEach(function (fg) { fg.classList.toggle('hide', f !== 'all' && fg.getAttribute('data-c').split(' ').indexOf(f) < 0); });
-      });
-      // 필터별 사진 수
-      $$('button', filters).forEach(function (b) {
-        var f = b.getAttribute('data-f'), n = f === 'all' ? WORKS.length : WORKS.filter(function (w) { return w.c.split(' ').indexOf(f) >= 0; }).length;
-        b.insertAdjacentHTML('beforeend', ' <small style="opacity:.6">' + n + '</small>');
+        applyFilter();
       });
     }
   }
@@ -310,14 +329,21 @@
   /* ---------- 문의 보내기 (폼 · 가격표 요청서 공용) ---------- */
   function isMobile() { return /iPhone|iPad|Android/i.test(navigator.userAgent); }
   function send(text, data, done, service) {
-    if (FORM_ENDPOINT) {
-      data.at = new Date().toISOString(); data.page = location.href; data.service = service; data.message = text;
-      fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(data) }).catch(function () {}).then(function () { done(true); });
-      return;
+    function local() {
+      if (isMobile()) { var ios = /iPhone|iPad/i.test(navigator.userAgent); location.href = 'sms:' + SMS_TO + (ios ? '&' : '?') + 'body=' + encodeURIComponent(text); done(true, 'sms'); return; }
+      try { if (navigator.clipboard) navigator.clipboard.writeText(text).catch(function () {}); } catch (e) {}
+      done(false);
     }
-    if (isMobile()) { var ios = /iPhone|iPad/i.test(navigator.userAgent); location.href = 'sms:' + SMS_TO + (ios ? '&' : '?') + 'body=' + encodeURIComponent(text); done(true, 'sms'); return; }
-    try { if (navigator.clipboard) navigator.clipboard.writeText(text).catch(function () {}); } catch (e) {}
-    done(false);
+    if (!FORM_ENDPOINT) { local(); return; }
+    /* 문의 서버(큰길브리지와 함께 쓰는 앱스 스크립트) → 대표님 메일 + 큰길브리지 메일. 서버가 「ok」라고 답할 때만 보낸 것으로 친다 */
+    data.at = new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }); data.page = location.href;
+    data.service = '[' + COMPANY + '] ' + (data.type || service || '행사') + ' 문의';
+    data.message = text; data.phone = data.tel || ''; data.website = '';
+    if (data.org) data.name = data.name + ' (' + data.org + ')';
+    fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data) })
+      .then(function (r) { return r.json(); })
+      .then(function (j) { if (j && j.ok) done(true); else local(); })
+      .catch(local);
   }
 
   var form = $('#quoteForm');
