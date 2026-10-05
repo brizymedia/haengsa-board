@@ -31,8 +31,8 @@ CODE_PRE = 'HL-'                                    # 계약 번호 앞글자
 BLOG     = 'https://blog.naver.com/leehh2153'
 
 # 서버(앱스 스크립트) — 배포하면 주소를 넣고 다시 돌린다. 비어 있으면 서버 없이 동작(저장함은 이 기기만, 계약은 긴 링크).
-CONTRACT_URL = ''   # 아직 배포 전 — 형님 구글 계정으로 apps-script/contract 배포 후 주소 넣기
-GALLERY_URL  = ''   # 아직 배포 전 — apps-script/gallery 배포 후 주소 넣기 (비밀번호는 서버 속성에만)
+CONTRACT_URL = 'https://script.google.com/macros/s/AKfycbwm8qkj9FgIwX3NOJiLdkTwJp8F8ncf1UwRqn-XJMg2HYXIOYBuZjleIiUt_J2DvL1O/exec'   # 2026-10-03 어대리 배포 (gilauto325)
+GALLERY_URL  = 'https://script.google.com/macros/s/AKfycbw5HFoNVKAbu8xUcPGE6BUjHIM98vgc_cCGe98PlTZpfL4_c8oWktLuOsKcm0ggerTVLw/exec'   # 비밀번호는 서버 속성에만
 
 LOGO_FILE = 'assets/img/logo-mark.svg'              # 머리글에 쓰는 네모 마크
 MAIL_LOGO = 'https://brizymedia.github.io/healing-ent/assets/img/logo-h-white.png'   # 메일 머리(어두운 바탕용 가로 로고)

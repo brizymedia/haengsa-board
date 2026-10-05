@@ -31,8 +31,8 @@ CODE_PRE = 'YG-'                                    # 계약 번호 앞글자
 BLOG     = 'https://blog.naver.com/yegrinai'
 
 # 서버(앱스 스크립트) — 배포하면 주소를 넣고 다시 돌린다. 비어 있으면 서버 없이 동작(저장함은 이 기기만, 계약은 긴 링크).
-CONTRACT_URL = ''   # 아직 배포 전 — 형님 구글 계정으로 배포한 뒤 넣는다
-GALLERY_URL  = ''   # 〃 (비밀번호는 서버 속성에만)
+CONTRACT_URL = 'https://script.google.com/macros/s/AKfycbygNNzI4YUOZVjfzfH0KRk4sFdve6kJ-RYJypfptVx8_GYSHpMqCsJ0IaWb0au5_fAJ/exec'   # 2026-10-03 어대리 배포 (gilauto325)
+GALLERY_URL  = 'https://script.google.com/macros/s/AKfycbwsLG8LQxNNko_W8eQcfzpiGHeEppTmP-wkZES1ogjS0321lJEKNcM7a8YDnyYustts/exec'   # 비밀번호는 서버 속성에만
 
 LOGO_FILE = 'assets/img/favicon.svg'                # 머리글에 쓰는 마크(초록 동그라미)
 MAIL_LOGO = 'https://brizymedia.github.io/yegrina/assets/img/logo-mail.png'   # 메일 머리(어두운 바탕용 가로 로고, PNG)

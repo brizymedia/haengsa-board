@@ -31,8 +31,8 @@ CODE_PRE = 'ON-'                                    # 계약 번호 앞글자
 BLOG     = 'https://blog.naver.com/hoon0170800'
 
 # 서버(앱스 스크립트) — 배포하면 주소를 넣고 다시 돌린다. 비어 있으면 서버 없이 동작(저장함은 이 기기만, 계약은 긴 링크).
-CONTRACT_URL = ''   # 아직 배포 전 — 형님 구글 계정으로 배포한 뒤 주소 넣기
-GALLERY_URL  = ''   # 〃 (비밀번호는 서버 속성에만)
+CONTRACT_URL = 'https://script.google.com/macros/s/AKfycbzJNqF1ZkH5Lcx5p1i6tSQb2ByALFlOA0urR42bOWOgLlSrKBc01LbwmSxvNeEWzm5fMQ/exec'   # 2026-10-03 어대리 배포 (gilauto325)
+GALLERY_URL  = 'https://script.google.com/macros/s/AKfycbxrhfinuKmozljsMRci7qeAdSVzcfr9lgrSPmPm60oppbtknKiN1tcaE9jTqM-2n_g/exec'   # 비밀번호는 서버 속성에만
 
 LOGO_FILE = 'assets/img/apple-touch-icon.png'       # 머리글에 쓰는 네모 마크(ON. 심볼)
 MAIL_LOGO = 'https://brizymedia.github.io/haengsaon/assets/img/logo-white.png'   # 메일 머리(어두운 바탕용 가로 로고, PNG)
