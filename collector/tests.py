@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""수집기 단위 테스트 36항목 — 분류·지역·일수·중복·저장·공모사업
+"""수집기 단위 테스트 37항목 — 분류·지역·일수·중복·저장·공모사업
 
   cd collector && python tests.py
 """
@@ -225,7 +225,7 @@ class TestGrant(unittest.TestCase):
 
     def test_35_gov24_normalize_and_relevance(self):
         row = {"서비스ID": "WF0001", "서비스명": "지역 문화예술 행사 지원", "소관기관명": "경기도 문화재단",
-               "신청기한": "2026.08.01 ~ 2026.09.15", "지원대상": "문화예술단체 및 법인",
+               "신청기한": "2026.08.01 ~ 2026.09.15", "사용자구분": "개인||법인/시설/단체",
                "지원내용": "본문 " * 100, "등록일시": "20260801120000"}
         n = grant._normalize_gov24(row, TODAY)
         self.assertEqual(n["uid"], "gov24:WF0001")
@@ -236,14 +236,50 @@ class TestGrant(unittest.TestCase):
         self.assertEqual(n["summary"], "")                     # 본문(지원내용)은 가져오지 않는다
         self.assertTrue(n["url"].startswith("https://www.gov.kr/"))
         self.assertTrue(grant._is_relevant(n))
-        # 개인 혜택은 뺀다
+        # 개인만 받는 혜택은 뺀다(사용자구분 기준)
         person = grant._normalize_gov24({"서비스ID": "WF0002", "서비스명": "청년 문화예술패스",
-                                         "지원대상": "만 19세 청년"}, TODAY)
+                                         "사용자구분": "개인"}, TODAY)
         self.assertFalse(grant._is_relevant(person))
-        # 제외 단어
-        bad = grant._normalize_gov24({"서비스ID": "WF0003", "서비스명": "공연장 직원 채용 지원",
-                                      "지원대상": "법인"}, TODAY)
-        self.assertFalse(grant._is_relevant(bad))
+        # 제외 단어 · 글자만 겹친 「공공연」(실응답에서 「공연」 검색에 섞여 나왔다)
+        for bad_title in ("공연장 직원 채용 지원", "공공연 연구인력 파견지원사업", "기획공연 관람료 할인"):
+            bad = grant._normalize_gov24({"서비스ID": "WF0003", "서비스명": bad_title,
+                                          "사용자구분": "법인/시설/단체"}, TODAY)
+            self.assertFalse(grant._is_relevant(bad), bad_title)
+
+    def test_37_gov24_keeps_only_open_dated_items(self):
+        # 실응답은 상시·연중 안내가 대부분이다 — 마감일이 적히고 안 지난 것만 싣는다
+        rows = [
+            {"서비스ID": "A", "서비스명": "문화행사 운영단체 지원", "소관기관명": "서울특별시", "사용자구분": "법인/시설/단체",
+             "신청기한": "2026.08.01~2026.09.10"},
+            {"서비스ID": "B", "서비스명": "문화행사 상시 지원", "소관기관명": "서울특별시", "사용자구분": "법인/시설/단체",
+             "신청기한": "상시신청"},
+            {"서비스ID": "C", "서비스명": "문화행사 지난 지원", "소관기관명": "서울특별시", "사용자구분": "법인/시설/단체",
+             "신청기한": "2026.01.02~2026.01.09"},
+            {"서비스ID": "D", "서비스명": "문화행사 개인 지원", "소관기관명": "서울특별시", "사용자구분": "개인",
+             "신청기한": "2026.08.01~2026.09.10"},
+        ]
+
+        class FakeResp:
+            status_code = 200
+
+            def raise_for_status(self):
+                pass
+
+            def json(self):
+                return {"data": rows, "matchCount": len(rows)}
+
+        orig = (grant.requests.get, grant.time.sleep, config.DATA_GO_KR_KEY, config.GRANT_KEYWORDS)
+        try:
+            grant.requests.get = lambda *a, **k: FakeResp()
+            grant.time.sleep = lambda s: None
+            config.DATA_GO_KR_KEY = "test-key"
+            config.GRANT_KEYWORDS = ["행사"]
+            out = grant.fetch_gov24(log=lambda m: None, today=TODAY)
+        finally:
+            grant.requests.get, grant.time.sleep, config.DATA_GO_KR_KEY, config.GRANT_KEYWORDS = orig
+        self.assertEqual([r["uid"] for r in out], ["gov24:A"])
+        self.assertNotIn("_utype", out[0])
+        self.assertNotIn("_expired", out[0])
 
     def test_36_grant_scoring_and_dedupe(self):
         soon = {"uid": "grant:a", "kind": "grant", "title": "공모 가", "region": "", "deadline": "2026-08-12 15:00"}

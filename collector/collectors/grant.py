@@ -81,19 +81,16 @@ def _normalize_gov24(row, today=None):
         "summary": "",
         "license": "공공데이터포털 이용허락범위 제한 없음",
         "_expired": expired,
-        "_target": str(row.get("지원대상") or ""),
+        "_utype": str(row.get("사용자구분") or ""),
     }
 
 
 def _is_relevant(rec):
-    """이벤트·문화예술 쪽 단체·업체가 받을 만한 것만. 개인 혜택은 뺀다."""
+    """문화·행사 쪽 단체·업체가 받을 만한 것만. 개인 혜택은 뺀다(사용자구분 기준)."""
     t = rec["title"]
     if any(x in t for x in config.GRANT_EXCLUDE_KEYWORDS):
         return False
-    target = rec.get("_target", "")
-    if target and not any(w in target for w in config.GRANT_TARGET_WORDS):
-        return False
-    return True
+    return any(u in rec.get("_utype", "") for u in config.GRANT_USER_TYPES)
 
 
 def load_curated(today=None, path=None):
@@ -171,13 +168,17 @@ def fetch_gov24(log=print, today=None):
                 break
             time.sleep(config.REQUEST_DELAY)
         time.sleep(config.REQUEST_DELAY)
-    out = []
+    out, standing = [], 0
     for rec in seen.values():
-        if rec.pop("_expired") or not _is_relevant(rec):
+        expired = rec.pop("_expired")
+        if not _is_relevant(rec) or expired:
             continue
-        rec.pop("_target", None)
+        if not rec["deadline"]:
+            standing += 1               # 상시·연중·미정 안내는 「접수 중인 공모」가 아니라서 싣지 않는다
+            continue
+        rec.pop("_utype", None)
         out.append(rec)
-    log(f"공모사업(공공서비스): 대상 {len(out)}건")
+    log(f"공모사업(공공서비스): 기한이 정해진 {len(out)}건 (상시·연중 안내 {standing}건은 제외)")
     return out
 
 

@@ -32,7 +32,7 @@ collector/              배치 수집기 (Python, 외부 의존성 requests·fee
   store.py              SQLite 저장·JSON 내보내기
   run.py                실행 진입점 (--dry-run, --only 지원)
   mockgen.py            예시 데이터 생성 (API 키 없이 확인용)
-  tests.py              단위 테스트 36항목
+  tests.py              단위 테스트 37항목
 
 site/                   배포 대상. 이 폴더가 곧 사이트다
   index.html            알림판 — 검색·필터·정렬·페이지 이동
@@ -53,7 +53,7 @@ verify.py               브라우저 자동 검증 26항목 (playwright)
 **코드를 고쳤으면 반드시 아래 셋을 통과시킬 것.**
 
 ```bash
-cd collector && python tests.py     # 36항목: 분류·지역·일수·중복·저장·공모사업
+cd collector && python tests.py     # 37항목: 분류·지역·일수·중복·저장·공모사업
 cd .. && python serve.py 8899 &     # 서버를 띄운 뒤
 python verify.py                    # 26항목: 브라우저 실동작
 ```
@@ -80,11 +80,14 @@ playwright가 없으면 `pip install playwright && python -m playwright install 
   - 지금 들어 있는 건 `collector/grants_curated.json` 의 검증 목록뿐이다(아르코 2027 문예진흥기금 등).
     **공식 공고 주소(`url`)가 있는 것만** 적고 제목·기관·기간·링크까지만 쓴다. 마감(`deadline`)이 지나면 자동으로 빠진다.
     사업 이름 목록(`summary`)은 200자 안에서.
-  - 자동으로 계속 모으는 길은 공공데이터포털 「행정안전부_대한민국 공공서비스(혜택) 정보」
-    (data.go.kr/data/15113968/openapi.do, 자동승인)다. **같은 키로도 이 서비스는 따로 활용신청해야 호출된다**
-    (신청 전엔 401, 수집기는 안내 한 줄만 남기고 검증 목록만 쓴다). 승인 뒤 첫 수집 때
-    `grant._normalize_gov24()` · `config.GRANT_KEYWORDS` · `GRANT_TARGET_WORDS` 를 실응답에 맞춰 다듬을 것
-    (응답 항목 이름은 공식 Swagger 기준으로 짰지만 실응답으로는 아직 검증하지 못했다).
+  - 공공데이터포털 「행정안전부_대한민국 공공서비스(혜택) 정보」(data.go.kr/data/15113968/openapi.do)는
+    **2026-10-10 활용신청·승인 끝**(같은 키로 호출된다, 이 세션에서 확인). 다만 실응답 116건을 보니 마감 있는
+    공모가 아니라 **상시·연중 지원 안내 목록**이 대부분이라(기한이 적힌 건 3건, 모두 지남) 수집기는
+    `사용자구분`이 법인/시설/단체·소상공인이고 **마감일이 적혀 있으며 아직 안 지난 것만** 싣는다.
+    그래서 지금은 이 쪽에서 붙는 항목이 거의 없다. 마감 있는 공모를 더 모으려면 검증 목록(`grants_curated.json`)을
+    늘리는 쪽이 현실적이다 — 후보 출처는 문화포털 「문화지원사업 캘린더」(culture.go.kr, 마감일 목록 321건/월)와
+    아르코 공모 게시판인데 **둘 다 공식 API·RSS 가 없어 HTML 파싱 금지 규칙에 걸린다.** 사람이(또는 검색으로)
+    공식 공고를 확인해 목록에 손으로 넣을 것.
   - `python run.py --only grant` 는 **공모사업만** events.json 에 쓴다(나머지가 빠진다). 평소엔 전체 `python run.py`.
 - 알림판 주소 뒤에 `#bid` · `#festival` · `#notice` · `#grant` 를 붙이면 그 구분이 먼저 열린다(다른 사이트가 링크한다).
 
@@ -118,7 +121,6 @@ playwright가 없으면 `pip install playwright && python -m playwright install 
 
 ## 아직 안 한 것
 
-- 공공서비스(혜택) API 활용신청(위 「공모사업」 참고) — 형님 계정으로만 가능. 신청하면 지자체·재단의 문화·행사 지원사업이 자동으로 붙는다.
 - 한국콘텐츠진흥원 「지원사업공고」 API(data.go.kr/data/15134251/openapi.do)도 후보 — 응답 항목을 아직 확인하지 않아 붙이지 않았다.
 
 - 실제 API 키로 수집해 본 적 없음. 지금까지 검증은 전부 예시 데이터 기준.
