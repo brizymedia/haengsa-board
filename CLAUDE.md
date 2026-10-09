@@ -9,8 +9,9 @@
 
 ```
 나라장터 API ─┐
-TourAPI     ─┼→ 분류·지역판정·중복제거 → SQLite → events.json → 정적 사이트
-지자체 RSS   ─┘
+TourAPI     ─┤
+지자체 RSS   ─┼→ 분류·지역판정·중복제거 → SQLite → events.json → 정적 사이트
+공모사업     ─┘  (검증 목록 + 공공서비스 API)
 ```
 
 백엔드 서버 없음. **수집은 한국 PC에서** `수집후배포.ps1` 로 돌린다
@@ -25,11 +26,13 @@ collector/              배치 수집기 (Python, 외부 의존성 requests·fee
   collectors/nara.py    나라장터 용역 입찰공고
   collectors/tour.py    TourAPI 축제·행사 (contentTypeId=15)
   collectors/rss.py     지자체 RSS (robots.txt 확인 포함)
+  collectors/grant.py   공모사업 — grants_curated.json(검증 목록) + 공공서비스(혜택) API
+  grants_curated.json   공식 공고 주소가 있는 공모만 직접 적어 둔 목록 (마감 지나면 자동으로 빠짐)
   classify.py           행사 판정·시도 추출·중복 제거·정렬
   store.py              SQLite 저장·JSON 내보내기
   run.py                실행 진입점 (--dry-run, --only 지원)
   mockgen.py            예시 데이터 생성 (API 키 없이 확인용)
-  tests.py              단위 테스트 30항목
+  tests.py              단위 테스트 36항목
 
 site/                   배포 대상. 이 폴더가 곧 사이트다
   index.html            알림판 — 검색·필터·정렬·페이지 이동
@@ -41,7 +44,7 @@ site/                   배포 대상. 이 폴더가 곧 사이트다
 
 serve.py                로컬 미리보기 서버
 build_single.py         미리보기.html 한 파일로 합치기
-verify.py               브라우저 자동 검증 24항목 (playwright)
+verify.py               브라우저 자동 검증 26항목 (playwright)
 .github/workflows/deploy.yml   매일 수집 + Pages 배포
 ```
 
@@ -50,9 +53,9 @@ verify.py               브라우저 자동 검증 24항목 (playwright)
 **코드를 고쳤으면 반드시 아래 셋을 통과시킬 것.**
 
 ```bash
-cd collector && python tests.py     # 30항목: 분류·지역·일수·중복·저장
+cd collector && python tests.py     # 36항목: 분류·지역·일수·중복·저장·공모사업
 cd .. && python serve.py 8899 &     # 서버를 띄운 뒤
-python verify.py                    # 24항목: 브라우저 실동작
+python verify.py                    # 26항목: 브라우저 실동작
 ```
 
 `verify.py`는 `http://localhost:8899` 를 본다. 포트를 바꾸면 파일 안 `BASE` 도 바꿀 것.
@@ -71,6 +74,19 @@ playwright가 없으면 `pip install playwright && python -m playwright install 
 - **게시판 HTML 직접 파싱 금지.** 공식 RSS와 공개 API만 쓴다.
 
 ## 알아둘 것
+
+- **공모사업(kind: `grant`).** 이벤트 코리아(#live 「지금 접수 중인 공모사업」)와 큰길이벤트(#grants)가
+  이 `events.json` 을 읽어 보여 준다. 두 곳 다 마감이 지난 건 화면에서 알아서 뺀다.
+  - 지금 들어 있는 건 `collector/grants_curated.json` 의 검증 목록뿐이다(아르코 2027 문예진흥기금 등).
+    **공식 공고 주소(`url`)가 있는 것만** 적고 제목·기관·기간·링크까지만 쓴다. 마감(`deadline`)이 지나면 자동으로 빠진다.
+    사업 이름 목록(`summary`)은 200자 안에서.
+  - 자동으로 계속 모으는 길은 공공데이터포털 「행정안전부_대한민국 공공서비스(혜택) 정보」
+    (data.go.kr/data/15113968/openapi.do, 자동승인)다. **같은 키로도 이 서비스는 따로 활용신청해야 호출된다**
+    (신청 전엔 401, 수집기는 안내 한 줄만 남기고 검증 목록만 쓴다). 승인 뒤 첫 수집 때
+    `grant._normalize_gov24()` · `config.GRANT_KEYWORDS` · `GRANT_TARGET_WORDS` 를 실응답에 맞춰 다듬을 것
+    (응답 항목 이름은 공식 Swagger 기준으로 짰지만 실응답으로는 아직 검증하지 못했다).
+  - `python run.py --only grant` 는 **공모사업만** events.json 에 쓴다(나머지가 빠진다). 평소엔 전체 `python run.py`.
+- 알림판 주소 뒤에 `#bid` · `#festival` · `#notice` · `#grant` 를 붙이면 그 구분이 먼저 열린다(다른 사이트가 링크한다).
 
 - **한글 줄바꿈.** `body { word-break: keep-all }` 이 걸려 있다. 빼면 "찾아보세/요"
   처럼 낱자가 떨어진다.
@@ -101,6 +117,9 @@ playwright가 없으면 `pip install playwright && python -m playwright install 
    `EVENT_KEYWORDS` / `EXCLUDE_KEYWORDS` 조정. 서비스 품질의 대부분이 여기서 갈린다.
 
 ## 아직 안 한 것
+
+- 공공서비스(혜택) API 활용신청(위 「공모사업」 참고) — 형님 계정으로만 가능. 신청하면 지자체·재단의 문화·행사 지원사업이 자동으로 붙는다.
+- 한국콘텐츠진흥원 「지원사업공고」 API(data.go.kr/data/15134251/openapi.do)도 후보 — 응답 항목을 아직 확인하지 않아 붙이지 않았다.
 
 - 실제 API 키로 수집해 본 적 없음. 지금까지 검증은 전부 예시 데이터 기준.
   첫 실 수집 후 응답 필드명이 문서와 다를 수 있으니 `_normalize()` 를 확인할 것.

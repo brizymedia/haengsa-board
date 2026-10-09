@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""수집기 단위 테스트 30항목 — 분류·지역·일수·중복·저장
+"""수집기 단위 테스트 36항목 — 분류·지역·일수·중복·저장·공모사업
 
   cd collector && python tests.py
 """
@@ -10,8 +10,9 @@ import unittest
 from datetime import date
 
 import classify
+import config
 import store
-from collectors import nara, rss, tour
+from collectors import grant, nara, rss, tour
 
 TODAY = date(2026, 8, 10)
 
@@ -179,6 +180,83 @@ class TestStoreAndNormalize(unittest.TestCase):
         self.assertEqual(r["region"], "전남")
         self.assertEqual(r["license"], "확인 필요")
         self.assertLessEqual(len(r["summary"]), 200)
+
+
+class TestGrant(unittest.TestCase):
+    def test_31_deadline_range_takes_last_date(self):
+        # 기간이면 가장 늦은 날짜가 마감
+        self.assertEqual(grant.parse_deadline("2026.10.08 ~ 2026.11.05", TODAY), ("2026-11-05", False))
+        self.assertEqual(grant.parse_deadline("2026년 9월 1일부터 2026년 9월 30일까지", TODAY), ("2026-09-30", False))
+
+    def test_32_deadline_expired_and_always(self):
+        self.assertEqual(grant.parse_deadline("2026-07-31까지", TODAY), ("2026-07-31", True))
+        self.assertEqual(grant.parse_deadline("상시신청", TODAY), ("", False))
+        self.assertEqual(grant.parse_deadline("", TODAY), ("", False))
+
+    def test_33_curated_drops_expired_keeps_open(self):
+        with tempfile.TemporaryDirectory() as td:
+            p = os.path.join(td, "g.json")
+            rows = [
+                {"id": "a", "title": "열린 공모", "org": "서울 문화재단", "deadline": "2026-09-01 15:00", "url": "https://x.kr/a"},
+                {"id": "b", "title": "지난 공모", "org": "서울 문화재단", "deadline": "2026-08-01", "url": "https://x.kr/b"},
+                {"id": "c", "title": "일정 미정 공모", "org": "", "deadline": "", "url": "https://x.kr/c"},
+                {"id": "d", "title": "주소 없는 공모", "org": "", "deadline": "2026-09-01", "url": ""},
+            ]
+            with open(p, "w", encoding="utf-8") as f:
+                json.dump({"items": rows}, f, ensure_ascii=False)
+            out = grant.load_curated(TODAY, p)
+        self.assertEqual([r["uid"] for r in out], ["grant:a", "grant:c"])   # 지난 것 · 주소 없는 것은 빠진다
+        self.assertEqual(out[0]["kind"], "grant")
+        self.assertEqual(out[0]["region"], "서울")
+        self.assertEqual(out[0]["license"], "확인 필요")
+
+    def test_34_shipped_curated_file_is_valid(self):
+        # 저장소에 들어 있는 검증 목록 자체의 형식 점검 — 제목·공식 주소·기관 필수, 기한은 날짜 형식
+        with open(config.GRANTS_CURATED, encoding="utf-8") as f:
+            rows = json.load(f)["items"]
+        self.assertGreaterEqual(len(rows), 1)
+        ids = [r["id"] for r in rows]
+        self.assertEqual(len(ids), len(set(ids)))
+        for r in rows:
+            self.assertTrue(r["title"] and r["org"])
+            self.assertTrue(r["url"].startswith("https://"))
+            if r["deadline"]:
+                self.assertIsNotNone(classify.ymd(r["deadline"]))
+
+    def test_35_gov24_normalize_and_relevance(self):
+        row = {"서비스ID": "WF0001", "서비스명": "지역 문화예술 행사 지원", "소관기관명": "경기도 문화재단",
+               "신청기한": "2026.08.01 ~ 2026.09.15", "지원대상": "문화예술단체 및 법인",
+               "지원내용": "본문 " * 100, "등록일시": "20260801120000"}
+        n = grant._normalize_gov24(row, TODAY)
+        self.assertEqual(n["uid"], "gov24:WF0001")
+        self.assertEqual(n["kind"], "grant")
+        self.assertEqual(n["deadline"], "2026-09-15")
+        self.assertEqual(n["region"], "경기")
+        self.assertEqual(n["posted_at"], "2026-08-01")
+        self.assertEqual(n["summary"], "")                     # 본문(지원내용)은 가져오지 않는다
+        self.assertTrue(n["url"].startswith("https://www.gov.kr/"))
+        self.assertTrue(grant._is_relevant(n))
+        # 개인 혜택은 뺀다
+        person = grant._normalize_gov24({"서비스ID": "WF0002", "서비스명": "청년 문화예술패스",
+                                         "지원대상": "만 19세 청년"}, TODAY)
+        self.assertFalse(grant._is_relevant(person))
+        # 제외 단어
+        bad = grant._normalize_gov24({"서비스ID": "WF0003", "서비스명": "공연장 직원 채용 지원",
+                                      "지원대상": "법인"}, TODAY)
+        self.assertFalse(grant._is_relevant(bad))
+
+    def test_36_grant_scoring_and_dedupe(self):
+        soon = {"uid": "grant:a", "kind": "grant", "title": "공모 가", "region": "", "deadline": "2026-08-12 15:00"}
+        none = {"uid": "grant:b", "kind": "grant", "title": "공모 나", "region": "", "deadline": ""}
+        past = {"uid": "grant:c", "kind": "grant", "title": "공모 다", "region": "", "deadline": "2026-08-01"}
+        out = classify.finalize([none, past, soon], TODAY)
+        self.assertEqual([r["uid"] for r in out], ["grant:a", "grant:b", "grant:c"])
+        self.assertEqual(out[0]["days_left"], 2)
+        self.assertIsNone(out[1]["days_left"])
+        # 같은 제목은 검증 목록(grant)이 공공서비스(gov24)를 이긴다
+        a = {"uid": "gov24:1", "kind": "grant", "title": "같은 제목", "region": ""}
+        b = {"uid": "grant:x", "kind": "grant", "title": "같은 제목", "region": ""}
+        self.assertEqual(classify.dedupe([a, b])[0]["uid"], "grant:x")
 
 
 if __name__ == "__main__":

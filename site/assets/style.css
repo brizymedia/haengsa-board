@@ -143,6 +143,7 @@ main{padding-top:24px}
 .tag.bid{color:var(--ink-soft)}
 .tag.festival{color:var(--ok)}
 .tag.notice{color:var(--muted)}
+.tag.grant{color:#9A6A00}
 .item .title{font-family:'Nanum Myeongjo',serif;font-weight:700;
   font-size:16.5px;line-height:1.45;letter-spacing:-.01em}
 .item mark{background:#FBE9A7;color:inherit;padding:0 1px}

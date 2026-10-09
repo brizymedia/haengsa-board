@@ -3,7 +3,8 @@
 
   python run.py                 # 전체 수집 → ../site/data/events.json 갱신
   python run.py --dry-run       # 파일을 쓰지 않고 수집 결과만 출력
-  python run.py --only nara     # 특정 출처만 (nara | tour | rss)
+  python run.py --only nara     # 특정 출처만 (nara | tour | rss | grant)
+                                # 주의: --only 는 그 출처만 events.json 에 쓴다(나머지는 빠진다)
 """
 import argparse
 import sys
@@ -11,9 +12,9 @@ import sys
 import classify
 import config
 import store
-from collectors import nara, rss, tour
+from collectors import grant, nara, rss, tour
 
-SOURCES = {"nara": nara.fetch, "tour": tour.fetch, "rss": rss.fetch}
+SOURCES = {"nara": nara.fetch, "tour": tour.fetch, "rss": rss.fetch, "grant": grant.fetch}
 
 
 def main(argv=None):

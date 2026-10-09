@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""브라우저 자동 검증 24항목 (playwright 필요)
+"""브라우저 자동 검증 26항목 (playwright 필요)
 
   python serve.py 8899 &       # 서버를 먼저 띄운 뒤
   python verify.py
@@ -48,6 +48,24 @@ def main():
         page.click('.chip[data-kind="festival"]')
         kinds = page.locator(".item").evaluate_all("els => [...new Set(els.map(e => e.dataset.kind))]")
         check(7, "축제 필터가 축제만 남긴다", kinds == ["festival"])
+
+        # 공모사업 필터 — 데이터에 공모가 있으면 공모만, 없으면(예시 데이터) 빈 상태 안내
+        has_grant = page.evaluate("fetch('data/events.json').then(r => r.json()).then(j => j.items.some(x => x.kind === 'grant'))")
+        page.click('.chip[data-kind="grant"]')
+        if has_grant:
+            kinds = page.locator(".item").evaluate_all("els => [...new Set(els.map(e => e.dataset.kind))]")
+            check(25, "공모사업 필터가 공모만 남긴다", kinds == ["grant"])
+        else:
+            check(25, "공모사업 필터: 자료가 없으면 빈 상태 안내가 뜬다", page.locator(".empty").count() == 1)
+
+        # 주소 뒤 #grant 로 들어오면 공모사업부터 (다른 사이트가 이 주소로 링크한다)
+        page2 = browser.new_page()
+        page2.goto(f"{BASE}/index.html#grant")
+        page2.wait_for_selector(".item, .empty", timeout=8000)
+        pressed = page2.locator('.chip[data-kind="grant"]').get_attribute("aria-pressed")
+        check(26, "#grant 주소로 열면 공모사업 구분이 눌린 채 열린다", pressed == "true")
+        page2.close()
+
         page.click('.chip[data-kind="all"]')
 
         # 지역 필터
@@ -121,7 +139,7 @@ def main():
 
         browser.close()
 
-    print(f"\n통과 {len(passed)} / 24" + (f" · 실패 {failed}" if failed else ""))
+    print(f"\n통과 {len(passed)} / 26" + (f" · 실패 {failed}" if failed else ""))
     if errors:
         print("자바스크립트 오류:", errors[:3])
     return 1 if failed else 0

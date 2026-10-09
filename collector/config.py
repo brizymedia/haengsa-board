@@ -19,6 +19,11 @@ NARA_OP = "getBidPblancListInfoServcPPSSrch"   # 용역 공고 검색
 TOUR_BASE = "https://apis.data.go.kr/B551011/KorService2"
 TOUR_OP = "searchFestival2"                    # 축제·공연·행사 (contentTypeId=15)
 
+# 공모사업(지원사업) — 행정안전부 「대한민국 공공서비스(혜택) 정보」 (odcloud, 활용신청 자동승인).
+# 이 서비스는 공공데이터포털에서 **따로 활용신청**해야 같은 키로 호출된다
+# (data.go.kr/data/15113968/openapi.do). 신청 전에는 401 이 나고, 수집기는 건너뛴다.
+GRANT_GOV24_URL = "https://api.odcloud.kr/api/gov24/v3/serviceList"
+
 # ── 조회 범위 ──────────────────────────────────────────
 LOOKBACK_DAYS = 30      # 소급 조회 기간 (등록일 기준)
 LOOKAHEAD_DAYS = 120    # 축제는 앞으로 이 기간까지
@@ -70,6 +75,17 @@ EXCLUDE_KEYWORDS = [
     "청소관리", "화장실", "키즈카페", "설치사업", "교육과정", "리워드",
     "하중 테스트",
 ]
+
+# ── 공모사업 판정 ──────────────────────────────────────
+# 서비스명에 아래 단어가 들어간 공공서비스를 가져온다(서버가 LIKE 검색). 실수집 후 다듬을 것.
+GRANT_KEYWORDS = ["공연", "축제", "행사", "문화예술", "예술", "전시", "관광", "콘텐츠"]
+# 개인이 받는 혜택(문화패스·바우처 등)은 이벤트 회사에 쓸모없다 — 지원대상 글에
+# 아래 단어(단체·법인·사업자 등)가 있는 것만 남긴다. 지원대상이 비어 있으면 남긴다.
+GRANT_TARGET_WORDS = ["단체", "법인", "사업자", "기업", "업체", "예술인", "예술가",
+                      "소상공인", "협회", "재단", "주최", "기관", "비영리", "조합"]
+GRANT_EXCLUDE_KEYWORDS = ["채용", "의료", "주거", "임신", "출산", "보훈", "장학", "대출"]
+# 검증해 둔 공모 목록(공식 공고 원문 주소가 있는 것만). 마감이 지나면 자동으로 빠진다.
+GRANTS_CURATED = os.path.join(os.path.dirname(os.path.abspath(__file__)), "grants_curated.json")
 
 # ── 산출물 경로 ────────────────────────────────────────
 _HERE = os.path.dirname(os.path.abspath(__file__))

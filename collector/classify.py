@@ -96,8 +96,8 @@ def _norm_title(s):
 
 
 def dedupe(items):
-    """같은 (정규화 제목, 지역) 은 하나만 남긴다. 출처 우선순위 nara > tour > rss."""
-    prio = {"nara": 0, "tour": 1, "rss": 2}
+    """같은 (정규화 제목, 지역) 은 하나만 남긴다. 출처 우선순위 nara > tour > rss > grant(검증 목록) > gov24."""
+    prio = {"nara": 0, "tour": 1, "rss": 2, "grant": 3, "gov24": 4}
     seen = {}
     for r in items:
         key = (_norm_title(r.get("title")), r.get("region", ""))

@@ -2,7 +2,7 @@
    행사 고시 알림판 — 공통 스크립트
    외부 라이브러리 없음. events.json 하나만 읽습니다.
    ───────────────────────────────────────────── */
-const KIND_LABEL = { bid: "입찰", festival: "축제", notice: "고시" };
+const KIND_LABEL = { bid: "입찰", festival: "축제", notice: "고시", grant: "공모" };
 const SIDO_ORDER = ["서울","부산","대구","인천","광주","대전","울산","세종",
                     "경기","강원","충북","충남","전북","전남","경북","경남","제주"];
 
@@ -36,7 +36,7 @@ function daysLeft(s){
 
 function sealHTML(rec){
   const n = daysLeft(rec.deadline);
-  if (n === null) return `<div class="seal none"><span class="n">상시</span></div>`;
+  if (n === null) return `<div class="seal none"><span class="n">${rec.kind === "grant" ? "미정" : "상시"}</span></div>`;
   if (n < 0)      return `<div class="seal none"><span class="n">종료</span></div>`;
   const openNow = rec.kind === "festival" &&
                   ymd(rec.start_date) && ymd(rec.start_date) <= ymd(new Date().toISOString());
@@ -92,6 +92,15 @@ function initBoard(data){
     regionRow.appendChild(b);
   });
 
+  // 주소 뒤에 #bid · #festival · #notice · #grant 가 붙어 들어오면 그 구분부터 보여준다
+  // (이벤트 코리아 등 다른 사이트가 이 주소로 링크한다)
+  const hashKind = (location.hash || "").slice(1);
+  if (["bid", "festival", "notice", "grant"].includes(hashKind)){
+    state.kind = hashKind;
+    document.querySelectorAll(".kindrow .chip")
+      .forEach(c => c.setAttribute("aria-pressed", String(c.dataset.kind === hashKind)));
+  }
+
   function filtered(){
     const q = state.q.trim().toLowerCase();
     let rows = all.filter(r =>
@@ -132,7 +141,7 @@ function initBoard(data){
       const period = r.start_date
         ? `${r.start_date} ~ ${r.end_date || ""}`
         : (r.deadline ? `마감 ${r.deadline}`
-                      : (r.posted_at ? `게시 ${r.posted_at}` : "상시"));
+                      : (r.posted_at ? `게시 ${r.posted_at}` : (r.kind === "grant" ? "일정 미정" : "상시")));
       const amt = r.budget ? ` · 추정가 <span class="amt">${won(r.budget)}</span>` : "";
       return `<a class="item" data-kind="${esc(r.kind)}"
                  href="${esc(r.url || '#')}" target="_blank" rel="noopener noreferrer">
