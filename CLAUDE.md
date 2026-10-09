@@ -27,12 +27,14 @@ collector/              배치 수집기 (Python, 외부 의존성 requests·fee
   collectors/tour.py    TourAPI 축제·행사 (contentTypeId=15)
   collectors/rss.py     지자체 RSS (robots.txt 확인 포함)
   collectors/grant.py   공모사업 — grants_curated.json(검증 목록) + 공공서비스(혜택) API
-  grants_curated.json   공식 공고 주소가 있는 공모만 직접 적어 둔 목록 (마감 지나면 자동으로 빠짐)
+  grants_curated.json   공식 공고 주소·근거 문장이 있는 공모만 적어 둔 목록 (마감 지나면 자동으로 빠짐)
+  validate_grants.py    그 목록의 검사기 — 형식 · 「근거 문장이 실제 공식 페이지에 있는지」 대조 · --peek(원문 보기) · --prune
+  GRANT_ROUTINE.md      주간 갱신 루틴 설명서(사람 없이 도는 Claude 루틴이 읽는다)
   classify.py           행사 판정·시도 추출·중복 제거·정렬
   store.py              SQLite 저장·JSON 내보내기
   run.py                실행 진입점 (--dry-run, --only 지원)
   mockgen.py            예시 데이터 생성 (API 키 없이 확인용)
-  tests.py              단위 테스트 37항목
+  tests.py              단위 테스트 42항목
 
 site/                   배포 대상. 이 폴더가 곧 사이트다
   index.html            알림판 — 검색·필터·정렬·페이지 이동
@@ -53,7 +55,7 @@ verify.py               브라우저 자동 검증 26항목 (playwright)
 **코드를 고쳤으면 반드시 아래 셋을 통과시킬 것.**
 
 ```bash
-cd collector && python tests.py     # 37항목: 분류·지역·일수·중복·저장·공모사업
+cd collector && python tests.py     # 42항목: 분류·지역·일수·중복·저장·공모사업
 cd .. && python serve.py 8899 &     # 서버를 띄운 뒤
 python verify.py                    # 26항목: 브라우저 실동작
 ```
@@ -88,6 +90,15 @@ playwright가 없으면 `pip install playwright && python -m playwright install 
     늘리는 쪽이 현실적이다 — 후보 출처는 문화포털 「문화지원사업 캘린더」(culture.go.kr, 마감일 목록 321건/월)와
     아르코 공모 게시판인데 **둘 다 공식 API·RSS 가 없어 HTML 파싱 금지 규칙에 걸린다.** 사람이(또는 검색으로)
     공식 공고를 확인해 목록에 손으로 넣을 것.
+  - **주간 갱신 루틴(2026-10-10 형님 지시)**: 매주 월요일 오전 Claude 예약 작업이 `collector/GRANT_ROUTINE.md` 대로 검증 목록을 고치고
+    `python run.py --refresh grant`(events.json 의 공모사업만 교체) 후 푸시한다. 사람이 보지 않고 라이브에 오르므로 관문을 둔다:
+    항목마다 기관 누리집(.kr) 개별 공고 주소 + 그 페이지에서 베낀 근거 문장(`evidence`)이 필요하고, `validate_grants.py --check-urls` 가
+    **근거 문장이 그 주소의 실제 페이지에 있는지** 직접 열어 대조한다(없으면 막힘; robots.txt·요청 간격·연락처 UA 준수, 같은 주소는 한 번).
+    `grant.py` 도 근거 없는 항목은 싣지 않는다. 검색 도구의 요약문은 서로 모순되는 것이 확인돼 사실 근거로 쓰지 않는다.
+    **「게시판 HTML 직접 파싱 금지」는 그대로다** — 루틴은 목록 페이지(문화포털 캘린더, 재단 공지 목록)를 훑지 않고, 검색으로 찾은 개별 공고와
+    아르코 「공모 한눈에 보기」 내용 페이지만 읽는다. 전국 문화재단 전체를 기계로 긁어 오는 길은 없다(공식 API·RSS 없음, 경기문화재단 자료도 2022년 이후 갱신 중단).
+    더 확실한 자동 수집원은 공식 API 인 한국콘텐츠진흥원 「지원사업공고」(data.go.kr/data/15134251, 접수 시작·마감일 항목 있음)와
+    중소벤처기업부 「사업공고」(data.go.kr/data/15113297)이며, 각각 활용신청 후 collectors/ 에 붙이면 된다(미신청).
   - `python run.py --only grant` 는 **공모사업만** events.json 에 쓴다(나머지가 빠진다). 평소엔 전체 `python run.py`.
 - 알림판 주소 뒤에 `#bid` · `#festival` · `#notice` · `#grant` 를 붙이면 그 구분이 먼저 열린다(다른 사이트가 링크한다).
 

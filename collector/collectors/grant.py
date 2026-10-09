@@ -111,6 +111,8 @@ def load_curated(today=None, path=None):
         title = str(r.get("title") or "").strip()
         if not title or not str(r.get("url") or "").startswith("http"):
             continue                      # 제목·공식 주소가 없는 건 싣지 않는다
+        if not str(r.get("evidence") or "").strip():
+            continue                      # 공식 페이지에서 베껴 온 근거 문장이 없는 건 싣지 않는다(validate_grants.py)
         out.append({
             "uid": f"grant:{r.get('id') or classify._norm_title(title)[:40]}",
             "kind": "grant",

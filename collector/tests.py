@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""수집기 단위 테스트 37항목 — 분류·지역·일수·중복·저장·공모사업
+"""수집기 단위 테스트 42항목 — 분류·지역·일수·중복·저장·공모사업
 
   cd collector && python tests.py
 """
@@ -12,6 +12,8 @@ from datetime import date
 import classify
 import config
 import store
+import validate_grants as vg
+import run as runmod
 from collectors import grant, nara, rss, tour
 
 TODAY = date(2026, 8, 10)
@@ -197,31 +199,28 @@ class TestGrant(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             p = os.path.join(td, "g.json")
             rows = [
-                {"id": "a", "title": "열린 공모", "org": "서울 문화재단", "deadline": "2026-09-01 15:00", "url": "https://x.kr/a"},
-                {"id": "b", "title": "지난 공모", "org": "서울 문화재단", "deadline": "2026-08-01", "url": "https://x.kr/b"},
-                {"id": "c", "title": "일정 미정 공모", "org": "", "deadline": "", "url": "https://x.kr/c"},
-                {"id": "d", "title": "주소 없는 공모", "org": "", "deadline": "2026-09-01", "url": ""},
+                {"id": "a", "title": "열린 공모", "org": "서울 문화재단", "deadline": "2026-09-01 15:00", "url": "https://x.kr/a", "evidence": "열린 공모 접수 2026.9.1 15시 마감"},
+                {"id": "b", "title": "지난 공모", "org": "서울 문화재단", "deadline": "2026-08-01", "url": "https://x.kr/b", "evidence": "지난 공모 2026.8.1 마감"},
+                {"id": "c", "title": "일정 미정 공모", "org": "", "deadline": "", "url": "https://x.kr/c", "evidence": "일정 미정 공모 별도공모"},
+                {"id": "d", "title": "주소 없는 공모", "org": "", "deadline": "2026-09-01", "url": "", "evidence": "주소 없는 공모 2026.9.1"},
+                {"id": "e", "title": "근거 없는 공모", "org": "", "deadline": "2026-09-01", "url": "https://x.kr/e"},
             ]
             with open(p, "w", encoding="utf-8") as f:
                 json.dump({"items": rows}, f, ensure_ascii=False)
             out = grant.load_curated(TODAY, p)
-        self.assertEqual([r["uid"] for r in out], ["grant:a", "grant:c"])   # 지난 것 · 주소 없는 것은 빠진다
+        self.assertEqual([r["uid"] for r in out], ["grant:a", "grant:c"])   # 지난 것 · 주소 없는 것 · 근거 없는 것은 빠진다
         self.assertEqual(out[0]["kind"], "grant")
         self.assertEqual(out[0]["region"], "서울")
         self.assertEqual(out[0]["license"], "확인 필요")
 
     def test_34_shipped_curated_file_is_valid(self):
-        # 저장소에 들어 있는 검증 목록 자체의 형식 점검 — 제목·공식 주소·기관 필수, 기한은 날짜 형식
+        # 저장소에 들어 있는 검증 목록 자체의 형식 점검 — 날짜에 흔들리지 않게 오늘을 고정해서 본다
         with open(config.GRANTS_CURATED, encoding="utf-8") as f:
             rows = json.load(f)["items"]
         self.assertGreaterEqual(len(rows), 1)
-        ids = [r["id"] for r in rows]
-        self.assertEqual(len(ids), len(set(ids)))
+        self.assertEqual(vg.check_unique(rows), [])
         for r in rows:
-            self.assertTrue(r["title"] and r["org"])
-            self.assertTrue(r["url"].startswith("https://"))
-            if r["deadline"]:
-                self.assertIsNotNone(classify.ymd(r["deadline"]))
+            self.assertEqual(vg.check_static(r, today=date(2026, 10, 10)), [], r.get("id"))
 
     def test_35_gov24_normalize_and_relevance(self):
         row = {"서비스ID": "WF0001", "서비스명": "지역 문화예술 행사 지원", "소관기관명": "경기도 문화재단",
@@ -293,6 +292,80 @@ class TestGrant(unittest.TestCase):
         a = {"uid": "gov24:1", "kind": "grant", "title": "같은 제목", "region": ""}
         b = {"uid": "grant:x", "kind": "grant", "title": "같은 제목", "region": ""}
         self.assertEqual(classify.dedupe([a, b])[0]["uid"], "grant:x")
+
+
+class TestGrantValidator(unittest.TestCase):
+    GOOD = {"id": "arko-x-1", "title": "2027 테스트 공모 사업 안내", "org": "한국문화예술위원회", "posted_at": "2026-10-08",
+            "start_date": "2026-10-08", "end_date": "2026-11-05", "deadline": "2026-11-05 15:00", "summary": "",
+            "url": "https://arko.or.kr/content/6220", "evidence": "공연예술 : 공연장기획제작지원 - 2026. 10. 8. (목)~11. 5. (월) 15시 마감",
+            "checked_at": "2026-10-10"}
+
+    def test_38_date_in_text_common_forms(self):
+        for t in ("2026.11.5", "2026. 11. 05.", "2026-11-05", "11월 5일까지", "~11. 5. (월) 15시", "11/5"):
+            self.assertTrue(vg.date_in_text("2026-11-05 15:00", t), t)
+        for t in ("2026.11.15", "2026.1.5", "12월 5일", "11.25"):
+            self.assertFalse(vg.date_in_text("2026-11-05", t), t)
+
+    def test_39_static_checks(self):
+        t = date(2026, 10, 10)
+        self.assertEqual(vg.check_static(self.GOOD, t), [])
+        def bad(**kw):
+            d = dict(self.GOOD); d.update(kw); return vg.check_static(d, t)
+        self.assertTrue(bad(url="http://arko.or.kr/x"))                    # https 아님
+        self.assertTrue(bad(url="https://blog.naver.com/abc/123"))         # 블로그는 근거가 아니다
+        self.assertTrue(bad(url="https://example.com/notice"))             # .kr 공식 주소 아님
+        self.assertTrue(bad(evidence=""))                                  # 근거 없음
+        self.assertTrue(bad(evidence="공연장기획제작지원 접수 중 마감 안내문 확인"))  # 근거에 마감일이 없음
+        self.assertTrue(bad(checked_at=""))
+        self.assertTrue(bad(deadline="2026/11/05"))                        # 날짜 형식
+        self.assertTrue(bad(summary="가" * 201))                           # 본문 전재 금지
+        self.assertTrue(bad(deadline="2026-09-01", evidence="2026.9.1 마감 안내문 전문 확인"))  # 14일 넘게 지남
+        self.assertTrue(bad(deadline="", title="마감일이 없는 공모 사업 안내"))             # 미정·예정 표기 없음
+        self.assertEqual(bad(deadline="", title="2027 별도 공모 예정 안내 사업"), [])
+        self.assertTrue(vg.check_unique([self.GOOD, dict(self.GOOD)]))
+
+    def test_40_prune_old_items(self):
+        doc = {"items": [dict(self.GOOD, id="old", deadline="2026-09-01"), dict(self.GOOD, id="new"),
+                         dict(self.GOOD, id="tbd", deadline="")]}
+        new, gone = vg.prune(doc, date(2026, 10, 10))
+        self.assertEqual(gone, ["old"])
+        self.assertEqual([i["id"] for i in new["items"]], ["new", "tbd"])
+
+    def test_41_online_check_compares_evidence_with_page(self):
+        class FakeFetcher:
+            def __init__(self, pages): self.pages = pages
+            def text(self, url): return self.pages.get(url, ("http-404", ""))
+        page = "공연예술 :  (공연예술창작주체)  공연장기획제작지원 -\n 2026. 10. 8. (목)~11. 5. (월) 15시 마감"
+        ok = dict(self.GOOD, evidence="공연예술 : (공연예술창작주체) 공연장기획제작지원 - 2026. 10. 8. (목)~11. 5. (월) 15시 마감", id="ok")
+        split = dict(self.GOOD, evidence="공연장기획제작지원 … 11. 5. (월) 15시 마감", id="split")      # … 로 이은 두 조각
+        fake = dict(self.GOOD, evidence="공연장기획제작지원 - 2026. 10. 8. (목)~11. 6. (화) 15시 마감", id="fake")  # 지어낸 날짜
+        gone = dict(self.GOOD, url="https://arko.or.kr/none", id="gone")
+        robots = dict(self.GOOD, url="https://blocked.or.kr/x", id="robots")
+        f = FakeFetcher({self.GOOD["url"]: ("ok", page), "https://blocked.or.kr/x": ("robots", "")})
+        errs = dict(vg.check_online([ok, split, fake, gone, robots], fetcher=f))
+        self.assertEqual(sorted(errs), ["fake", "gone", "robots"])      # ok · split 은 통과
+        self.assertIn("실제 페이지에 없다", errs["fake"])
+        self.assertIn("확인하지 못했다", errs["robots"])
+
+    def test_42_refresh_keeps_other_kinds(self):
+        with tempfile.TemporaryDirectory() as td:
+            path = os.path.join(td, "e.json")
+            old = {"generated_at": "x", "mock": False, "count": 3, "items": [
+                {"uid": "nara:1", "kind": "bid", "title": "입찰", "region": ""},
+                {"uid": "tour:1", "kind": "festival", "title": "축제", "region": ""},
+                {"uid": "grant:old", "kind": "grant", "title": "옛 공모", "region": ""}]}
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump(old, f, ensure_ascii=False)
+            orig = runmod.SOURCES["grant"]
+            try:
+                runmod.SOURCES["grant"] = lambda: [{"uid": "grant:new", "kind": "grant", "title": "새 공모", "region": "", "deadline": "2026-09-01"}]
+                self.assertEqual(runmod.refresh("grant", path=path), 0)
+            finally:
+                runmod.SOURCES["grant"] = orig
+            with open(path, encoding="utf-8") as f:
+                new = json.load(f)
+        self.assertEqual(sorted(r["uid"] for r in new["items"]), ["grant:new", "nara:1", "tour:1"])
+        self.assertEqual(new["count"], 3)
 
 
 if __name__ == "__main__":
