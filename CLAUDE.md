@@ -99,6 +99,7 @@ playwright가 없으면 `pip install playwright && python -m playwright install 
     아르코 「공모 한눈에 보기」 내용 페이지만 읽는다. 전국 문화재단 전체를 기계로 긁어 오는 길은 없다(공식 API·RSS 없음, 경기문화재단 자료도 2022년 이후 갱신 중단).
     더 확실한 자동 수집원은 공식 API 인 한국콘텐츠진흥원 「지원사업공고」(data.go.kr/data/15134251, 접수 시작·마감일 항목 있음)와
     중소벤처기업부 「사업공고」(data.go.kr/data/15113297)이며, 각각 활용신청 후 collectors/ 에 붙이면 된다(미신청).
+  - **주간 글 루틴(2026-10-10 형님 지시)**: 갱신 한 시간 뒤(월 10:34) 예약 작업 `grant-weekly-posts` 가 `collector/GRANT_POSTS_ROUTINE.md` 대로, **`collector/grants_posted.json` 에 없는 새 공모가 있을 때만** 큰길이벤트(/life/) · 이벤트 코리아(/column/)에 글 1개씩과 네이버(blog.naver.com/ty-health)용 원고(큰길이벤트 `_column/naver/`, https://큰길이벤트.com/naver/ 에 복사 단추로 나옴)를 만든다. **네이버는 자동 발행하지 않는다**(글쓰기 API 폐쇄 · 매크로 계정 제재) — 형님이 붙여넣어 발행. 네이버 원고 검사기는 큰길이벤트 저장소 `scripts/naver-column-check.mjs`.
   - `python run.py --only grant` 는 **공모사업만** events.json 에 쓴다(나머지가 빠진다). 평소엔 전체 `python run.py`.
 - 알림판 주소 뒤에 `#bid` · `#festival` · `#notice` · `#grant` 를 붙이면 그 구분이 먼저 열린다(다른 사이트가 링크한다).
 
