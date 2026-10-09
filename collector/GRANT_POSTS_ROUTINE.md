@@ -61,11 +61,12 @@
 2. 홈페이지 글을 요약하지 말고 **도입부터 새로 쓴다**. 원글에 없는 숫자는 쓰지 않는다. 표 · 링크 · `**굵게**` · `#` 소제목 없음, 문단 6개 이상 · 700~2500자, 사진 2장 이상(`_column/photos.json` 에서, 설명의 행사 이름은 목록과 같게), 태그 3~10개.
 3. `node scripts/naver-column-check.mjs <파일 이름>` 이 통과할 때까지. 통과하면 3-1 과 함께 커밋 · push(갤러리 워크플로가 `/naver/` 페이지를 다시 만든다).
 4. **형님이 해야 할 일**은 보고에 한 줄로 적는다: 「https://큰길이벤트.com/naver/ 에서 복사해 ty-health 에 발행」.
+   (어대리(Aside CLI)로 발행하는 `collector/publish_naver.py` 는 2026-10-10 첫 글을 올리는 데 쓰였고 준비돼 있지만, **이 루틴에는 아직 연결하지 않았다** — 형님 확인 뒤에 연결한다. 루틴은 이 스크립트를 실행하지 않는다.)
 
 ## 4. 올린 뒤
 
 1. `collector/grants_posted.json` 의 `posted` 에 이번에 다룬 묶음의 공모 id 를 오늘 날짜로 넣는다.
-2. `git add collector/grants_posted.json` → 커밋(`공모사업 글 YYYY-MM-DD — 큰길이벤트 · 이벤트 코리아 · 네이버 원고`) → push.
+2. `git add collector/grants_posted.json collector/naver_published.json` → 커밋(`공모사업 글 YYYY-MM-DD — 큰길이벤트 · 이벤트 코리아 · 네이버`) → push.
 3. 두 사이트 글 주소(`https://큰길이벤트.com/life/<slug>/`, `https://www.event-korea.co.kr/column/<slug>/`)를 1분 뒤 열어 200 인지만 확인한다(Pages 반영이 늦으면 한 번 더). 안 열리면 보고에 적는다.
 
 ## 5. 실패했을 때
