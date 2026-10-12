@@ -102,14 +102,14 @@
     { f: 'n08', t: '대규모 야외 행사 · 음향 운영', o: '지역행사 · 음향', c: 'festival gear' },
     { f: 'n14', t: '어린이 레크리에이션 진행', o: '지역축제 · 레크리에이션', c: 'festival' },
     { f: 'n18', t: '야외 축제 대형 이벤트 부스', o: '지역축제 · 체험 부스', c: 'festival' },
-    { f: 'n16', t: '운동장 체육대회 단체 게임', o: '체육대회 · 본부석 천막', c: 'sports gear' },
+    { f: 'n16', t: '운동장 체육대회 단체 게임', o: '체육대회 · 본부석 천막', c: 'sports gear tent' },
     { f: 'n17', t: '대형 공 굴리기 경기', o: '체육대회 · 게임도구', c: 'sports' },
     { f: 'n12', t: '실내 체육관 단체 줄다리기 게임', o: '체육대회 · 실내', c: 'sports' },
     { f: 'n04', t: '어르신 한마음 체육대회 현장 진행', o: '체육대회 · MC 진행', c: 'sports' },
     { f: 'n09', t: '매장 오픈 이벤트 · 풍선 아치', o: '오픈행사 · 풍선장식 · 공연', c: 'ceremony gear' },
     { f: 'n10', t: '매장 오픈 풍선 아치 · 에어 인형', o: '오픈행사 · 풍선장식', c: 'ceremony gear' },
     { f: 'n02', t: '매장 오픈 거리 공연 · 에어 인형', o: '오픈행사 · 거리 공연', c: 'ceremony show' },
-    { f: 's03', t: '운동장 천막 · 입장 아치 · 축포', o: '체육대회 · 수원 교회 연합 · 2026', c: 'sports' },
+    { f: 's03', t: '운동장 천막 · 입장 아치 · 축포', o: '체육대회 · 수원 교회 연합 · 2026', c: 'sports tent' },
     { f: 's06', t: '단체 이어달리기 게임', o: '체육대회 · 수원 교회 연합 · 2026', c: 'sports' },
     { f: 's02', t: '대형 공 굴리기 게임', o: '체육대회 · 수원 교회 연합 · 2026', c: 'sports' },
     { f: 's09', t: '운동장 게임 진행', o: '체육대회 · 수원 교회 연합 · 2026', c: 'sports' },
@@ -122,10 +122,10 @@
     { f: 'y01', t: '학교 운동장 물놀이장 전경', o: '물놀이 행사 · 용인다움학교 · 2026', c: 'water' },
     { f: 'y07', t: '물놀이 풀 · 워터슬라이드', o: '물놀이 행사 · 용인다움학교 · 2026', c: 'water' },
     { f: 'y03', t: '물고기 잡기 체험 풀', o: '물놀이 행사 · 용인다움학교 · 2026', c: 'water' },
-    { f: 'f02', t: '파라솔 쉼터 · 주민 축제', o: '지역축제 · 수노을 그린 축제 · 2026', c: 'festival' },
+    { f: 'f02', t: '파라솔 쉼터 · 주민 축제', o: '지역축제 · 수노을 그린 축제 · 2026', c: 'festival tent' },
     { f: 'f06', t: '야외무대 태권도 공연', o: '지역축제 · 수노을 그린 축제 · 2026', c: 'festival' },
     { f: 'f12', t: '야외무대 댄스 공연', o: '지역축제 · 수노을 그린 축제 · 2026', c: 'festival' },
-    { f: 'f04', t: '안내 · 체험 부스 천막', o: '지역축제 · 수노을 그린 축제 · 2026', c: 'festival gear' },
+    { f: 'f04', t: '안내 · 체험 부스 천막', o: '지역축제 · 수노을 그린 축제 · 2026', c: 'festival gear tent' },
     { f: 'f09', t: '체험 부스 거리', o: '지역축제 · 수노을 그린 축제 · 2026', c: 'festival' },
     { f: 'h22', t: '야외무대 · LED 공연', o: '지역행사 · 화성 어울림 한마당', c: 'festival gear' },
     { f: 'k21', t: '야외 공연 · 밴드 음향', o: '공연 섭외 · 지역행사', c: 'festival gear' },
@@ -133,7 +133,7 @@
     { f: 'a07', t: '음향 부스 · 무대 운영', o: '음향 · 무대 · 문화 축제 · 2026', c: 'gear' },
     { f: 's05', t: '음향 믹서 운영', o: '음향 · 수원 교회 연합 체육대회', c: 'gear sports' },
     { f: 'h23', t: '음향 장비 · 게임도구', o: '장비 · 행사용품', c: 'gear' },
-    { f: 'h26', t: '대규모 야외 좌석 세팅', o: '행사용품 · 야외 행사', c: 'gear' },
+    { f: 'h26', t: '대규모 야외 좌석 세팅', o: '행사용품 · 야외 행사', c: 'gear tent' },
     { f: 'c16', t: '개원식 테이프 커팅', o: '커팅식 · 안산 · 2026', c: 'ceremony' },
     { f: 'c03', t: '레드카펫 · 오색띠 커팅 세팅', o: '커팅식 · 안산 · 2026', c: 'ceremony' },
     { f: 'c11', t: '풍선 아치 장식', o: '커팅식 · 안산 · 2026', c: 'ceremony gear' }
@@ -279,7 +279,7 @@
      현장사진 페이지는 WORKS(위 배열) + 대표님이 upload.html 로 올린 사진(photos 가지의 photos.json)을 합쳐 보여준다. */
   var UP_LIST = 'https://raw.githubusercontent.com/brizymedia/baro-event/photos/photos/photos.json';
   var UP_IMG = 'https://cdn.jsdelivr.net/gh/brizymedia/baro-event@photos/';
-  var UP_CAT = { sports: '체육대회', festival: '지역축제', show: '공연 · 점등식', water: '물놀이', ceremony: '커팅식 · 오픈', gear: '장비 · 장식' };
+  var UP_CAT = { sports: '체육대회', festival: '지역축제', show: '공연 · 점등식', water: '물놀이', ceremony: '커팅식 · 오픈', tent: '천막 렌탈', gear: '장비 · 장식' };
   function srcT(w) { return w.u || IMG_T + w.f + '.webp'; }
   function srcP(w) { return w.u || IMG_P + w.f + '.webp'; }
   function figHtml(w, k) {
