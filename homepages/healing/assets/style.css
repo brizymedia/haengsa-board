@@ -443,9 +443,19 @@ input,select,textarea{font:inherit;color:inherit}
 
 
 /* ---------- 반응형 ---------- */
+/* 메뉴 9개(블로그 추가) — 글자가 두 줄로 꺾이지 않게 */
+.hd .menu a{white-space:nowrap}
+@media (max-width:1320px){
+  .hd .wrap{gap:16px}
+  .hd .menu{gap:2px}
+  .hd .menu a{padding:8px 10px}
+}
 @media (max-width:1180px){
   .hd .tel span{display:none}
   .hd .menu a{padding:8px 9px;font-size:15px}
+}
+@media (max-width:1120px){
+  .hd .menu a{padding:8px 7px;font-size:14.5px}
 }
 @media (max-width:1024px){
   .hd .menu,.hd .tel,.hd .hbtn{display:none}

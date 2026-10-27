@@ -224,7 +224,11 @@ def sitemap(extra):
     today = datetime.date.today().isoformat()
     pages = ['', 'about.html', 'service.html', 'price.html', 'portfolio.html', 'notice.html', 'contact.html', 'quote.html']
     urls = [BASE + p for p in pages] + extra
-    xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join('  <url><loc>' + u + '</loc><lastmod>' + today + '</lastmod></url>\n' for u in urls) + '</urlset>\n'
+    # 블로그 주소(blog/)는 scripts/build-blog.mjs 가 쓴다 — 그대로 남긴다
+    sm = os.path.join(SITE, 'sitemap.xml')
+    old = open(sm, encoding='utf-8').read() if os.path.exists(sm) else ''
+    blog = ''.join(m + '\n' for m in re.findall(r'[ \t]*<url><loc>' + re.escape(BASE) + r'blog/[^<]*</loc>.*?</url>', old))
+    xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join('  <url><loc>' + u + '</loc><lastmod>' + today + '</lastmod></url>\n' for u in urls) + blog + '</urlset>\n'
     open(os.path.join(SITE, 'sitemap.xml'), 'w', encoding='utf-8', newline='\n').write(xml)
 
 

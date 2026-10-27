@@ -219,7 +219,11 @@ def sitemap(extra):
     today = datetime.date.today().isoformat()
     pages = ['', 'about.html', 'service.html', 'portfolio.html', 'video.html', 'notice.html', 'contact.html', 'quote.html']
     urls = [BASE + p for p in pages] + extra
-    xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join('  <url><loc>' + u + '</loc><lastmod>' + today + '</lastmod></url>\n' for u in urls) + '</urlset>\n'
+    # 블로그 항목(/blog/)은 scripts/build-blog.mjs 가 관리한다 — 지우지 않고 뒤에 그대로 둔다
+    path = os.path.join(SITE, 'sitemap.xml')
+    old = open(path, encoding='utf-8').read() if os.path.exists(path) else ''
+    blog = ''.join(m + '\n' for m in re.findall(r'  <url><loc>[^<]*/blog/[^<]*</loc>.*?</url>', old))
+    xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join('  <url><loc>' + u + '</loc><lastmod>' + today + '</lastmod></url>\n' for u in urls) + blog + '</urlset>\n'
     open(os.path.join(SITE, 'sitemap.xml'), 'w', encoding='utf-8', newline='\n').write(xml)
 
 

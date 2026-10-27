@@ -7,5 +7,7 @@ Disallow: /statement.html
 Disallow: /upload.html
 Disallow: /schedule.html
 Disallow: /office.html
+Disallow: /_blog/
+Disallow: /scripts/
 
 Sitemap: https://brizymedia.github.io/haengsaon/sitemap.xml
