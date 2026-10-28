@@ -20,13 +20,26 @@
 - 음향 · 영상 · 방송장비 설치: 서울대병원 융합의학기술원 입체음향 스튜디오, 정림건축 김정철홀, 이문동교회, 제주성안교회, 9BLOCK 카페 등 15곳
 
 ## 주요 페이지
-- [회사소개](https://brizymedia.github.io/j6media/about.html): 대표 인사말 · 연혁 · 회사 정보 · 오시는 길
-- [하는 일](https://brizymedia.github.io/j6media/service.html): 분야 6가지와 설치 사례 15곳
-- [장비 · 브랜드](https://brizymedia.github.io/j6media/equipment.html)
-- [현장 사진](https://brizymedia.github.io/j6media/portfolio.html)
-- [행사 이야기](https://brizymedia.github.io/j6media/stories/index.html): 현장별 준비 기록
-- [운영 지역](https://brizymedia.github.io/j6media/areas/index.html): 지역별 이동 시간과 그 지역에서 한 일
-- [자동 견적서](https://brizymedia.github.io/j6media/quote.html)
-- [견적 문의](https://brizymedia.github.io/j6media/contact.html)
+- [회사소개](https://www.j6media.co.kr/about.html): 대표 인사말 · 연혁 · 회사 정보 · 오시는 길
+- [하는 일](https://www.j6media.co.kr/service.html): 분야 6가지와 설치 사례 15곳
+- [장비 · 브랜드](https://www.j6media.co.kr/equipment.html)
+- [현장 사진](https://www.j6media.co.kr/portfolio.html)
+- [행사 이야기](https://www.j6media.co.kr/stories/index.html): 현장별 준비 기록
+- [운영 지역](https://www.j6media.co.kr/areas/index.html): 지역별 이동 시간과 그 지역에서 한 일
+- [자동 견적서](https://www.j6media.co.kr/quote.html)
+- [견적 문의](https://www.j6media.co.kr/contact.html)
 - [네이버 블로그](https://blog.naver.com/martin301): 대표가 직접 쓰는 현장 기록
 - [인스타그램](https://www.instagram.com/j6_media/)
+
+## 블로그 (행사 준비 정보, 지역별)
+- [행사 준비 블로그](https://www.j6media.co.kr/blog/): 남양주 · 서울 · 경기 지역별 행사 음향 · 조명 준비 체크리스트
+- [남양주 교회 수련회 음향 준비 — 찬양팀 모니터 · 울림 · 마이크](https://www.j6media.co.kr/blog/%EB%82%A8%EC%96%91%EC%A3%BC-%EA%B5%90%ED%9A%8C-%EC%88%98%EB%A0%A8%ED%9A%8C-%EC%9D%8C%ED%96%A5-%EC%B0%AC%EC%96%91%ED%8C%80-%EB%AA%A8%EB%8B%88%ED%84%B0-%EC%9A%B8%EB%A6%BC-%EB%A7%88%EC%9D%B4%ED%81%AC-%EC%A4%80%EB%B9%84/): 남양주에서 교회 수련회를 준비하는 목회자 · 간사를 위한 글입니다. 남양주 교회 수련회 음향을 객석 스피커와 찬양팀 모니터로 나눠 보고, 넓은 홀의 울림과 마이크 · 견적 문의 전 정리할 것을 정리했습니다.
+- [서울 입체음향 전시 준비 — 스피커 배치 · 영상 맞춤 · 설치 기간](https://www.j6media.co.kr/blog/%EC%84%9C%EC%9A%B8-%EC%9E%85%EC%B2%B4%EC%9D%8C%ED%96%A5-%EC%A0%84%EC%8B%9C-%EC%8A%A4%ED%94%BC%EC%BB%A4-%EB%B0%B0%EC%B9%98-%EC%98%81%EC%83%81-%EB%A7%9E%EC%B6%A4-%EC%84%A4%EC%B9%98-%EA%B8%B0%EA%B0%84/): 서울에서 이머시브 사운드 · 입체음향 전시를 준비하는 작가 · 기획자를 위한 글입니다. 서울 입체음향 전시를 준비할 때 스피커를 어디에 매달지, 영상과 소리를 어떻게 맞출지, 설치 · 테스트 기간을 얼마나 잡을지 정리했습니다.
+- [남양주 무선마이크 대여 전 확인할 것 — 혼선 · 배터리 · 개수](https://www.j6media.co.kr/blog/%EB%82%A8%EC%96%91%EC%A3%BC-%EB%AC%B4%EC%84%A0%EB%A7%88%EC%9D%B4%ED%81%AC-%EB%8C%80%EC%97%AC-%ED%98%BC%EC%84%A0-%EB%B0%B0%ED%84%B0%EB%A6%AC-%EA%B0%9C%EC%88%98-%ED%99%95%EC%9D%B8/): 남양주에서 예배 · 세미나 · 행사용 무선마이크를 빌리려는 담당자를 위한 글입니다. 남양주 무선마이크 대여 전에 핸드 · 핀 마이크 개수 세는 법, 혼선과 끊김을 줄이는 점검, 배터리 관리, 하울링 위치를 정리했습니다.
+- [양주 학교 축제 음향 · 조명 준비 — 학생 공연 마이크와 무대](https://www.j6media.co.kr/blog/%EC%96%91%EC%A3%BC-%ED%95%99%EA%B5%90-%EC%B6%95%EC%A0%9C-%EC%9D%8C%ED%96%A5-%EC%A1%B0%EB%AA%85-%ED%95%99%EC%83%9D-%EA%B3%B5%EC%97%B0-%EB%A7%88%EC%9D%B4%ED%81%AC-%EB%AC%B4%EB%8C%80/): 양주에서 학교 축제 · 발표회 무대를 맡은 선생님과 학생회를 위한 글입니다. 양주 학교 축제 음향을 공연 순서표로 준비하는 법, 학생 공연 마이크와 모니터, 무대 조명, 리허설 순서와 견적 문의 전 정리할 것을 정리했습니다.
+- [구리 체육대회 음향 준비 — 운동장 · 체육관 스피커와 안내 방송](https://www.j6media.co.kr/blog/%EA%B5%AC%EB%A6%AC-%EC%B2%B4%EC%9C%A1%EB%8C%80%ED%9A%8C-%EC%9D%8C%ED%96%A5-%EC%9A%B4%EB%8F%99%EC%9E%A5-%EC%B2%B4%EC%9C%A1%EA%B4%80-%EC%8A%A4%ED%94%BC%EC%BB%A4-%EC%95%88%EB%82%B4%EB%B0%A9%EC%86%A1/): 구리에서 학교 · 교회 · 회사 체육대회를 준비하는 담당자를 위한 글입니다. 구리 체육대회 음향을 운동장과 체육관으로 나눠 스피커 배치, 안내 방송 마이크, 음악 순서, 전기와 비 대비까지 정리했습니다.
+- [포천 교회 음향 교체 상담 준비 — 점검부터 설치까지 확인할 것](https://www.j6media.co.kr/blog/%ED%8F%AC%EC%B2%9C-%EA%B5%90%ED%9A%8C-%EC%9D%8C%ED%96%A5-%EA%B5%90%EC%B2%B4-%EC%A0%90%EA%B2%80-%EC%83%81%EB%8B%B4-%EC%A4%80%EB%B9%84/): 포천에서 교회 본당 · 교육관 음향을 바꾸려는 목회자 · 방송 담당자를 위한 글입니다. 포천 교회 음향 교체 상담 전에 지금 장비를 점검하는 법, 어디까지 바꿀지 정하는 법, 설치 뒤 사용법 안내까지 정리했습니다.
+- [가평 송년 콘서트 음향 · 조명 준비 — 무대 · 믹서 자리 · 순서](https://www.j6media.co.kr/blog/%EA%B0%80%ED%8F%89-%EC%86%A1%EB%85%84-%EC%BD%98%EC%84%9C%ED%8A%B8-%EC%9D%8C%ED%96%A5-%EC%A1%B0%EB%AA%85-%EC%8B%A4%EB%82%B4-%EB%AC%B4%EB%8C%80-%EB%AF%B9%EC%84%9C-%EC%88%9C%EC%84%9C/): 가평에서 송년 콘서트 · 연말 고객초청 공연을 준비하는 기업 · 리조트 담당자를 위한 글입니다. 가평 송년 콘서트 음향과 조명을 공연 순서에 맞춰 짜는 법, 믹서 자리 정하기, 실내외 무대 차이와 견적 문의 전 정리할 것을 정리했습니다.
+- [경기 광주 세미나 음향 준비 — 강연 마이크 · 스피커 · 여러 날 일정](https://www.j6media.co.kr/blog/%EA%B2%BD%EA%B8%B0-%EA%B4%91%EC%A3%BC-%EC%84%B8%EB%AF%B8%EB%82%98-%EC%9D%8C%ED%96%A5-%EA%B0%95%EC%97%B0-%EB%A7%88%EC%9D%B4%ED%81%AC-%EC%8A%A4%ED%94%BC%EC%BB%A4-%EC%88%98%EC%96%91%EA%B4%80/): 경기 광주에서 수양관 · 연수원 세미나와 컨퍼런스를 준비하는 담당자를 위한 글입니다. 경기 광주 세미나 음향을 강연 마이크, 스피커 배치, 질의응답, 영상 소리, 여러 날 이어지는 일정으로 나눠 정리했습니다.
+- [고양 야외 공연 음향 체크리스트 — 객석 · 바람 · 비 · 전기](https://www.j6media.co.kr/blog/%EA%B3%A0%EC%96%91-%EC%95%BC%EC%99%B8-%EA%B3%B5%EC%97%B0-%EC%9D%8C%ED%96%A5-%EC%B2%B4%ED%81%AC%EB%A6%AC%EC%8A%A4%ED%8A%B8-%EB%B0%94%EB%9E%8C-%EB%B9%84-%EA%B0%9D%EC%84%9D/): 고양에서 공원 · 광장 야외 공연과 음악회를 준비하는 담당자를 위한 글입니다. 고양 야외 공연 음향 체크리스트로 객석까지 소리 보내기, 숲속 · 계단 같은 자리의 스피커 배치, 바람 · 비 기준, 전기와 신고 기준을 정리했습니다.
+- [부천 제막식 음향 준비 — 야외 공식 행사 마이크와 스피커](https://www.j6media.co.kr/blog/%EB%B6%80%EC%B2%9C-%EC%A0%9C%EB%A7%89%EC%8B%9D-%EC%9D%8C%ED%96%A5-%EC%95%BC%EC%99%B8-%EA%B3%B5%EC%8B%9D-%ED%96%89%EC%82%AC-%EB%A7%88%EC%9D%B4%ED%81%AC-%EC%8A%A4%ED%94%BC%EC%BB%A4/): 부천에서 제막식 · 개막식 같은 야외 공식 행사를 준비하는 기관 담당자를 위한 글입니다. 부천 제막식 음향을 식순표로 짜는 법, 인사 마이크와 스피커 배치, 제막 순간 음악 신호, 날씨와 전기 확인을 정리했습니다.

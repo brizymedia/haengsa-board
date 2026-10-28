@@ -26,7 +26,7 @@ ADDR_S   = '경기도 남양주시 순화궁로 282, 319호'
 TEL      = '010-4450-4212'
 EMAIL    = 'j6_media@naver.com'
 REPO     = 'brizymedia/j6media'
-HOME     = 'https://brizymedia.github.io/j6media'
+HOME     = 'https://www.j6media.co.kr'
 CODE_PRE = 'J6-'                                    # 계약 번호 앞글자
 BLOG     = 'https://blog.naver.com/martin301'
 
@@ -35,7 +35,7 @@ CONTRACT_URL = 'https://script.google.com/macros/s/AKfycbxO7crgcZh7SSPAgwbPctHL-
 GALLERY_URL  = 'https://script.google.com/macros/s/AKfycbz1JKFYh-cUS-GmPCEB26U4rJ-IWmLVFlncxKE4pKO843W1bY-NAnU5rmxupGCXAAisIw/exec'   # 비밀번호는 서버 속성에만
 
 LOGO_FILE = 'assets/img/logo-mark.svg'              # 머리글에 쓰는 네모 마크
-MAIL_LOGO = 'https://brizymedia.github.io/j6media/assets/img/logo-h-white.png'   # 메일 머리(어두운 바탕용 가로 로고, PNG)
+MAIL_LOGO = 'https://www.j6media.co.kr/assets/img/logo-h-white.png'   # 메일 머리(어두운 바탕용 가로 로고, PNG)
 STAMP     = 'assets/img/stamp-j6.png'               # 대표 인감(투명 PNG). 파일이 없으면 「(인)」 자리만
 
 # 색: 큰길이벤트 주황 → 이 회사 색 (앞 = 큰길 원래 색, 뒤 = 이 회사 색: 앰버 + 웜 차콜 밤 무대)
