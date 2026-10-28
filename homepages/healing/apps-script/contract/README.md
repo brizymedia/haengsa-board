@@ -36,7 +36,7 @@
 ## 3) contract.html 에 연결
 
 방법 A (권장) — 관리자 화면에서 한 번만 입력
-1. `https://brizymedia.github.io/healing-ent/contract.html?admin=1` 열기
+1. `https://www.healingenter.co.kr/contract.html?admin=1` 열기
 2. 왼쪽 패널 **「우리 회사 정보 · 서버 설정」** 펼치기
 3. **계약 서버 주소** 칸에 웹 앱 URL 붙여넣기 → **회사 정보 저장**
    (같은 칸에서 대표자 · 사업자등록번호 · 입금 계좌도 채워두세요 — 계약서에 인쇄됩니다)

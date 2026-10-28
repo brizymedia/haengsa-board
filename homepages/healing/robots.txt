@@ -1,5 +1,4 @@
-# 전용 도메인을 연결하면 그때부터 쓰인다(지금 주소 brizymedia.github.io/healing-ent/ 아래에서는 검색 로봇이 읽지 않음).
-# 도메인이 정해지면 아래 Sitemap 주소도 새 도메인으로 바꿀 것.
+# 힐링엔터테인먼트 — www.healingenter.co.kr (2026-10-28 도메인 연결)
 User-agent: *
 Allow: /
 Disallow: /contract.html
@@ -8,4 +7,4 @@ Disallow: /upload.html
 Disallow: /schedule.html
 Disallow: /office.html
 
-Sitemap: https://brizymedia.github.io/healing-ent/sitemap.xml
+Sitemap: https://www.healingenter.co.kr/sitemap.xml

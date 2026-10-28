@@ -80,7 +80,7 @@
 
 ## 5) upload.html 에 연결
 
-1. 휴대폰에서 `https://brizymedia.github.io/healing-ent/upload.html` 열기
+1. 휴대폰에서 `https://www.healingenter.co.kr/upload.html` 열기
 2. 맨 위 **「처음 한 번만 설정」** 칸에 4단계의 웹 앱 주소를 붙여넣고 **저장**
 3. 이 기기에만 저장되고 다시 묻지 않습니다. 기기를 바꾸면 한 번 더 넣으셔야 합니다
 
@@ -90,7 +90,7 @@
 
 1. 갤러리 항목을 고르고, 행사명을 넣고, 사진 1장만 골라 **갤러리에 올리기**
 2. "1장 올렸습니다" 가 나오면 성공입니다
-3. 1~2분 뒤 `https://brizymedia.github.io/healing-ent/portfolio.html` 에서 확인
+3. 1~2분 뒤 `https://www.healingenter.co.kr/portfolio.html` 에서 확인
    — 바로 안 보이면 새로고침(당겨서 새로고침) 한 번 해보세요
 
 ---

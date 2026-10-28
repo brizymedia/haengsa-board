@@ -26,7 +26,7 @@ ADDR_S   = '서울특별시 노원구 덕릉로 595'
 TEL      = '010-5620-2153'
 EMAIL    = 'leehh2153@gmail.com'
 REPO     = 'brizymedia/healing-ent'
-HOME     = 'https://brizymedia.github.io/healing-ent'
+HOME     = 'https://www.healingenter.co.kr'
 CODE_PRE = 'HL-'                                    # 계약 번호 앞글자
 BLOG     = 'https://blog.naver.com/leehh2153'
 
@@ -35,7 +35,7 @@ CONTRACT_URL = 'https://script.google.com/macros/s/AKfycbwm8qkj9FgIwX3NOJiLdkTwJ
 GALLERY_URL  = 'https://script.google.com/macros/s/AKfycbw5HFoNVKAbu8xUcPGE6BUjHIM98vgc_cCGe98PlTZpfL4_c8oWktLuOsKcm0ggerTVLw/exec'   # 비밀번호는 서버 속성에만
 
 LOGO_FILE = 'assets/img/logo-mark.svg'              # 머리글에 쓰는 네모 마크
-MAIL_LOGO = 'https://brizymedia.github.io/healing-ent/assets/img/logo-h-white.png'   # 메일 머리(어두운 바탕용 가로 로고)
+MAIL_LOGO = 'https://www.healingenter.co.kr/assets/img/logo-h-white.png'   # 메일 머리(어두운 바탕용 가로 로고)
 STAMP     = 'assets/img/stamp-healing.png'          # 대표 인감(투명 PNG). 파일이 없으면 「(인)」 자리만
 
 # 색: 큰길이벤트 주황 → 이 회사 색 (앞 = 큰길 원래 색, 뒤 = 이 회사 색) — 업무 화면은 짙은 남색 바탕 + 오렌지 포인트

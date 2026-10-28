@@ -11,7 +11,7 @@
  * blog/ 는 매번 지우고 새로 만든다 — 결과 HTML 을 손으로 고치지 말고 원본 JSON 이나 이 템플릿을 고친다.
  * (HD기획 scripts/build-blog.mjs 를 힐링엔터테인먼트에 맞게 옮긴 것 — 사진은 이 저장소 /assets/img/)
  *
- * 사이트가 brizymedia.github.io/healing-ent/ 아래에 있어서, 글과 템플릿의 "/…" 주소는 다 만든 뒤
+ * 사이트가 www.healingenter.co.kr/ 아래에 있어서, 글과 템플릿의 "/…" 주소는 다 만든 뒤
  * 페이지 깊이에 맞는 상대 주소(../../…)로 바꾼다(상대화). 도메인을 연결하면 SITE 만 바꾸면 된다.
  *
  * 실행:  node scripts/build-blog.mjs      글 형식 · 규칙: _blog/GUIDE.md   ·   검사: node scripts/blog-check.mjs
@@ -20,7 +20,7 @@ import { readFileSync, readdirSync, writeFileSync, mkdirSync, rmSync, existsSync
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-export const SITE = 'https://brizymedia.github.io/healing-ent';
+export const SITE = 'https://www.healingenter.co.kr';
 export const BRAND = '힐링엔터테인먼트';
 const TEL = '010-5620-2153';
 /** 루트 기준 "/x" 를 페이지 폴더 깊이에 맞춰 "../../x" 로 — href · src 속성만(JSON-LD · canonical 은 SITE 절대 주소라 그대로) */

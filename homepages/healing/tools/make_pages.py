@@ -11,7 +11,7 @@
 import os, re, html, datetime
 
 SITE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE = 'https://brizymedia.github.io/healing-ent/'
+BASE = 'https://www.healingenter.co.kr/'
 BLOG = 'https://blog.naver.com/leehh2153/'
 NAME = '힐링엔터테인먼트'
 TEL = '010-5620-2153'
