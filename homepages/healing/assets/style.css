@@ -38,7 +38,7 @@ input,select,textarea{font:inherit;color:inherit}
 .hd{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid transparent;transition:.25s}
 .hd.stuck{border-color:var(--line);box-shadow:0 6px 20px rgba(19,47,107,.06)}
 .hd .wrap{display:flex;align-items:center;gap:22px;height:var(--hd)}
-.hd .logo img{height:44px;width:auto}
+.hd .logo img{height:50px;width:auto}
 .hd .menu{display:flex;gap:4px;margin-left:auto}
 .hd .menu a{padding:8px 12px;border-radius:10px;font-weight:600;font-size:15.5px;color:var(--ink);position:relative}
 .hd .menu a:hover{color:var(--blue);background:var(--sky)}
@@ -485,7 +485,7 @@ input,select,textarea{font:inherit;color:inherit}
   :root{--hd:62px}
   body{font-size:15.5px;padding-bottom:70px}
   .wrap{width:calc(100% - 32px)}
-  .hd .logo img{height:38px}
+  .hd .logo img{height:42px}
   .sec{padding:72px 0}
   .sh{flex-direction:column;align-items:flex-start;gap:12px;margin-bottom:30px}
   .hero{padding:10px 0 44px}
