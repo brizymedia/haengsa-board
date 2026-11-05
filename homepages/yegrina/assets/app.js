@@ -215,16 +215,16 @@
   /* ---------- 사진: 대문 줄 · 현장사진 격자 · 라이트박스 ---------- */
   function srcS(w) { return w.u || IMG + 's/' + w.f; }
   function srcP(w) { return w.u || IMG + w.f; }
-  function fig(w, k, cls) {
+  function fig(w, k, cls, noTitle) {
     return '<figure data-k="' + k + '" data-c="' + w.c + '"' + (cls ? ' class="' + cls + '"' : '') + '><img src="' + srcS(w) + '" alt="' + esc(w.t) + '" loading="lazy" width="' + (w.w || 800) + '" height="' + (w.h || 600) + '">' +
-      '<figcaption><small>' + esc(w.o) + '</small>' + esc(w.t) + '</figcaption></figure>';
+      '<figcaption><small>' + esc(w.o) + '</small>' + (noTitle ? '' : esc(w.t)) + '</figcaption></figure>';
   }
   var strip = $('#strip'), grid = $('#pfGrid'), list = [], figs = [];
   function applyFilter() {
     var act = $('#filters .act'), f = act ? act.getAttribute('data-f') : 'all';
     figs.forEach(function (fg) { fg.classList.toggle('hide', f !== 'all' && fg.getAttribute('data-c').split(' ').indexOf(f) < 0); });
   }
-  if (strip) { list = WORKS.filter(function (w) { return w.home; }); strip.innerHTML = list.map(function (w, k) { return fig(w, k); }).join(''); figs = $$('figure', strip); }
+  if (strip) { list = WORKS.filter(function (w) { return w.home; }); strip.innerHTML = list.map(function (w, k) { return fig(w, k, '', true); }).join(''); figs = $$('figure', strip); }
   if (grid) {
     list = WORKS.slice(); grid.innerHTML = list.map(function (w, k) { return fig(w, k); }).join(''); figs = $$('figure', grid);
     fetch(UP_LIST + '?t=' + Math.floor(Date.now() / 300000), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
