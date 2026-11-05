@@ -181,7 +181,7 @@
   if (cards.length && !reduce) {
     var stackTick = function () {
       cards.forEach(function (c, i) {
-        var nx = cards[i + 1]; if (!nx) { c.style.transform = ''; c.style.filter = ''; return; }
+        var nx = cards[i + 1]; if (!nx || getComputedStyle(c).position !== 'sticky') { c.style.transform = ''; c.style.filter = ''; return; }
         var r = nx.getBoundingClientRect(), top = parseFloat(getComputedStyle(nx).top) || 0, h = c.offsetHeight;
         var q = clamp(1 - (r.top - top) / h, 0, 1);
         c.style.transform = 'scale(' + (1 - q * .06).toFixed(4) + ')';

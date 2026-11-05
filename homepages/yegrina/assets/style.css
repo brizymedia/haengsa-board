@@ -512,7 +512,7 @@ ol.steps { padding: 0; margin: 0; }
   .svc.rev .gal2 { order: 0; }
   .why .big { position: relative; top: auto; }
   .contact .side { position: static; }
-  .card3 { grid-template-columns: 1fr; min-height: 0; top: calc(var(--head) + 30px + var(--k, 0) * 12px); }
+  .card3 { grid-template-columns: 1fr; min-height: 0; position: relative; top: auto; transform: none !important; }
   .card3.c3 .ph { order: 0; }
   .card3 .ph { min-height: 0; aspect-ratio: 16 / 10; width: 100%; }
   .balls { grid-template-columns: 1fr 1fr; row-gap: 34px; }
