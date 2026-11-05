@@ -46,7 +46,7 @@ p { margin: 0; }
 .head .wrap { height: var(--head); display: flex; align-items: center; gap: 22px; }
 .head .logo img { height: 46px; width: auto; }
 .head .logo { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-.head .logo::after { content: '한국체대 예그리나'; font-weight: 800; font-size: 21px; letter-spacing: -.02em; color: var(--g9); white-space: nowrap; }
+.head .logo::after { content: ''; width: 108px; height: 39px; background: url(img/wordmark.svg) no-repeat left center / contain; }
 .menu { display: flex; gap: 4px; margin-left: auto; }
 .menu a { padding: 8px 12px; border-radius: 999px; font-weight: 700; font-size: 15px; color: var(--g9); transition: background .2s, color .2s; }
 .menu a:hover { background: var(--mint); }
@@ -530,7 +530,7 @@ ol.steps { padding: 0; margin: 0; }
   .head .wrap { gap: 10px; }
   .head .logo img { height: 38px; }
   .head .logo { gap: 8px; }
-  .head .logo::after { font-size: 16px; }
+  .head .logo::after { width: 90px; height: 32px; }
   .head .tel { display: none; }
   .burger { margin-left: auto; }
   .hero { padding: 8px 8px 0; }
