@@ -26,7 +26,7 @@ ADDR_S   = '경기도 남양주시 별내면 청학리 346-1, 301호'
 TEL      = '02-482-1934'
 EMAIL    = 'knsuyegrina@naver.com'
 REPO     = 'brizymedia/yegrina'
-HOME     = 'https://brizymedia.github.io/yegrina'
+HOME     = 'https://www.knsuyegrina.co.kr/'
 CODE_PRE = 'YG-'                                    # 계약 번호 앞글자
 BLOG     = 'https://blog.naver.com/yegrinai'
 
@@ -35,7 +35,7 @@ CONTRACT_URL = 'https://script.google.com/macros/s/AKfycbygNNzI4YUOZVjfzfH0KRk4s
 GALLERY_URL  = 'https://script.google.com/macros/s/AKfycbwsLG8LQxNNko_W8eQcfzpiGHeEppTmP-wkZES1ogjS0321lJEKNcM7a8YDnyYustts/exec'   # 비밀번호는 서버 속성에만
 
 LOGO_FILE = 'assets/img/favicon.svg'                # 머리글에 쓰는 마크(초록 동그라미)
-MAIL_LOGO = 'https://brizymedia.github.io/yegrina/assets/img/logo-mail.png'   # 메일 머리(어두운 바탕용 가로 로고, PNG)
+MAIL_LOGO = 'https://www.knsuyegrina.co.kr/assets/img/logo-mail.png'   # 메일 머리(어두운 바탕용 가로 로고, PNG)
 STAMP     = 'assets/img/stamp-yegrina.png'          # 대표 인감(투명 PNG). 파일이 없으면 「(인)」 자리만
 
 # 색: 큰길이벤트 주황 → 이 회사 색 (앞 = 큰길 원래 색, 뒤 = 이 회사 색). 문서 화면 바탕 = 가장 어두운 숲색 #0B3322

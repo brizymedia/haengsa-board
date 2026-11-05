@@ -10,7 +10,7 @@
  * 원본은 _blog/ 에 둔다. blog/ 는 매번 지우고 새로 만든다 — 결과 HTML 을 손으로 고치지 말고 원본 JSON 이나 이 템플릿을 고친다.
  * (HD기획 scripts/build-blog.mjs 를 예그리나에 맞게 옮긴 것.)
  *
- * 이 사이트는 brizymedia.github.io/yegrina/ 처럼 하위 폴더에 올라가 있다. 그래서 글 JSON 안의 주소는 사이트 루트 기준
+ * 이 사이트는 www.knsuyegrina.co.kr/ 에서 루트로 서비스된다(예전엔 github.io 하위 폴더). 글 JSON 안의 글 JSON 안의 주소는 사이트 루트 기준
  * (/quote.html, /assets/img/…)으로 쓰고, 여기서 페이지 깊이에 맞는 상대 주소(../../quote.html)로 바꾼다.
  * 머리글 · 폰 메뉴 · 바닥글은 notice.html 에서 빌려 온다(tools/make_pages.py 와 같은 방식) — 메뉴를 고치려면 notice.html 을 고친다.
  *
@@ -20,7 +20,7 @@ import { readFileSync, readdirSync, writeFileSync, mkdirSync, rmSync, existsSync
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-export const SITE = 'https://brizymedia.github.io/yegrina';
+export const SITE = 'https://www.knsuyegrina.co.kr/';
 export const BRAND = '한국체대 예그리나';
 const TEL = '02-482-1934';
 const 쪽당 = 24;
