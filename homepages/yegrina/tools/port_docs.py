@@ -78,7 +78,7 @@ CATALOG = """const CATALOG = [
   ]},
   { group:'유아 예체능 수업', items:[
     { id:'c1', name:'동화체육',             spec:'자사 캐릭터 「예그와 리나」 창작동화 + 신체활동', unit:'회', price:null, qty:true },
-    { id:'c2', name:'파라슈트 · 뉴스포츠',  spec:'파도 만들기 · 팝콘 튀기기 등 함께하는 놀이',       unit:'회', price:null, qty:true },
+    { id:'c2', name:'놀이체육 · 학교체육 · 뉴스포츠',  spec:'체육수업 등 신체놀이 수업',       unit:'회', price:null, qty:true },
     { id:'c3', name:'유아골프',             spec:'퍼팅 자세부터 차근차근',                          unit:'회', price:null, qty:true },
     { id:'c4', name:'유아 댄스 · 발레',     spec:'유아특기교육',                                    unit:'회', price:null, qty:true },
   ]},
