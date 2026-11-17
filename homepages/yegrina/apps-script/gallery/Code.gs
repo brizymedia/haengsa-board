@@ -172,7 +172,7 @@ function 슬러그파일(값) {
    photos/content.json 한 파일에 세 목록을 통째로 저장한다.
    홈페이지(app.js)가 이 파일을 읽어 공지 · 게시판 · 자료실을 그린다.
 ══════════════════════════════════════════════════════════════ */
-function 글자(값, 최대) { return String(값 == null ? '' : 값).replace(/[ --]/g, '').slice(0, 최대); }
+function 글자(값, 최대) { return String(값 == null ? '' : 값).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '').slice(0, 최대); }
 
 function 주소검사(값) {
   const 글 = 글자(값, 500).trim();
