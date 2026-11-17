@@ -267,7 +267,7 @@ a.back{color:var(--g5);font-weight:700;text-decoration:none;font-size:14px}
   }
   function checkServer() {
     var s = $('#srvst');
-    fetch(서버).then(function (r) { return r.json(); }).then(function (j) {
+    fetch(서버, { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (j) {
       if (j && j.ok && (j.기능 || []).indexOf('content') >= 0) { 서버준비 = true; s.className = 'st'; s.textContent = '서버 연결됨 — 저장할 수 있습니다'; }
       else { s.className = 'st bad'; s.textContent = '서버가 아직 이 기능을 지원하지 않습니다. 큰길브리지(1533-7295)에 「관리자 페이지 서버 업데이트」를 요청해 주세요. 그전에는 저장할 수 없습니다.'; }
       setDirty(dirty);
