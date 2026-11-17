@@ -9,4 +9,20 @@ Disallow: /upload.html
 Disallow: /schedule.html
 Disallow: /office.html
 
+# AI 검색·답변 크롤러 허용
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: Yeti
+Allow: /
+User-agent: Daum
+Allow: /
+
 Sitemap: https://www.knsuyegrina.co.kr/sitemap.xml
