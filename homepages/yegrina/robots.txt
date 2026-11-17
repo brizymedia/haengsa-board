@@ -2,6 +2,7 @@
 # 도메인을 바꾸면 아래 Sitemap 주소도 같이 바꿀 것.
 User-agent: *
 Allow: /
+Disallow: /admin.html
 Disallow: /contract.html
 Disallow: /statement.html
 Disallow: /upload.html

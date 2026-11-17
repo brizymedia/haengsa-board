@@ -261,25 +261,41 @@
     b.addEventListener('click', function () { var s = $('#' + b.getAttribute('data-strip')); s.scrollBy({ left: (+b.getAttribute('data-d')) * s.clientWidth * .8, behavior: reduce ? 'auto' : 'smooth' }); });
   });
 
-  /* ---------- 공지 · 블로그 목록 ---------- */
-  var hn = $('#homeNotice');
-  if (hn) hn.innerHTML = NOTICES.slice(0, 4).map(function (n) { return '<li><b>' + esc(n.t) + (n.n ? '<span class="new">NEW</span>' : '') + '</b><small>' + n.d + '</small></li>'; }).join('') || '<li class="empty">등록된 공지가 없습니다.</li>';
-  var hb = $('#homeBlog');
-  if (hb) hb.innerHTML = BLOG.slice(0, 4).map(function (b) { return '<a class="row" href="' + b.u + '" target="_blank" rel="noopener"><b><span class="cat">' + esc(b.c) + '</span>' + esc(b.t) + '</b><small>' + b.d + '</small></a>'; }).join('');
+  /* 공지 · 게시판 · 자료실 그리기 — 처음엔 이 파일 안의 목록으로, 관리자 화면(admin.html)에서 저장한 content.json 이 있으면 그걸로 다시 그린다 */
+  window.YG_DEFAULTS = { notices: NOTICES.slice(), board: BLOG.slice(), files: FILES.slice() };   // admin.html 이 처음 화면에 쓴다
+  function renderBoards() {
+    /* ---------- 공지 · 블로그 목록 ---------- */
+    var hn = $('#homeNotice');
+    if (hn) hn.innerHTML = NOTICES.slice(0, 4).map(function (n) { return '<li><b>' + esc(n.t) + (n.n ? '<span class="new">NEW</span>' : '') + '</b><small>' + n.d + '</small></li>'; }).join('') || '<li class="empty">등록된 공지가 없습니다.</li>';
+    var hb = $('#homeBlog');
+    if (hb) hb.innerHTML = BLOG.slice(0, 4).map(function (b) { return '<a class="row" href="' + b.u + '" target="_blank" rel="noopener"><b><span class="cat">' + esc(b.c) + '</span>' + esc(b.t) + '</b><small>' + b.d + '</small></a>'; }).join('');
 
-  var pn = $('#paneNotice'), pbd = $('#paneBoard'), pf = $('#paneFiles');
-  if (pn) pn.innerHTML = '<div class="row hd"><span class="n">번호</span><span>제목</span><span class="d">날짜</span></div>' + (NOTICES.length ? NOTICES.map(function (n, i) {
-    var title = esc(n.t) + (n.n ? '<span class="new" style="margin-left:8px;font-size:11px;font-weight:800;padding:1px 7px;border-radius:999px;background:#FF6B4A;color:#fff">NEW</span>' : '');
-    return '<div class="row"><span class="n">' + (NOTICES.length - i) + '</span>' + (n.b ? '<details><summary>' + title + '</summary><p>' + esc(n.b) + '</p></details>' : '<b style="font-weight:600">' + title + '</b>') + '<span class="d">' + n.d + '</span></div>';
-  }).join('') : '<div class="empty">등록된 공지가 없습니다.</div>');
-  if (pbd) pbd.innerHTML = '<div class="row hd"><span class="n">분류</span><span>제목 (네이버 블로그로 이동)</span><span class="d">날짜</span></div>' + BLOG.map(function (b) {
-    return '<a class="row" href="' + b.u + '" target="_blank" rel="noopener"><span class="n">' + esc(b.c) + '</span><b style="font-weight:600">' + esc(b.t) + ' ↗</b><span class="d">' + b.d + '</span></a>';
-  }).join('');
-  if (pf) pf.innerHTML = '<div class="row hd"><span class="n">번호</span><span>자료</span><span class="d">날짜</span></div>' + (FILES.length ? FILES.map(function (f, i) {
-    return '<div class="row"><span class="n">' + (FILES.length - i) + '</span><span><b style="font-weight:600">' + esc(f.t) + '</b> <a class="file" href="' + f.f + '" download>내려받기 (' + f.s + ')</a></span><span class="d">' + f.d + '</span></div>';
-  }).join('') : '<div class="empty">등록된 자료가 없습니다.</div>');
-  var cN = $('#cntNotice'), cB = $('#cntBoard'), cF = $('#cntFiles');
-  if (cN) cN.textContent = NOTICES.length; if (cB) cB.textContent = BLOG.length; if (cF) cF.textContent = FILES.length;
+    var pn = $('#paneNotice'), pbd = $('#paneBoard'), pf = $('#paneFiles');
+    if (pn) pn.innerHTML = '<div class="row hd"><span class="n">번호</span><span>제목</span><span class="d">날짜</span></div>' + (NOTICES.length ? NOTICES.map(function (n, i) {
+      var title = esc(n.t) + (n.n ? '<span class="new" style="margin-left:8px;font-size:11px;font-weight:800;padding:1px 7px;border-radius:999px;background:#FF6B4A;color:#fff">NEW</span>' : '');
+      return '<div class="row"><span class="n">' + (NOTICES.length - i) + '</span>' + (n.b ? '<details><summary>' + title + '</summary><p>' + esc(n.b) + '</p></details>' : '<b style="font-weight:600">' + title + '</b>') + '<span class="d">' + n.d + '</span></div>';
+    }).join('') : '<div class="empty">등록된 공지가 없습니다.</div>');
+    if (pbd) pbd.innerHTML = '<div class="row hd"><span class="n">분류</span><span>제목 (네이버 블로그로 이동)</span><span class="d">날짜</span></div>' + BLOG.map(function (b) {
+      return '<a class="row" href="' + b.u + '" target="_blank" rel="noopener"><span class="n">' + esc(b.c) + '</span><b style="font-weight:600">' + esc(b.t) + ' ↗</b><span class="d">' + b.d + '</span></a>';
+    }).join('');
+    if (pf) pf.innerHTML = '<div class="row hd"><span class="n">번호</span><span>자료</span><span class="d">날짜</span></div>' + (FILES.length ? FILES.map(function (f, i) {
+      var up = /^photos\//.test(f.f), ext = up || /^https:/.test(f.f), href = up ? UP_IMG + f.f : f.f;
+      return '<div class="row"><span class="n">' + (FILES.length - i) + '</span><span><b style="font-weight:600">' + esc(f.t) + '</b> <a class="file" href="' + esc(href) + '"' + (ext ? ' target="_blank" rel="noopener"' : ' download') + '>내려받기' + (f.s ? ' (' + esc(f.s) + ')' : '') + '</a></span><span class="d">' + esc(f.d) + '</span></div>';
+    }).join('') : '<div class="empty">등록된 자료가 없습니다.</div>');
+    var cN = $('#cntNotice'), cB = $('#cntBoard'), cF = $('#cntFiles');
+    if (cN) cN.textContent = NOTICES.length; if (cB) cB.textContent = BLOG.length; if (cF) cF.textContent = FILES.length;
+  }
+  renderBoards();
+  var UP_CONTENT = 'https://raw.githubusercontent.com/brizymedia/yegrina/photos/photos/content.json';
+  if (document.getElementById('paneNotice') || document.getElementById('homeNotice')) {
+    fetch(UP_CONTENT + '?t=' + Math.floor(Date.now() / 300000), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+      if (!j) return;
+      if (Array.isArray(j.notices)) NOTICES = j.notices;
+      if (Array.isArray(j.board)) BLOG = j.board;
+      if (Array.isArray(j.files)) FILES = j.files;
+      renderBoards();
+    }).catch(function () {});
+  }
 
   /* ---------- 탭 ---------- */
   $$('.tabs').forEach(function (tabs) {

@@ -30,6 +30,8 @@ function 설정(키) {
 const 브랜치   = 'photos';                     // 사진이 사는 브랜치 (main 아님)
 const 저장경로 = 'photos';                     // 그 브랜치 안에서 사진이 쌓이는 폴더
 const 목록파일 = 저장경로 + '/photos.json';
+const 내용파일 = 저장경로 + '/content.json';   // 공지 · 게시판 · 자료실 (admin.html 이 고친다)
+const 자료폴더 = 저장경로 + '/files';          // 자료실에 올린 파일
 
 /* ══════════════════════════════════════════════════════════════
    0. 권한 받기
@@ -72,7 +74,7 @@ function doGet() {
   ['UPLOAD_PW', 'GITHUB_TOKEN', 'GITHUB_REPO'].forEach((k) => {
     준비[k] = !!PropertiesService.getScriptProperties().getProperty(k);
   });
-  return 응답({ ok: true, 이름: '한국체대 예그리나 사진 업로드 서버', 브랜치: 브랜치, 설정완료: 준비 });
+  return 응답({ ok: true, 이름: '한국체대 예그리나 사진 업로드 서버', 브랜치: 브랜치, 설정완료: 준비, 기능: ['photo', 'content'] });
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -91,6 +93,8 @@ function doPost(e) {
     if (요청.action === 'finish') return 응답(잠그고(function () { return 목록갱신(요청); }));
     if (요청.action === 'edit')   return 응답(잠그고(function () { return 정보수정(요청); }));
     if (요청.action === 'delete') return 응답(잠그고(function () { return 사진삭제(요청); }));
+    if (요청.action === 'content-save') return 응답(잠그고(function () { return 내용저장(요청); }));
+    if (요청.action === 'content-file') return 응답(자료올리기(요청));
 
     return 응답({ ok: false, error: '알 수 없는 요청입니다: ' + 요청.action });
 
@@ -161,6 +165,68 @@ function 슬러그(값) {
 /* 파일명용 — eventId 는 20260824-4ll6 꼴이라 숫자와 영문, 하이픈만 남기면 된다 */
 function 슬러그파일(값) {
   return String(값 || '').replace(/[^A-Za-z0-9-]/g, '').slice(0, 40);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   3-3. 공지 · 게시판 · 자료실 (admin.html)
+   photos/content.json 한 파일에 세 목록을 통째로 저장한다.
+   홈페이지(app.js)가 이 파일을 읽어 공지 · 게시판 · 자료실을 그린다.
+══════════════════════════════════════════════════════════════ */
+function 글자(값, 최대) { return String(값 == null ? '' : 값).replace(/[ --]/g, '').slice(0, 최대); }
+
+function 주소검사(값) {
+  const 글 = 글자(값, 500).trim();
+  return /^https:\/\/[^\s"'<>]+$/.test(글) ? 글 : '';
+}
+
+function 날짜검사(값) {
+  const 글 = 글자(값, 10).trim();
+  return /^\d{4}\.\d{2}\.\d{2}$/.test(글) ? 글 : '';
+}
+
+function 내용저장(요청) {
+  const 원본 = 요청.content || {};
+  const 공지 = (Array.isArray(원본.notices) ? 원본.notices : []).slice(0, 200).map(function (n) {
+    const 항목 = { d: 날짜검사(n.d), t: 글자(n.t, 120).trim() };
+    if (n.n) 항목.n = true;
+    const 본문 = 글자(n.b, 3000).trim();
+    if (본문) 항목.b = 본문;
+    return 항목;
+  }).filter(function (n) { return n.t && n.d; });
+
+  const 게시판 = (Array.isArray(원본.board) ? 원본.board : []).slice(0, 300).map(function (b) {
+    return { c: 글자(b.c, 20).trim(), t: 글자(b.t, 120).trim(), u: 주소검사(b.u), d: 날짜검사(b.d) };
+  }).filter(function (b) { return b.t && b.u && b.d; });
+
+  const 자료 = (Array.isArray(원본.files) ? 원본.files : []).slice(0, 200).map(function (f) {
+    const 경로 = 글자(f.f, 300).trim();
+    // 올린 파일(photos/files/…) · 홈페이지 안 파일(assets/files/…) · https 주소만 허용
+    const 안전 = /^(photos|assets)\/files\/[A-Za-z0-9._-]+$/.test(경로) ? 경로 : 주소검사(경로);
+    return { d: 날짜검사(f.d), t: 글자(f.t, 120).trim(), f: 안전, s: 글자(f.s, 20).trim() };
+  }).filter(function (f) { return f.t && f.f && f.d; });
+
+  const 값 = { updated: new Date().toISOString(), notices: 공지, board: 게시판, files: 자료 };
+  const 본문 = Utilities.base64Encode(Utilities.newBlob(JSON.stringify(값, null, 1)).getBytes());
+  const 결과 = 깃허브에올리기(내용파일, 본문, '공지 · 게시판 · 자료실 수정');
+  if (!결과.ok) return 결과;
+  return { ok: true, notices: 공지.length, board: 게시판.length, files: 자료.length };
+}
+
+function 자료올리기(요청) {
+  let 이름 = 글자(요청.name, 80).replace(/[^A-Za-z0-9._-]+/g, '_').replace(/^\.+/, '').slice(-60);
+  if (!/[A-Za-z0-9]/.test(이름.replace(/\.[A-Za-z0-9]{1,6}$/, ''))) 이름 = 'file' + (/(\.[A-Za-z0-9]{1,6})$/.exec(이름) || ['', ''])[1];
+  if (!이름 || !/\.[A-Za-z0-9]{1,6}$/.test(이름)) return { ok: false, error: '파일 이름에 확장자가 필요합니다' };
+  if (/\.(html?|js|php|exe|bat|cmd|sh|svg)$/i.test(이름)) return { ok: false, error: '이 형식의 파일은 올릴 수 없습니다' };
+  const 데이터 = String(요청.data || '');
+  if (!/^[A-Za-z0-9+\/=]+$/.test(데이터)) return { ok: false, error: '파일 데이터가 올바르지 않습니다' };
+  if (데이터.length > 11 * 1024 * 1024) return { ok: false, error: '파일이 너무 큽니다 (8MB 이하)' };
+
+  // 같은 이름이 있으면 덮어쓰지 않고 날짜를 붙인다
+  const 접두 = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyMMdd') + '-';
+  const 경로 = 자료폴더 + '/' + 접두 + 이름;
+  const 결과 = 깃허브에올리기(경로, 데이터, '자료 추가: ' + 이름);
+  if (!결과.ok) return 결과;
+  return { ok: true, path: 경로, bytes: Math.round(데이터.length * 3 / 4) };
 }
 
 /* ══════════════════════════════════════════════════════════════
