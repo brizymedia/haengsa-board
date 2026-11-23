@@ -226,7 +226,7 @@ const b64u  = (s) => btoa(unescape(encodeURIComponent(s))).replace(/\+/g,'-').re
 const unb64 = (s) => { let t = String(s).replace(/-/g,'+').replace(/_/g,'/'); while (t.length % 4) t += '='; return decodeURIComponent(escape(atob(t))); };
 function toast(m){ const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(()=>t.classList.remove('on'), 2400); }
 
-const 우리 = { name:'힐링엔터테인먼트', brand:'힐링엔터테인먼트', rep:'이현호', biz:'222-22-01111',
+const 우리 = { name:'힐링엔터테인먼트', brand:'힐링엔터테인먼트', rep:'이경열', biz:'222-22-01111',
   addr:'서울특별시 노원구 덕릉로 595', tel:'010-5620-2153', email:'leehh2153@gmail.com' };
 const 기본계좌 = '';
 

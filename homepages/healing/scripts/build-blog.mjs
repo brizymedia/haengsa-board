@@ -19,9 +19,15 @@
 import { readFileSync, readdirSync, writeFileSync, mkdirSync, rmSync, existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { formatReadableHTML } from './paragraphs.mjs';
+import { renderGif } from './gif-media.mjs';
 
 export const SITE = 'https://www.healingenter.co.kr';
 export const BRAND = '힐링엔터테인먼트';
+// 글쓴이: 대표 MC (AI 검색이 누가 쓴 글인지 알 수 있게, 2026-11-20)
+const 글쓴이 = { '@type': 'Person', '@id': 'https://www.healingenter.co.kr/about.html#hyunholee', name: '이현호', jobTitle: '대표 MC',
+  url: 'https://www.healingenter.co.kr/about.html', worksFor: { '@id': 'https://www.healingenter.co.kr/#business' },
+  sameAs: ['https://www.instagram.com/mc_hyunholee', 'https://blog.naver.com/leehh2153', 'https://litt.ly/healingmc'] };
 const TEL = '010-5620-2153';
 /** 루트 기준 "/x" 를 페이지 폴더 깊이에 맞춰 "../../x" 로 — href · src 속성만(JSON-LD · canonical 은 SITE 절대 주소라 그대로) */
 const 상대화 = (html, 깊이) => html.replace(/\b(href|src)="\/(?!\/)([^"]*)"/g, (m, k, u) => `${k}="${'../'.repeat(깊이)}${u}"`);
@@ -32,6 +38,7 @@ export const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '
 /** 글 안에서는 **굵게** 와 [글자](주소) 만 쓴다. 주소는 / 로 시작하거나 https:// 여야 한다. */
 export function 인라인(글) {
   return esc(글)
+    .replace(/\n{2,}/g, '<br><br>').replace(/\n/g, '<br>')
     .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
     .replace(/\[([^\]]+)\]\(((?:\/|https:\/\/)[^)\s]*)\)/g, (m, t, u) =>
       u.startsWith('/') ? `<a href="${u}">${t}</a>` : `<a href="${u}" target="_blank" rel="noopener">${t}</a>`);
@@ -170,7 +177,7 @@ export function buildBlog(옵션 = {}) {
   const 쓰기 = (폴더, html) => {
     const d = resolve(ROOT, 폴더);
     mkdirSync(d, { recursive: true });
-    writeFileSync(resolve(d, 'index.html'), 상대화(html, 폴더.split('/').length), 'utf8');
+    writeFileSync(resolve(d, 'index.html'), formatReadableHTML(상대화(html, 폴더.split('/').length)), 'utf8');
   };
 
   const 머리 = ({ 제목, 설명, 경로, 이미지, 종류 = 'website', 더넣기 = '', 색인 = true }) => `<!DOCTYPE html>
@@ -213,7 +220,7 @@ ${더넣기}
 </div></div>`;
 
   const 꼬리 = `<footer class="foot">
-  <div>${BRAND} · 대표 이현호 · 서울특별시 노원구 덕릉로 595 · <a href="tel:${TEL}">${TEL}</a> · leehh2153@gmail.com</div>
+  <div>${BRAND} · 대표 이경열 · 서울특별시 노원구 덕릉로 595 · <a href="tel:${TEL}">${TEL}</a> · leehh2153@gmail.com</div>
   <div style="margin-top:8px;"><a href="/">홈</a> · <a href="/blog/">블로그</a> · <a href="/stories/index.html">행사 이야기</a> · <a href="/areas/index.html">운영 지역</a> · <a href="/portfolio.html">현장 갤러리</a> · <a href="/quote.html">자동 견적서</a> · <a href="/contact.html">견적문의</a></div>
   <div style="margin-top:8px;">COPYRIGHT © ${new Date().getFullYear()} ${BRAND}. ALL RIGHTS RESERVED.</div>
 </footer>
@@ -274,9 +281,9 @@ ${더넣기}
         { '@type': 'ListItem', position: 지역글 ? 4 : 3, name: p.title, item: SITE + 경로 } ] },
       { '@type': 'BlogPosting', '@id': SITE + 경로, headline: p.title, description: p.description,
         image: 글이미지들(p).map((im) => 사진주소(im.path)),
-        datePublished: p.date, dateModified: p.updated || p.date, inLanguage: 'ko',
+        datePublished: p.date, dateModified: p.modified || p.updated || p.date, inLanguage: 'ko',
         keywords: [p.keyword.main, ...(p.keyword.sub || [])].join(', '),
-        author: { '@type': 'Organization', name: BRAND, url: SITE + '/' },
+        author: 글쓴이,
         publisher: { '@id': SITE + '/#business' },
         mainEntityOfPage: { '@type': 'WebPage', '@id': SITE + 경로 },
         ...(지역글 ? { spatialCoverage: { '@type': 'Place', name: `${r.도} ${r.시군}` } } : {}) },
@@ -298,6 +305,7 @@ ${더넣기}
   <p class="lead">${인라인(p.lead)}</p>
   ${이미지html(p.cover, true)}
   <div class="points"><b>이 글의 요점</b><ul>${p.points.map((x) => `<li>${인라인(x)}</li>`).join('')}</ul></div>
+  ${p.gif ? renderGif(p.gif, {site:SITE}) : ''}
   <nav class="toc" aria-label="목차"><b>목차</b><ol>${p.sections.map((s, i) => `<li><a href="#s${i + 1}">${esc(s.h2)}</a></li>`).join('')}</ol></nav>
   <div class="body">
 ${p.sections.map((s, i) => `<h2 id="s${i + 1}">${esc(s.h2)}</h2>\n${s.blocks.map(블록).join('\n')}`).join('\n')}
@@ -376,14 +384,14 @@ ${관련.length ? `<section class="more"><h2>같이 보면 좋은 글</h2><div c
 </main>
 ` + 꼬리;
     쓰기(`blog/${r.slug}`, html);
-    if (목록.length) 허브.push({ loc: 경로, lastmod: 목록[0].updated || 목록[0].date });
+    if (목록.length) 허브.push({ loc: 경로, lastmod: 목록[0].modified || 목록[0].updated || 목록[0].date });
   }
 
   /* ── sitemap.xml — 기존 항목은 두고 /blog/ 부분만 바꾼다 ── */
   const 블로그주소 = posts.length ? [
-    { loc: '/blog/', lastmod: posts[0].updated || posts[0].date },
+    { loc: '/blog/', lastmod: posts[0].modified || posts[0].updated || posts[0].date },
     ...허브,
-    ...posts.map((p) => ({ loc: 글주소(p.slug), lastmod: p.updated || p.date })),
+    ...posts.map((p) => ({ loc: 글주소(p.slug), lastmod: p.modified || p.updated || p.date })),
   ] : [];
   const sm = resolve(ROOT, 'sitemap.xml');
   if (existsSync(sm)) {
@@ -400,7 +408,7 @@ ${관련.length ? `<section class="more"><h2>같이 보면 좋은 글</h2><div c
     let t = readFileSync(ll, 'utf8').replace(/\r\n/g, '\n');
     const 절 = `## 블로그 (행사 준비 정보, 지역별)\n- [행사 준비 블로그](${SITE}/blog/): 노원 · 도봉 · 강북 · 중랑 · 성북 · 동대문 · 은평 · 의정부 · 남양주 지역별 행사 준비 체크리스트\n` +
       posts.map((p) => `- [${p.title}](${SITE}${글주소(p.slug)}): ${p.description}`).join('\n') + '\n';
-    t = /^## 블로그[^]*?(?=^## |\s*$)/m.test(t) ? t.replace(/^## 블로그[^]*?(?=^## |\s*$)/m, 절) : t.trimEnd() + '\n\n' + 절;
+    t = /^## 블로그[^]*?(?=^## |(?![\s\S]))/m.test(t) ? t.replace(/^## 블로그[^]*?(?=^## |(?![\s\S]))/m, 절) : t.trimEnd() + '\n\n' + 절;
     writeFileSync(ll, t, 'utf8');
   }
 

@@ -19,7 +19,7 @@ SITE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ID       = 'healing'                                # 기기 저장 이름 · 유입 표시(data-site) 앞글자
 NAME     = '힐링엔터테인먼트'
 NAME_EN  = 'HEALING ENTERTAINMENT'
-CEO      = '이현호'
+CEO      = '이경열'
 BIZNO    = '222-22-01111'
 ADDR     = '서울특별시 노원구 덕릉로 595'
 ADDR_S   = '서울특별시 노원구 덕릉로 595'
@@ -308,6 +308,8 @@ def quote_extra(s):
 
 
 def contract_extra(s):
+    # Normalize the former default only when loading the company profile, not issued contracts.
+    s = s.replace('if(s){ Object.assign(C.co, s.co||{}); if(s.api) C.api=s.api; }', "if(s){ Object.assign(C.co, s.co||{}); if(C.co.name === '힐링엔터테인먼트' && C.co.rep === '이현호') C.co.rep = DEF().co.rep; if(s.api) C.api=s.api; }", 1)
     s = re.sub(r'\.brand img\{ height:1\.8rem;filter:brightness\(0\) invert\(1\)[^}]*\}', '.brand img{ height:1.8rem;border-radius:.4rem; }', s)
     s = re.sub(r"const STAMP_SRC = '" + re.escape(STAMP) + r"';[^\n]*", "const STAMP_SRC = '" + STAMP + "';  // 대표님 인감(투명 PNG)을 이 이름으로 넣으면 찍힌다. 없으면 「(인)」", s)
     s = s.replace('return `<div class="seal-css">${esc(C.co.brand||C.co.name)}<br>대표<br>인</div>`;', 'return `<div class="seal-none">(인)</div>`;')

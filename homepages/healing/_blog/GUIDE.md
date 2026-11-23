@@ -77,7 +77,7 @@
 
 ## 4. 쓸 수 있는 회사 사실 (이것만)
 
-- 힐링엔터테인먼트. 대표 · 대표 MC 이현호. 서울특별시 노원구 덕릉로 595. 전화 · 문자 010-5620-2153. 이메일 leehh2153@gmail.com. 상담 평일 10~18시, 행사는 연중무휴. 행사 진행 중에는 통화가 어려워 문자 · 카톡을 남겨 달라고 안내한다.
+- 힐링엔터테인먼트. 회사 대표 이경열 · 대표 MC 이현호. 서울특별시 노원구 덕릉로 595. 전화 · 문자 010-5620-2153. 이메일 leehh2153@gmail.com. 상담 평일 10~18시, 행사는 연중무휴. 행사 진행 중에는 통화가 어려워 문자 · 카톡을 남겨 달라고 안내한다.
 - 운영 지역: 노원(본사) · 도봉 · 강북 · 중랑 · 성북 · 동대문 · 의정부 · 은평 · 남양주(지역 페이지). 지역별 이동 시간은 `_blog/regions.json` 의 `이동` 그대로(막히지 않을 때 기준). 표에 없는 지역도 전화로 상담한다.
 - 하는 일(하는 일 페이지): 기업 체육대회 · 워크숍 · 팀빌딩(송년회 · 신년회 등 사내 행사 포함) · 학교 운동회 · 체육대회 · 수학여행 레크리에이션 · 청소년 행사 · 지자체 · 관공서 행사와 지역축제(기획 · 무대 진행 · 현장 운영, 상권 활성화 · 주민 행사) · 전문 MC · 레크리에이션 · 참여형 게임 · 대동놀이 · 음향 · 무대 · 조명 · DJ(장비 설치 · 현장 운영) · 국내 · 해외 워크숍 · 연수 · 창립 기념식 · 회원 대회 · 이 · 취임식 · 동문회 행사 · 골프대회 · 스포츠 대회 · 에어바운스 설치 · 운영 · 스포츠 이벤트 존 · 물놀이 시설 렌탈 · 진행 · 공공기관 · 협회 행사.
 - 대표 MC 이현호가 직접 진행한다. 억지 웃음이나 참가자 비하 없이 자연스럽게 참여를 끌어내는 것이 진행 원칙. 시그니처 프로그램은 모두가 함께하는 「대동놀이」. 학교 행사에서는 떼창 · 랜덤플레이 댄스도 한다.
@@ -103,3 +103,22 @@
 - 표 1개 이상(체크리스트 · 준비표 · 견적 항목표). 내부 링크 2개 이상: `/quote.html` 반드시, 지역 페이지(`/areas/<slug>.html`), 관련 글(`/blog/<slug>/`).
 - 핵심 키워드는 제목 · 설명 · 첫 문단 · 소제목 하나에 자연스럽게(본문 12번 넘으면 경고).
 - 본문 1800자 이상(2500자 권장). 같은 주제를 다른 지역에 쓸 때 본문이 30% 넘게 겹치면 막힌다.
+
+
+## 문단과 줄 간격 (사용자 요청)
+- 본문은 1~2문장씩 짧은 문단으로 나눈다. 내용이 바뀌면 새 문단을 쓴다.
+- 문단과 문단 사이는 빈 줄 한 줄로 분명히 구분한다. HTML에서는 별도 p 요소로 렌더링한다.
+- 긴 본문을 하나의 p에 붙이지 않는다. 표·사진·목록·링크와 기존 사실/날짜는 바꾸지 않는다.
+- scripts/paragraphs.mjs는 긴 문단의 표시용 분리와 약 1em 이상의 문단 간격을 보장한다.
+
+
+## 핵심 내용 강조 (사용자 요청)
+- 소제목은 본문보다 크게, 굵게 표시한다. 포인트 색은 브랜드 계열의 진한 파랑을 기본으로 쓴다.
+- 글마다 실제로 중요한 문장·단어 3~5개를 우선 골라 굵게 표시한다. 모든 문단과 문장에 강조하지 않는다.
+- 요점 목록과 준비 체크포인트는 옅은 파랑 박스로 분리하고, 중요한 한 문장과 일반 설명의 위계를 둔다.
+- 색만으로 의미를 전달하지 않고 굵기·소제목·박스를 함께 사용한다. 빨강/여러 색의 남발과 본문 전체 확대는 피한다.
+- 문단 1~2문장 및 문단 사이 여백 기준은 그대로 유지한다.
+
+
+## GIF attachments (user preference)
+Each new article also includes one real GIF. Use optional top-level gif metadata with kind photo-slideshow, own /assets/media/gifs/name.gif path, original poster URL, clear caption, original sourcePhotos3, width640,height360,frameCount3,durationMs4500,loop false. It is additional media, not a substitute for the3 required approved photographs. Distinguish mixed-event guide slides from real single-event stories; never imply still-photo slides are real video or actual chronology. scripts/gif-media.mjs renders accessible controls with reduced-motion support; do not send GIFs through the JPEG photo uploader. No changes to original photo binaries or event dates.

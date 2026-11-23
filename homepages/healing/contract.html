@@ -482,7 +482,7 @@ const DEF = () => ({
   kind:'service',
   cast:{ who:'person', role:'', program:'', runtime:'', arrive:'', rehearsal:'',
          minor:false, guardian:'', guardianRel:'', exclusive:false, agency:'', agencyBiz:'' },
-  co:{ name:'힐링엔터테인먼트', brand:'힐링엔터테인먼트', rep:'이현호', biz:'222-22-01111', corp:'',
+  co:{ name:'힐링엔터테인먼트', brand:'힐링엔터테인먼트', rep:'이경열', biz:'222-22-01111', corp:'',
        addr:'서울특별시 노원구 덕릉로 595', tel:'010-5620-2153', email:'leehh2153@gmail.com',
        bank:'', bank2:'' },
   cl:{ org:'', name:'', tel:'', email:'', addr:'' },
@@ -520,7 +520,7 @@ let SIGNED = null;           // { sig, name, tel, ts, hash, pdfUrl }
 let DOC_ID = '';             // 서버 발급 ID (짧은 링크)
 
 /* ── 회사 기본값(localStorage) ── */
-function loadCo(){ try{ const s=JSON.parse(LS.getItem('kg_contract_co')||'null'); if(s){ Object.assign(C.co, s.co||{}); if(s.api) C.api=s.api; } }catch(e){} }
+function loadCo(){ try{ const s=JSON.parse(LS.getItem('kg_contract_co')||'null'); if(s){ Object.assign(C.co, s.co||{}); if(C.co.name === '힐링엔터테인먼트' && C.co.rep === '이현호') C.co.rep = DEF().co.rep; if(s.api) C.api=s.api; } }catch(e){} }
 function saveCo(){ LS.setItem('kg_contract_co', JSON.stringify({co:C.co, api:C.api})); }
 function apiURL(){ return 서버주소_기본 || C.api || ''; }
 
